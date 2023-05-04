@@ -1,20 +1,21 @@
 @startuml
 
 
-(User)
-(Order)
-(Carport)
-(Misc)
-(Timber)
-(Bom)
+Class User
+Class Admin
+Class Order
+Class Carport
+Class Bom
+Class Materials
 
-(User) --|> (Order) : has-many
-(Order) --|> (Carport) : has-a
-(Carport) --|> (Misc) : has-many
-(Carport) --|> (Timber) : has-many
-(Carport) --|> (Bom) : has-a
-(Bom) --|> (Misc) : has-many)
-(Bom) --|> (Timber) : has-many)
+Admin "1"--|{ Order
+User "1"--|{ Order
+Order "1"--"1" Carport
+Order "1"--"1" Bom
+Bom }|--|{ Materials
+
+
+
 
 
 
