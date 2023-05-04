@@ -1,0 +1,21 @@
+@startuml
+
+
+(User)
+(Order)
+(Carport)
+(Misc)
+(Timber)
+(Bom)
+
+(User) --|> (Order) : has-many
+(Order) --|> (Carport) : has-a
+(Carport) --|> (Misc) : has-many
+(Carport) --|> (Timber) : has-many
+(Carport) --|> (Bom) : has-a
+(Bom) --|> (Misc) : has-many)
+(Bom) --|> (Timber) : has-many)
+
+
+
+@enduml
