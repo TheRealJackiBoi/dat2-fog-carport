@@ -116,16 +116,10 @@ public class OrdersMapper {
         //Order id is autogenereted
         String sql = "INSERT INTO cudia_dk_db.orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) = (?,?,?,?,?,?,?)";
 
-        //material cost is a sum from the item list
-        //REPLACE THIS WITH A SUM FROM ITEMLISTMAPPER
-        double cost = 0;
-        //According to the Fog presentation video they had a 39% degree of coverage, so that is what we are gonna use
-        double salesPrice = cost * 1.39;
-
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
-                ps.setDouble(1, cost);
-                ps.setDouble(2, salesPrice);
+                ps.setDouble(1, 0);
+                ps.setDouble(2, 0);
                 ps.setDouble(3, carportWidth);
                 ps.setDouble(4,carportLength);
                 ps.setDouble(5,carportHeight);
@@ -147,8 +141,31 @@ public class OrdersMapper {
         return 0;
     }
 
+    static void calculatePrices(int orderId, ConnectionPool connectionPool) throws DatabaseException{
+        //material cost is a sum from the item list
+        //REPLACE THIS WITH A SUM FROM ITEMLISTMAPPER
+        double cost = ItemListFacade.sumPrice(orderId, connectionPool);
+        //According to the Fog presentation video they had a 39% degree of coverage, so that is what we are gonna use
+        double salesPrice = cost * 1.39;
+
+        String sql = "UPDATE cudia_dk_db.orders SET (material_cost,sales_price) = (?,?) WHERE order_id = ?";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setDouble(1 ,cost);
+                ps.setDouble(2,salesPrice);
+                ps.setInt(2,orderId);
+
+                ps.executeUpdate();
+            }
+        } catch (SQLException e){
+            throw new DatabaseException(e, "Something went wrong when updateting the price");
+        }
+
+    }
+
     //As a sales person you should be able to adjust the sales price, incase the custormer is negotiating
-    static void updateSalesPrice(int orderId, double newSalesPrice, ConnectionPool connectionPool) throws DatabaseException{
+    static void adjustSalesPrice(int orderId, double newSalesPrice, ConnectionPool connectionPool) throws DatabaseException{
         String sql = "UPDATE cudia_dk_db.orders SET sales_price = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
