@@ -8,25 +8,22 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConnectionPool
-{
+public class ConnectionPool {
     // TODO: Change access credentials for MySql server as needed below:
 
     private HikariDataSource ds;
     private static String USER = "root";
-    private static String PASSWORD = "root";
-    private static String URL = "jdbc:mysql://localhost:3306/startcode";
+    private static String PASSWORD = "gh9sp6vp4";
+    private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db";
 
     public ConnectionPool()
     {
         this(USER, PASSWORD, URL);
     }
 
-    public ConnectionPool(String USER, String PASSWORD, String URL)
-    {
+    public ConnectionPool(String USER, String PASSWORD, String URL) {
         String deployed = System.getenv("DEPLOYED");
-        if (deployed != null)
-        {
+        if (deployed != null) {
             // Prod: hent variabler fra setenv.sh i Tomcats bin folder
             USER = System.getenv("JDBC_USER");
             PASSWORD = System.getenv("JDBC_PASSWORD");
@@ -47,14 +44,12 @@ public class ConnectionPool
         this.ds = new HikariDataSource(config);
     }
 
-    public Connection getConnection() throws SQLException
-    {
+    public Connection getConnection() throws SQLException {
         Logger.getLogger("web").log(Level.INFO, ": get data connection");
         return ds.getConnection();
     }
 
-    public void close()
-    {
+    public void close() {
         Logger.getLogger("web").log(Level.INFO, "Shutting down connection pool");
         ds.close();
     }
