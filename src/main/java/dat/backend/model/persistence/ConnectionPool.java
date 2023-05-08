@@ -21,14 +21,15 @@ public class ConnectionPool {
         this(USER, PASSWORD, URL);
     }
 
+
     public ConnectionPool(String USER, String PASSWORD, String URL) {
         String deployed = System.getenv("DEPLOYED");
-        if (deployed != null) {
+        /*if (deployed != null) {
             // Prod: hent variabler fra setenv.sh i Tomcats bin folder
             USER = System.getenv("JDBC_USER");
             PASSWORD = System.getenv("JDBC_PASSWORD");
             URL = System.getenv("JDBC_CONNECTION_STRING");
-        }
+        } */
 
         Logger.getLogger("web").log(Level.INFO,
                 String.format("Connection Pool created for: (%s, %s, %s)", USER, PASSWORD, URL));
