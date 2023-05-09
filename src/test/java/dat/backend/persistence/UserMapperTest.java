@@ -19,8 +19,8 @@ class UserMapperTest
     // TODO: Change mysql login credentials if needed below
 
     private final static String USER = "root";
-    private final static String PASSWORD = "root";
-    private final static String URL = "jdbc:mysql://localhost:3306/startcode_test?serverTimezone=CET&allowPublicKeyRetrieval=true&useSSL=false";
+    private final static String PASSWORD = "gh9sp6vp4";
+    private final static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db_test";
 
     private static ConnectionPool connectionPool;
 
@@ -34,10 +34,7 @@ class UserMapperTest
             try (Statement stmt = testConnection.createStatement())
             {
                 // Create test database - if not exist
-                stmt.execute("CREATE DATABASE  IF NOT EXISTS startcode_test;");
-
-                // TODO: Create user table. Add your own tables here
-                stmt.execute("CREATE TABLE IF NOT EXISTS startcode_test.user LIKE startcode.user;");
+                stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
             }
         }
         catch (SQLException throwables)
@@ -58,8 +55,8 @@ class UserMapperTest
                 stmt.execute("delete from user");
 
                 // TODO: Insert a few users - insert rows into your own tables here
-                stmt.execute("insert into user (username, password, role) " +
-                        "values ('user','1234','user'),('admin','1234','admin'), ('ben','1234','user')");
+                stmt.execute("insert into user (email, password, name, zip, city, address) " +
+                        "values ('user','1234','user','2840','kbh','kbhgade'),('user2','1234','user2','2850','kbh','kbhgade1'), ('user3','1234','user3','2860','kbh','kbhgade3')");
             }
         }
         catch (SQLException throwables)
@@ -83,7 +80,7 @@ class UserMapperTest
     @Test
     void login() throws DatabaseException
     {
-        User expectedUser = new User("user", "1234", "user");
+        User expectedUser = new User("user", "1234", "customer");
         User actualUser = UserFacade.login("user", "1234", connectionPool);
         assertEquals(expectedUser, actualUser);
     }
@@ -103,9 +100,9 @@ class UserMapperTest
     @Test
     void createUser() throws DatabaseException
     {
-        User newUser = UserFacade.createUser("jill", "1234", "user", connectionPool);
-        User logInUser = UserFacade.login("jill", "1234", connectionPool);
-        User expectedUser = new User("jill", "1234", "user");
+        User newUser = UserFacade.createUser("jack", "1234", "customer", connectionPool);
+        User logInUser = UserFacade.login("jack", "1234", connectionPool);
+        User expectedUser = new User("jack", "1234", "customer");
         assertEquals(expectedUser, newUser);
         assertEquals(expectedUser, logInUser);
 
