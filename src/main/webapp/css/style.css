@@ -19,6 +19,8 @@ body {
 
 #body {
     width: 100vw !important;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
 }
 
 .row {
@@ -52,8 +54,9 @@ th, td {
 
 #footer {
     width: 100vw !important;
-    bottom: 0;
+
     min-height: 10vh;
+    padding: 1rem;
 }
 .btn {
 }

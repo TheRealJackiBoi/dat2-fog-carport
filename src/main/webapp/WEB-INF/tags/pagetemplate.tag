@@ -63,11 +63,13 @@
                 <a>Kontakt</a><br/>
             </div>
             <div class="col">
+                <p>
                 <b>Johannes Fog A/S</b><br/>
                 Firskovvej 20<br/>
                 2800 Lyngby<br/>
                 <br/>
                 CVR-nr. 16314439<br/>
+                </p>
             </div>
             <div class="col">
                 <div id="footer-logo-container">
