@@ -24,6 +24,6 @@
             <input type="password" id="password" name="password"/>
             <input type="submit"  value="Log in"/>
         </form>
-
+        <a href="sign_up.jsp">Opret Bruger</a><br>
     </jsp:body>
 </t:pagetemplate>
