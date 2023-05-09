@@ -112,7 +112,7 @@ public class OrdersMapper {
     }
 
     //AddOrder
-    public static int addOrder(int carportWidth, int carportLength, int carportHeight, int userId, int shedWidth, int shedLength,ConnectionPool connectionPool) throws DatabaseException{
+    public static int addOrder(double carportWidth, double carportLength, double carportHeight, int userId, double shedWidth, double shedLength,ConnectionPool connectionPool) throws DatabaseException{
         //Order id is autogenereted
         String sql = "INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) VALUES (?,?,?,?,?,?,?)";
 
