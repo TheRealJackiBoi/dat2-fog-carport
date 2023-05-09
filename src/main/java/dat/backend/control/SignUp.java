@@ -23,7 +23,7 @@ public class SignUp extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
-        session.setAttribute("user", null);
+        session.setAttribute("user", null); // invalidating user object in session scope
         User user;
 
         String email = request.getParameter("email");
