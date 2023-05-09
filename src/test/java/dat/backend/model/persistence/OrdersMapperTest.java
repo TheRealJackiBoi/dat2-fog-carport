@@ -1,5 +1,7 @@
 package dat.backend.model.persistence;
 
+import dat.backend.model.entities.Order;
+import dat.backend.model.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,13 +49,15 @@ class OrdersMapperTest {
         {
             try (Statement stmt = testConnection.createStatement())
             {
-                // TODO: Remove all rows from all tables - add your own tables here
-                stmt.execute("delete from orders");
 
-                // TODO: Insert a few users - insert rows into your own tables here
-
-                stmt.execute("INSERT INTO cudia_dk_db.orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) " +
-                        "values ('6000','10000','250','300','250','1','user','',''),('10000','15000','300','300','500','1','user','',''), ('15000','20000','300','300','500','1','user','100','100')");
+                //INSERTED THESE ONCE WHEN I STARTED TESTING
+                /*
+                // TODO: Insert a few orders
+                stmt.execute("INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) " +
+                        "values ('6000','10000','250','300','250','4','Creating',null ,null ), " +
+                        "('10000','15000','300','300','500','4','Order_placed',null , null ), " +
+                        "('15000','20000','300','300','500','4','Accepted','100','100')");
+                */
             }
         }
         catch (SQLException throwables)
@@ -61,6 +66,8 @@ class OrdersMapperTest {
             fail("Database connection failed");
         }
     }
+
+
 
     @Test
     void testConnection() throws SQLException
@@ -74,38 +81,76 @@ class OrdersMapperTest {
     }
 
     @Test
-    void getAllOrders() {
+    void getAllOrders() throws DatabaseException {
+        List<Order> orderList = OrdersMapper.getAllOrders(connectionPool);
+        assertEquals(7, orderList.size());
     }
 
     @Test
-    void getOrderByOrderId() {
+    void getOrderByOrderId() throws DatabaseException {
+        Order order = OrdersMapper.getOrderByOrderId(12, connectionPool);
+        assertEquals(15000,order.getSalesPrice());
+
+        assertEquals("Order_placed", order.getStatus());
+        assertEquals(500, order.getCarportHeight());
+        assertEquals(0,order.getShedWidth());
+
     }
 
     @Test
-    void getOrdersByUserId() {
+    void getOrdersByUserId() throws DatabaseException {
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(4,connectionPool);
+
+        assertEquals(6,orderList.size());
+
+        assertEquals("Accepted",orderList.get(2).getStatus());
+
     }
 
     @Test
-    void addOrder() {
+    void addOrder() throws DatabaseException {
+        List<Order> oldList = OrdersFacade.getOrdersByUserId(2,connectionPool);
+
+        OrdersFacade.addOrder(520.5,300,600,2,300,100,connectionPool);
+
+        List<Order> orderList = OrdersMapper.getOrdersByUserId(2,connectionPool);
+        assertEquals(oldList.size()+1, orderList.size());
+
     }
 
     @Test
-    void calculatePrices() {
+    void calculatePrices() throws DatabaseException {
+        OrdersFacade.calculatePrices(1,connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        assertEquals(1069, order.getMaterialCost());
+        assertEquals(1069*1.39, order.getSalesPrice());
     }
 
     @Test
-    void adjustSalesPrice() {
+    void adjustSalesPrice() throws DatabaseException {
+        OrdersFacade.adjustSalesPrice(1,1200,connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        assertEquals(1200, order.getSalesPrice());
     }
 
     @Test
-    void changeStatusByOrderIdToOrderPlaced() {
+    void changeStatusByOrderIdToOrderPlaced() throws DatabaseException {
+        OrdersFacade.changeStatusByOrderIdToOrderPlaced(1,connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        assertEquals("Order_placed", order.getStatus());
     }
 
     @Test
-    void changeStatusByOrderIdToPending() {
+    void changeStatusByOrderIdToPending() throws DatabaseException {
+        OrdersFacade.changeStatusByOrderIdToPending(1,connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        assertEquals("Pending", order.getStatus());
     }
 
     @Test
-    void changeStatusByOrderIdToAccepted() {
+    void changeStatusByOrderIdToAccepted() throws DatabaseException {
+        OrdersFacade.changeStatusByOrderIdToAccepted(1,connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        assertEquals("Accepted", order.getStatus());
     }
 }

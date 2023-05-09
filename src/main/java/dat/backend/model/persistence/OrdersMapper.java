@@ -112,9 +112,9 @@ public class OrdersMapper {
     }
 
     //AddOrder
-    public static int addOrder(double carportWidth, double carportLength, double carportHeight, int userId, double shedWidth, double shedLength,ConnectionPool connectionPool) throws DatabaseException{
+    static int addOrder(double carportWidth, double carportLength, double carportHeight, int userId, double shedWidth, double shedLength,ConnectionPool connectionPool) throws DatabaseException{
         //Order id is autogenereted
-        String sql = "INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) VALUES (?,?,?,?,?,?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
@@ -143,18 +143,18 @@ public class OrdersMapper {
 
     static void calculatePrices(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         //material cost is a sum from the item list
-        //REPLACE THIS WITH A SUM FROM ITEMLISTMAPPER
+
         double cost = ItemListFacade.sumPrice(orderId, connectionPool);
         //According to the Fog presentation video they had a 39% degree of coverage, so that is what we are gonna use
         double salesPrice = cost * 1.39;
 
-        String sql = "UPDATE orders SET (material_cost,sales_price) = (?,?) WHERE order_id = ?";
+        String sql = "UPDATE orders SET material_cost = ?, sales_price = ? WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
                 ps.setDouble(1 ,cost);
                 ps.setDouble(2,salesPrice);
-                ps.setInt(2,orderId);
+                ps.setInt(3, orderId);
 
                 ps.executeUpdate();
             }
@@ -181,7 +181,7 @@ public class OrdersMapper {
     }
 
     //Change Order Status to Order_placed
-    public static void changeStatusByOrderIdToOrderPlaced(int orderId, ConnectionPool connectionPool) throws DatabaseException{
+    static void changeStatusByOrderIdToOrderPlaced(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
@@ -196,7 +196,7 @@ public class OrdersMapper {
     }
 
     //Change Order Status to Pending
-    public static void changeStatusByOrderIdToPending(int orderId, ConnectionPool connectionPool) throws DatabaseException{
+    static void changeStatusByOrderIdToPending(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
@@ -211,7 +211,7 @@ public class OrdersMapper {
     }
 
     //Change Order Status to Accepted
-    public static void changeStatusByOrderIdToAccepted(int orderId, ConnectionPool connectionPool) throws DatabaseException{
+    static void changeStatusByOrderIdToAccepted(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
