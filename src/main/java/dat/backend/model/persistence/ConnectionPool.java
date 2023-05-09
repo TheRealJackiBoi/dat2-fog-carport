@@ -11,16 +11,13 @@ import java.util.logging.Logger;
 public class ConnectionPool
 {
     // TODO: Change access credentials for MySql server as needed below:
-/*
+
     private HikariDataSource ds;
     private static String USER = "root";
     private static String PASSWORD = "root";
-    private static String URL = "jdbc:mysql://localhost:3306/fog_carport";*/
+    private static String URL = "jdbc:mysql://localhost:3306/fog_carport";
 
-    private HikariDataSource ds;
-    private static String USER = "cudia_dk";
-    private static String PASSWORD = "mEy6xwhn2gczftDkerba";
-    private static String URL = "jdbc:mysql://mysql24.unoeuro.com:3306/cudia_dk_db";
+
     public ConnectionPool()
     {
         this(USER, PASSWORD, URL);
