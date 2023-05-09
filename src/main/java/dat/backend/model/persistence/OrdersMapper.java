@@ -21,7 +21,7 @@ public class OrdersMapper {
 
         List<Order> orderList = new ArrayList<>();
 
-        String sql = "SELECT * FROM cudia_dk_db.orders";
+        String sql = "SELECT * FROM orders";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
                 ResultSet rs = ps.executeQuery();
@@ -51,7 +51,7 @@ public class OrdersMapper {
 
         Order order = null;
 
-        String sql = "SELECT * FROM cudia_dk_db.orders WHERE order_id = ?";
+        String sql = "SELECT * FROM orders WHERE order_id = ?";
 
         try (Connection connection = connectionPool.getConnection() ){
             try (PreparedStatement ps = connection.prepareStatement(sql)){
@@ -85,7 +85,7 @@ public class OrdersMapper {
         Logger.getLogger("web").log(Level.INFO, "");
 
         List<Order> orderList = new ArrayList<>();
-        String sql = "SELECT * FROM cudia_dk_db.orders WHERE user_id = ?";
+        String sql = "SELECT * FROM orders WHERE user_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -114,7 +114,7 @@ public class OrdersMapper {
     //AddOrder
     public static int addOrder(int carportWidth, int carportLength, int carportHeight, int userId, int shedWidth, int shedLength,ConnectionPool connectionPool) throws DatabaseException{
         //Order id is autogenereted
-        String sql = "INSERT INTO cudia_dk_db.orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) = (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) VALUES (?,?,?,?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
@@ -148,7 +148,7 @@ public class OrdersMapper {
         //According to the Fog presentation video they had a 39% degree of coverage, so that is what we are gonna use
         double salesPrice = cost * 1.39;
 
-        String sql = "UPDATE cudia_dk_db.orders SET (material_cost,sales_price) = (?,?) WHERE order_id = ?";
+        String sql = "UPDATE orders SET (material_cost,sales_price) = (?,?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -166,7 +166,7 @@ public class OrdersMapper {
 
     //As a sales person you should be able to adjust the sales price, incase the custormer is negotiating
     static void adjustSalesPrice(int orderId, double newSalesPrice, ConnectionPool connectionPool) throws DatabaseException{
-        String sql = "UPDATE cudia_dk_db.orders SET sales_price = (?) WHERE order_id = ?";
+        String sql = "UPDATE orders SET sales_price = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -182,7 +182,7 @@ public class OrdersMapper {
 
     //Change Order Status to Order_placed
     public static void changeStatusByOrderIdToOrderPlaced(int orderId, ConnectionPool connectionPool) throws DatabaseException{
-        String sql = "UPDATE cudia_dk_db.orders SET status = (?) WHERE order_id = ?";
+        String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -197,7 +197,7 @@ public class OrdersMapper {
 
     //Change Order Status to Pending
     public static void changeStatusByOrderIdToPending(int orderId, ConnectionPool connectionPool) throws DatabaseException{
-        String sql = "UPDATE cudia_dk_db.orders SET status = (?) WHERE order_id = ?";
+        String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -212,7 +212,7 @@ public class OrdersMapper {
 
     //Change Order Status to Accepted
     public static void changeStatusByOrderIdToAccepted(int orderId, ConnectionPool connectionPool) throws DatabaseException{
-        String sql = "UPDATE cudia_dk_db.orders SET status = (?) WHERE order_id = ?";
+        String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
