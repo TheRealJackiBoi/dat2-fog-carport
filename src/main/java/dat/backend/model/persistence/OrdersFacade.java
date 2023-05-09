@@ -18,7 +18,7 @@ public class OrdersFacade {
         return OrdersMapper.getOrdersByUserId(userId, connectionPool);
     }
 
-    public static int addOrder(int carportWidth, int carportLength, int carportHeight, int userId, int shedWidth, int shedLength,ConnectionPool connectionPool)throws DatabaseException{
+    public static int addOrder(double carportWidth, double carportLength, double carportHeight, int userId, double shedWidth, double shedLength,ConnectionPool connectionPool)throws DatabaseException{
         return OrdersMapper.addOrder(carportWidth,carportLength,carportHeight,userId,shedWidth,shedLength,connectionPool);
     }
 
