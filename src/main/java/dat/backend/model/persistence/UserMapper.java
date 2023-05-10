@@ -68,6 +68,17 @@ class UserMapper
         }
         return user;
     }
+    //static User getUserId(ConnectionPool connectionPool){
+     //   String sql = "SELECT * FROM user WHERE user_id = ?";
+
+      ////  try (PreparedStatement ps = connection.prepareStatement(sql)){
+
+
+         //   }
+
+       // }
+
+  //  }
 
 
 }

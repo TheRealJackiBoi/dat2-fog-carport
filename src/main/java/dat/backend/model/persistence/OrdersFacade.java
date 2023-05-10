@@ -10,15 +10,15 @@ public class OrdersFacade {
         return OrdersMapper.getAllOrders(connectionPool);
     }
 
-    static Order getOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException{
+    public static Order getOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         return OrdersMapper.getOrderByOrderId(orderId, connectionPool);
     }
 
-    static List<Order> getOrdersByUserId(int userId, ConnectionPool connectionPool) throws DatabaseException{
+    public static List<Order> getOrdersByUserId(int userId, ConnectionPool connectionPool) throws DatabaseException{
         return OrdersMapper.getOrdersByUserId(userId, connectionPool);
     }
 
-    static int addOrder(int carportWidth, int carportLength, int carportHeight, int userId, int shedWidth, int shedLength,ConnectionPool connectionPool)throws DatabaseException{
+    public static int addOrder(double carportWidth, double carportLength, double carportHeight, int userId, double shedWidth, double shedLength,ConnectionPool connectionPool)throws DatabaseException{
         return OrdersMapper.addOrder(carportWidth,carportLength,carportHeight,userId,shedWidth,shedLength,connectionPool);
     }
 

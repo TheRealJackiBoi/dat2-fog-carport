@@ -25,6 +25,8 @@
                     href="login.jsp">Login</a></p>
         </c:if>
 
+        <a href="ordering.jsp">ordering</a>
+
     </jsp:body>
 
 </t:pagetemplate>
