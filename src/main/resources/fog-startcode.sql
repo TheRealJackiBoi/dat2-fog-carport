@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `fog_carport_test` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `fog_carport_test`;
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `fog` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `fog`;
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
--- Host: localhost    Database: fog_carport_test
+-- Host: mysql24.unoeuro.com    Database: cudia_dk_db
 -- ------------------------------------------------------
 -- Server version	8.0.32-24
 
@@ -57,14 +57,14 @@ CREATE TABLE `material_variants` (
   `variant_id` int NOT NULL AUTO_INCREMENT,
   `length` double NOT NULL,
   `quantity` int NOT NULL,
-  `materials_material_id` int NOT NULL,
-  `item_list_item_list_id` int NOT NULL,
+  `material_id` int NOT NULL,
+  `item_list_id` int NOT NULL,
   PRIMARY KEY (`variant_id`),
   UNIQUE KEY `variant_id_UNIQUE` (`variant_id`),
-  KEY `fk_material_variants_materials1_idx` (`materials_material_id`),
-  KEY `fk_material_variants_item_list1_idx` (`item_list_item_list_id`),
-  CONSTRAINT `fk_material_variants_item_list1` FOREIGN KEY (`item_list_item_list_id`) REFERENCES `item_list` (`item_list_id`),
-  CONSTRAINT `fk_material_variants_materials1` FOREIGN KEY (`materials_material_id`) REFERENCES `materials` (`material_id`)
+  KEY `fk_material_variants_materials1_idx` (`material_id`),
+  KEY `fk_material_variants_item_list1_idx` (`item_list_id`),
+  CONSTRAINT `fk_material_variants_item_list1` FOREIGN KEY (`item_list_id`) REFERENCES `item_list` (`item_list_id`),
+  CONSTRAINT `fk_material_variants_materials1` FOREIGN KEY (`material_id`) REFERENCES `materials` (`material_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -187,6 +187,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
+INSERT INTO `status` VALUES ('Accepted'),('Creating'),('Order_placed'),('Pending');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,8 +247,8 @@ CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `navn` varchar(45) NOT NULL,
-  `post_nr` int NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `zip` int NOT NULL,
   `city` varchar(45) NOT NULL,
   `adress` varchar(45) NOT NULL,
   `role` varchar(45) NOT NULL,
@@ -277,4 +278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-08 10:45:11
+-- Dump completed on 2023-05-09 11:11:09

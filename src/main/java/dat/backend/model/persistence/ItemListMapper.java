@@ -18,7 +18,7 @@ public class ItemListMapper {
         Logger.getLogger("web").log(Level.INFO,"");
 
         List<ItemList> itemList = new ArrayList<>();
-        String sql = "SELECT * FROM cudia_dk_db.item_list WHERE order_id = ?";
+        String sql = "SELECT * FROM item_list WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -39,8 +39,25 @@ public class ItemListMapper {
         return itemList;
     }
 
-    static void addItem(){
+    static int addItem(int orderId, String description, int quantity, double price, ConnectionPool connectionPool) throws DatabaseException{
+        //
+        String sql = "INSERT INTO item_list (use_description, quantity, price, order_id) VALUES (?,?,?,?)";
 
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+                ps.setString(1,description);
+                ps.setInt(2,quantity);
+                ps.setDouble(3,price);
+                ps.setInt(4,orderId);
+
+                ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
+                rs.next();
+                return rs.getInt(1);
+            }
+        } catch (SQLException e){
+            throw new DatabaseException(e, "We couldnt add this item to the item_list");
+        }
     }
 
     static double sumPrice(int orderId, ConnectionPool connectionPool) throws DatabaseException{
