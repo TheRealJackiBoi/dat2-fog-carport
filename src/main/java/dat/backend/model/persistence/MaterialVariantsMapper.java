@@ -96,8 +96,7 @@ public class MaterialVariantsMapper {
     }
 
     static int addVariant(int materialId, double length, int quantity, int itemListId, ConnectionPool connectionPool) throws DatabaseException{
-        //autogenerere variantId
-
+        //autogenerere variantId and returns it
         String sql = "INSERT INTO material_variants (length, quantity, material_id, item_list_id) VALUES (?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
@@ -110,6 +109,8 @@ public class MaterialVariantsMapper {
                 ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
                 rs.next();
+
+                //returning the autogenereated keys
                 return rs.getInt(1);
             } catch (SQLException e){
                 e.printStackTrace();
