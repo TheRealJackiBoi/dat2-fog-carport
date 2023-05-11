@@ -15,8 +15,7 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 @Disabled
-class UserMapperTest
-{
+class UserMapperTest {
     // TODO: Change mysql login credentials if needed below
 
     private final static String USER = "root";
@@ -26,32 +25,25 @@ class UserMapperTest
     private static ConnectionPool connectionPool;
 
     @BeforeAll
-    public static void setUpClass()
-    {
+    public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
 
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
     }
 
     @BeforeEach
-    void setUp()
-    {
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+    void setUp() {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // TODO: Remove all rows from all tables - add your own tables here
                 stmt.execute("delete from user");
 
@@ -60,16 +52,14 @@ class UserMapperTest
                         "values ('user','1234','user','2840','kbh','kbhgade'),('user2','1234','user2','2850','kbh','kbhgade1'), ('user3','1234','user3','2860','kbh','kbhgade3')");
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
     }
 
     @Test
-    void testConnection() throws SQLException
-    {
+    void testConnection() throws SQLException {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
         if (connection != null)
@@ -79,31 +69,27 @@ class UserMapperTest
     }
 
     @Test
-    void login() throws DatabaseException
-    {
+    void login() throws DatabaseException {
         User expectedUser = new User("user", "1234", "customer");
         User actualUser = UserFacade.login("user", "1234", connectionPool);
         assertEquals(expectedUser, actualUser);
     }
 
     @Test
-    void invalidPasswordLogin() throws DatabaseException
-    {
+    void invalidPasswordLogin() throws DatabaseException {
         assertThrows(DatabaseException.class, () -> UserFacade.login("user", "123", connectionPool));
     }
 
     @Test
-    void invalidUserNameLogin() throws DatabaseException
-    {
+    void invalidUserNameLogin() throws DatabaseException {
         assertThrows(DatabaseException.class, () -> UserFacade.login("bob", "1234", connectionPool));
     }
 
     @Test
-    void createUser() throws DatabaseException
-    {
-        User newUser = UserFacade.createUser("jack", "1234", "customer", connectionPool);
+    void createUser() throws DatabaseException {
+        User newUser = UserFacade.createUser("jack", "1234", "sales", connectionPool);
         User logInUser = UserFacade.login("jack", "1234", connectionPool);
-        User expectedUser = new User("jack", "1234", "customer");
+        User expectedUser = new User("jack", "1234", "sales");
         assertEquals(expectedUser, newUser);
         assertEquals(expectedUser, logInUser);
 
