@@ -1,27 +1,25 @@
-package dat.backend.persistence;
+package dat.backend.model.persistence;
 
-import dat.backend.model.entities.User;
+import dat.backend.model.entities.ItemList;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.UserFacade;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-@Disabled
-class UserMapperTest
-{
-    // TODO: Change mysql login credentials if needed below
+
+class ItemListMapperTest {
 
     private final static String USER = "root";
-    private final static String PASSWORD = "gh9sp6vp4";
-    private final static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db_test";
+    private final static String PASSWORD = "StoreOliver";
+    private final static String URL = "jdbc:mysql://Localhost:3306/cudia_dk_db_test";
+
 
     private static ConnectionPool connectionPool;
 
@@ -36,6 +34,7 @@ class UserMapperTest
             {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
+
             }
         }
         catch (SQLException throwables)
@@ -43,6 +42,7 @@ class UserMapperTest
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
+
     }
 
     @BeforeEach
@@ -53,11 +53,12 @@ class UserMapperTest
             try (Statement stmt = testConnection.createStatement())
             {
                 // TODO: Remove all rows from all tables - add your own tables here
-                stmt.execute("delete from user");
+                stmt.execute("delete from item_list");
 
                 // TODO: Insert a few users - insert rows into your own tables here
-                stmt.execute("insert into user (email, password, name, zip, city, address) " +
-                        "values ('user','1234','user','2840','kbh','kbhgade'),('user2','1234','user2','2850','kbh','kbhgade1'), ('user3','1234','user3','2860','kbh','kbhgade3')");
+
+                stmt.execute("insert into item_list (use_description, quantity, price, order_id) " +
+                        "values ('Dette er en spær','15','250','1'),('Stolpe','6','699','1'), ('facade','1','120','1')");
             }
         }
         catch (SQLException throwables)
@@ -79,33 +80,32 @@ class UserMapperTest
     }
 
     @Test
-    void login() throws DatabaseException
-    {
-        User expectedUser = new User("user", "1234", "customer");
-        User actualUser = UserFacade.login("user", "1234", connectionPool);
-        assertEquals(expectedUser, actualUser);
+    void getItemListByOrderId() throws DatabaseException {
+        //chooseing an arbitary high number to show that it sends exception if the "item" is not found in database
+        List<ItemList> emptylist = new ArrayList<>();
+        assertEquals(emptylist,ItemListFacade.getItemListByOrderId(999999, connectionPool));
+
+
+        List<ItemList> itemListList = ItemListFacade.getItemListByOrderId(1,connectionPool);
+        ItemList item = new ItemList(19, "Dette er en spær", 15, 250, 1);
+        assertEquals(item.getQuantity(), itemListList.get(0).getQuantity());
     }
 
     @Test
-    void invalidPasswordLogin() throws DatabaseException
-    {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("user", "123", connectionPool));
+    void addItem() throws DatabaseException {
+        ItemListFacade.addItem(1,"Very good spær", 25, 67.25, connectionPool);
+
+        List<ItemList> itemListList = ItemListFacade.getItemListByOrderId(1,connectionPool);
+        assertEquals("Very good spær", itemListList.get(3).getUseDescription());
+        assertEquals(67.25, itemListList.get(3).getPrice());
     }
 
     @Test
-    void invalidUserNameLogin() throws DatabaseException
-    {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("bob", "1234", connectionPool));
-    }
+    void sumPrice() throws DatabaseException {
+        //price when looking in the database
+        double currentSum = 250+699+120;
 
-    @Test
-    void createUser() throws DatabaseException
-    {
-        User newUser = UserFacade.createUser("jack", "1234", "customer", connectionPool);
-        User logInUser = UserFacade.login("jack", "1234", connectionPool);
-        User expectedUser = new User("jack", "1234", "customer");
-        assertEquals(expectedUser, newUser);
-        assertEquals(expectedUser, logInUser);
+        assertEquals(currentSum, ItemListFacade.sumPrice(1,connectionPool));
 
     }
 }

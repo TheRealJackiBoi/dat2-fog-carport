@@ -13,8 +13,8 @@ public class ConnectionPool {
 
     private HikariDataSource ds;
     private static String USER = "root";
-    private static String PASSWORD = "gh9sp6vp4";
-    private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db";
+    private static String PASSWORD = "root";
+    private static String URL = "jdbc:mysql://localhost:3306/fog_carport";
 
     public ConnectionPool()
     {
@@ -23,13 +23,13 @@ public class ConnectionPool {
 
 
     public ConnectionPool(String USER, String PASSWORD, String URL) {
-        /* String deployed = System.getenv("DEPLOYED");
+         String deployed = System.getenv("DEPLOYED");
         if (deployed != null) {
             // Prod: hent variabler fra setenv.sh i Tomcats bin folder
             USER = System.getenv("JDBC_USER");
             PASSWORD = System.getenv("JDBC_PASSWORD");
             URL = System.getenv("JDBC_CONNECTION_STRING");
-        } */
+        }
 
         Logger.getLogger("web").log(Level.INFO,
                 String.format("Connection Pool created for: (%s, %s, %s)", USER, PASSWORD, URL));
