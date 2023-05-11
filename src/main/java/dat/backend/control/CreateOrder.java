@@ -1,9 +1,11 @@
 package dat.backend.control;
 
-import dat.backend.config.ApplicationStart;
+
+import dat.backend.model.entities.Order;
 import dat.backend.model.entities.User;
+import dat.backend.config.ApplicationStart;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.UserFacade;
+import dat.backend.model.persistence.OrdersFacade;
 import dat.backend.model.persistence.ConnectionPool;
 
 import javax.servlet.ServletException;
@@ -14,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "login", urlPatterns = {"/login"} )
-public class Login extends HttpServlet
+@WebServlet(name = "ordering", urlPatterns = {"/ordering"} )
+public class CreateOrder extends HttpServlet
 {
     private ConnectionPool connectionPool;
 
@@ -25,32 +27,39 @@ public class Login extends HttpServlet
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
-    {
-        // You shouldn't end up here with a GET-request, thus you get sent back to frontpage
-        response.sendRedirect("index.jsp");
-    }
-
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
-        session.setAttribute("user", null); // invalidating user object in session scope
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        User user = (User) session.getAttribute("user");
+        int orderId;
+        int userId =1;
+        double length = Double.parseDouble(request.getParameter("length"));
+        double width = Double.parseDouble(request.getParameter("width"));
+        double height = Double.parseDouble(request.getParameter("height"));
+        double s_width = 0;
+        double s_length = 0;
 
-        try
-        {
-            User user = UserFacade.login(email, password, connectionPool);
-            session = request.getSession();
-            session.setAttribute("user", user); // adding user object to session scope
-            request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
-        }
-        catch (DatabaseException e)
-        {
+
+
+
+        try {
+            orderId = OrdersFacade.addOrder(width, length, height, userId, s_width, s_length, connectionPool);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+
+        } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
+
+
+
+
+
+
+
+
+
     }
 
 }
