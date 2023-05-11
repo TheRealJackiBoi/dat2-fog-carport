@@ -32,6 +32,6 @@
                 <a class="btn btn-warning" href="signup.jsp" role="button">Create user</a>
             </div>
         </form>
-
+        <a href="signup.jsp">Opret Bruger</a><br>
     </jsp:body>
 </t:pagetemplate>
