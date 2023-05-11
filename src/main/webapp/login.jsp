@@ -9,10 +9,6 @@
              Login
     </jsp:attribute>
 
-    <jsp:attribute name="footer">
-            Login
-    </jsp:attribute>
-
     <jsp:body>
 
         <h3>You can log in here</h3>
@@ -28,7 +24,7 @@
                 <input type="password" class="form-control" id="password" placeholder="Pa$$w0RD!"><br>
             </div>
             <div class="col mx-auto col-md-2">
-                <button class="btn btn-primary" type="submit" >Login</button>
+                <button class="btn btn-primary" type="submit" value="Log in" >Login</button>
                 <a class="btn btn-warning" href="signup.jsp" role="button">Create user</a>
             </div>
         </form>

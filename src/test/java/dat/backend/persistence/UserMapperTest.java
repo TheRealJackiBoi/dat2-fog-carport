@@ -92,6 +92,8 @@ class UserMapperTest {
         User expectedUser = new User("jeff@gmail.com", "12345", "sales");
         assertEquals(expectedUser, newUser);
         assertEquals(expectedUser, logInUser);
-
     }
+
+    //TODO: Test updateUser
+    //TODO: Test getUserByEmail
 }
