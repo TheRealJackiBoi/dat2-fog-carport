@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class User
 {
+    private int id;
     private String email;
     private String password;
     private String name;
@@ -12,13 +13,20 @@ public class User
     private String address;
     private String role;
 
+    public User(int id, String email, String password, String role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
     public User(String email, String password, String role) {
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public User(String email, String password, String name, int zip, String city, String address, String role) {
+    public User(int id, String email, String password, String name, int zip, String city, String address, String role) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -82,6 +90,10 @@ public class User
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

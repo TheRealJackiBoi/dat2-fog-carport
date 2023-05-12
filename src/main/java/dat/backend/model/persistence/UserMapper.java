@@ -27,7 +27,8 @@ class UserMapper
                 if (rs.next())
                 {
                     String role = rs.getString("role");
-                    user = new User(email, password, role);
+                    int id = rs.getInt("id");
+                    user = new User(id, email, password, role);
                 } else
                 {
                     throw new DatabaseException("Wrong username or password");
@@ -40,24 +41,31 @@ class UserMapper
         return user;
     }
 
-    static User createUser(String username, String password, String role, ConnectionPool connectionPool) throws DatabaseException
+    static User createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException
     {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
-        String sql = "insert into user (email, password, role) values (?,?,?)";
+        String sql = "insert into user (email, password, name, zip, city, address) values (?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
-            try (PreparedStatement ps = connection.prepareStatement(sql))
+            try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
             {
-                ps.setString(2, username);
-                ps.setString(3, password);
+                ps.setString(1, email);
+                ps.setString(2, password);
+                ps.setString(3, name);
+                ps.setInt(4, zip);
+                ps.setString(5, city);
+                ps.setString(6, address);
+
                 int rowsAffected = ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
                 if (rowsAffected == 1)
                 {
-                    user = new User(username, password, role);
+                    int id = rs.getInt(1);
+                    user = new User(id, email, password, role);
                 } else
                 {
-                    throw new DatabaseException("The user with username = " + username + " could not be inserted into the database");
+                    throw new DatabaseException("The user with username = " + email + " could not be inserted into the database");
                 }
             }
         }
@@ -67,6 +75,17 @@ class UserMapper
         }
         return user;
     }
+    //static User getUserId(ConnectionPool connectionPool){
+     //   String sql = "SELECT * FROM user WHERE user_id = ?";
+
+      ////  try (PreparedStatement ps = connection.prepareStatement(sql)){
+
+
+         //   }
+
+       // }
+
+  //  }
 
 
 }
