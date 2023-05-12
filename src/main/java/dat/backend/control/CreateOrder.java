@@ -33,7 +33,7 @@ public class CreateOrder extends HttpServlet
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         int orderId;
-        int userId =1;
+        int userId = ((User) session.getAttribute("user")).getId();
         double length = Double.parseDouble(request.getParameter("length"));
         double width = Double.parseDouble(request.getParameter("width"));
         double height = Double.parseDouble(request.getParameter("height"));
@@ -45,6 +45,7 @@ public class CreateOrder extends HttpServlet
 
         try {
             orderId = OrdersFacade.addOrder(width, length, height, userId, s_width, s_length, connectionPool);
+            session.setAttribute("orderId", orderId);
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
         } catch (DatabaseException e) {
