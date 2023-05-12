@@ -29,11 +29,15 @@ public class CustomerSeeOrder extends HttpServlet {
         List<Order> customer_orders;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-
+        if (user == null){
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
 
         try {
-            customer_orders = OrdersFacade.getOrdersByUserId(user.getId, connectionPool);
+            customer_orders = OrdersFacade.getOrdersByUserId(user.getId(), connectionPool);
 
+            request.setAttribute("customer_orders", customer_orders);
+            request.getRequestDispatcher("/customer_orders.jsp").forward(request, response);
         } catch (DatabaseException e)
         {
             request.setAttribute("errormessage", e.getMessage());

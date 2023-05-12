@@ -1,0 +1,27 @@
+@startuml
+Title Carport
+/' swim lanes '/
+|Customer|
+start
+:Go to website;
+|#antiqueWhite|Website|
+:garden and freetime;
+|Website|
+:build your own carport;
+|Customer|
+:own measurements;
+|Customer|
+:enter own measurements;
+|Customer|
+:book offer;
+|Website|
+:contact employee;
+|admin|
+:calculate offer;
+|Customer|
+:accept offer;
+|Website|
+:make bom,
+drawing/manuel,
+contact storage;
+@enduml

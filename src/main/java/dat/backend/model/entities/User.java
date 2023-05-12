@@ -92,6 +92,10 @@ public class User
         this.role = role;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o)
     {
