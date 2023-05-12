@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@page errorPage="error.jsp" isErrorPage="false" %>
+<%@page errorPage="../error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
     <jsp:attribute name="header">
@@ -12,6 +12,9 @@
 
     <jsp:body>
 
+        <div class="header">
+            <h1>Design din carport</h1>
+        </div>
         <form class="container">
             <form action="ordering" name="ordering" method="post">
                 <div class="form inline">
