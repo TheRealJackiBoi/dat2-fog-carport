@@ -13,6 +13,8 @@
 
        <img src="${pageContext.request.contextPath}/images/carport.jpg" class="img-fluid">
 
+        <a href="WEB-INF/ordering.jsp">ordering</a>
+
     </jsp:body>
 
 </t:pagetemplate>
