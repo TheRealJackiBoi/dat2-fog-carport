@@ -12,9 +12,7 @@
 
     <jsp:body>
 
-        <div class="header">
-            <h1>Design din carport</h1>
-        </div>
+        <h1>Design din carport</h1>
         <form class="container">
             <form action="ordering" name="ordering" method="post">
                 <div class="form inline">
