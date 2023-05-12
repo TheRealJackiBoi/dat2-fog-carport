@@ -1,0 +1,19 @@
+@startuml
+title Usecase Diagram
+left to right direction
+actor Admin as Admin
+actor User as User
+actor Worker as Worker
+
+User --> (Order carport from measurements)
+User --> (se own orders)
+User --> (get bom and manuel)
+User --> (change information)
+Admin --> (delete orders)
+Admin --> (see storage, change storage+price)
+Admin --> (see all orders)
+Admin --> (change information)
+Admin --> (get bom and manuel)
+(get bom and manuel) --> Worker
+
+@enduml

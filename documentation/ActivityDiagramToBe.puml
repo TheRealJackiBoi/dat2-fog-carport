@@ -1,0 +1,27 @@
+@startuml
+Title Carport
+/' swim lanes '/
+|Customer|
+start
+:Go to website;
+|#antiqueWhite|Website|
+if (has user?) is (yes) then
+  :Login;
+  |Customer|
+  :build carport;
+else (no)
+  |Website|
+  :Create User;
+endif
+|Website|
+:enter measurements;
+|admin|
+:make offer;
+|Website|
+:present offer;
+|Customer|
+:accept offer;
+|Website|
+:Bom;
+stop
+@enduml
