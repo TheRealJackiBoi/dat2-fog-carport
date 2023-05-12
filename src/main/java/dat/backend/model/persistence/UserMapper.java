@@ -27,7 +27,8 @@ class UserMapper
                 if (rs.next())
                 {
                     String role = rs.getString("role");
-                    user = new User(email, password, role);
+                    int id = rs.getInt("id");
+                    user = new User(id, email, password, role);
                 } else
                 {
                     throw new DatabaseException("Wrong username or password");
@@ -47,7 +48,7 @@ class UserMapper
         String sql = "insert into user (email, password, name, zip, city, address) values (?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
-            try (PreparedStatement ps = connection.prepareStatement(sql))
+            try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
             {
                 ps.setString(1, email);
                 ps.setString(2, password);
@@ -57,9 +58,11 @@ class UserMapper
                 ps.setString(6, address);
 
                 int rowsAffected = ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
                 if (rowsAffected == 1)
                 {
-                    user = new User(email, password, role);
+                    int id = rs.getInt(1);
+                    user = new User(id, email, password, role);
                 } else
                 {
                     throw new DatabaseException("The user with username = " + email + " could not be inserted into the database");
