@@ -38,17 +38,17 @@
             </div>
 
             <div class="d-inline-flex justify-content-between w-100 mt-2">
-                <div class="col-5">
+                <div class="col-8">
                     <label for="city">By</label>
                     <input type="text" id="city" class="form-control " name="city" placeholder="København" required>
                 </div>
-                <div class="col-5">
+                <div class="col-3">
                     <label for="zip">Post-nr.</label>
                     <input type="text" id="zip" class="form-control" name="zip" placeholder="2100" required><br>
                 </div>
             </div>
 
-                <button class="btn btn-primary w-50 float-center" type="submit" >Create user</button>
+                <button class="btn btn-primary col-3 float-center" type="submit" >Opret Bruger</button>
         </form>
         </div>
 
