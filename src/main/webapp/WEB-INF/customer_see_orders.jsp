@@ -21,19 +21,23 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <form>
-                    <button type="button">See</button>
-                </form>
-                <c:if test="${status.equals('Order_placed')}">
+            <c:forEach var="order" items="customer_orders" >
+                <tr>
+                    <th scope="row">${order.orderId}</th>
+                    <td>${order.salesPrice}</td>
+                    <td>${order.status}</td>
                     <form>
-                        <button type="button">Annuller</button>
+                        <input name="specific_order_id" type="number" value="${order.Id}" style="display: none" readonly/>
+                        <!-- TODO: place formaction route -->
+                        <button type="submit" formaction="" formmethod="get">See</button>
                     </form>
-                </c:if>
-            </tr>
+                    <c:if test="${order.status.equals('Order_placed') || order.status.equals('Creating')}">
+                        <form>
+                            <button type="submit" formaction="CustomerSeeOrder" formmethod="post">Annuller</button>
+                        </form>
+                    </c:if>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
 

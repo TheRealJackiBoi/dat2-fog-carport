@@ -20,17 +20,30 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-0">
         <div class="container my-0">
+            <!-- Fog Logo -->
             <a id="fog-logo" class="" href="index.jsp">
                 <img src="${pageContext.request.contextPath}/images/Fog_logo.svg" class="img"/>
             </a>
 
+            <!-- Collapsable Links to the left -->
             <div class="collapse navbar-collapse justify-content-start" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Page 1</a>
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Page 2</a>
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Page 3</a>
+                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/index.jsp">Hjem</a>
+                    <c:if test="${sessionScope.user != null }">
+                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/ordering">Bestil Carport</a>
+                        <!-- TODO: Insert Link -->
+                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Ordre</a>
+                    </c:if>
+                    <!-- Links for admin orders
+                    <!-- TODO: insert links -->
+                    <c:if test="${sessionScope.user.role.equals('salesman') || sessionScope.user.role.equals('admin')}">
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Kunder</a>
+                    </c:if>
                 </div>
             </div>
+
+            <!-- Login / Logout -->
             <div class="navbar-nav">
                 <c:if test="${sessionScope.user == null }">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/login.jsp">Login</a>
@@ -39,6 +52,7 @@
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/logout">Log out</a>
                 </c:if>
             </div>
+            <!-- Burgermenu for small devices -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

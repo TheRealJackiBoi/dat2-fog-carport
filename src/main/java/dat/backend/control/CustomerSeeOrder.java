@@ -45,6 +45,7 @@ public class CustomerSeeOrder extends HttpServlet {
         }
     }
 
+    //For deleting an order with the "Annuller" button on each order
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
