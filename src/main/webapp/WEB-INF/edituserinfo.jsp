@@ -3,6 +3,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
 
+<!-- TODO: NEEDS TO BE LINKED FROM SOMEWHERE -->
+
+
 <t:pagetemplate>
     <jsp:attribute name="header">
          Welcome to the logged in area
