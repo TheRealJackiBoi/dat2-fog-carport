@@ -5,6 +5,7 @@ import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.UserFacade;
+import dat.backend.model.persistence.UserMapper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -34,6 +35,33 @@ public class EditUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        int zip = Integer.parseInt(request.getParameter("zip"));
+        String city = request.getParameter("city");
+        String address = request.getParameter("address");
+        String role = request.getParameter("role");
 
+
+        User user = UserFacade.getUserByEmail(email, connectionPool);
+        request.setAttribute("email", user);
+        request.setAttribute("password", user);
+        request.setAttribute("name", user);
+        request.setAttribute("zip", user);
+        request.setAttribute("city", user);
+        request.setAttribute("address", user);
+
+        try {
+            UserMapper.updateUser(email, password, name, zip, city, address, role, connectionPool);
+
+            //update current user
+            HttpSession session = request.getSession();
+            user = UserFacade.getUserByEmail(((User)session.getAttribute("user")).getEmail(), connectionPool);
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect("edituser");
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
     }
 }

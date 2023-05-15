@@ -21,11 +21,11 @@
         <form action="edituser" name="edituser" method="POST">
         <div class="mx-auto col-lg-4">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder required>
+            <input type="email" class="form-control" id="email" name="email" value="${requestScope.email}" required>
         </div>
         <div class="mx-auto col-lg-4">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required>
+            <input type="password" class="form-control" id="password" name="password" value="${requestScope.password}" required>
         </div>
         <div class="mx-auto col-md-4">
             <label for="name">Name</label>
