@@ -1,6 +1,7 @@
 package dat.backend.control;
 
 
+import dat.backend.model.entities.Order;
 import dat.backend.model.entities.User;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.exceptions.DatabaseException;
@@ -58,6 +59,35 @@ public class CreateOrder extends HttpServlet
 
         }
 
+    }
+//If order id in session scope, get that, then forward ordervalues for form in jsp, else forward null object in order
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        response.setContentType("text/html");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null){
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }else {
+            int orderId = (int) session.getAttribute("orderId");
+            int userId = ((User) session.getAttribute("user")).getId();
+            double length = Double.parseDouble(request.getParameter("length"));
+            double width = Double.parseDouble(request.getParameter("width"));
+            double height = Double.parseDouble(request.getParameter("height"));
+            double s_width = 0;
+            double s_length = 0;
+
+            try {
+                Order order = OrdersFacade.getOrderByOrderId(orderId, connectionPool);
+                session.setAttribute("orderId", orderId);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+
+            } catch (DatabaseException e) {
+                request.setAttribute("errormessage", e.getMessage());
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+
+        }
     }
 
 }
