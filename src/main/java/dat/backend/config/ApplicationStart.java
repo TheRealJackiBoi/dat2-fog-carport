@@ -1,4 +1,4 @@
-package dat.backend.model.entities.config;
+package dat.backend.config;
 
 import dat.backend.model.persistence.ConnectionPool;
 

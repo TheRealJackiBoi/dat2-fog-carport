@@ -1,6 +1,6 @@
 package dat.backend.model.persistence;
 
-import dat.backend.model.entities.ItemList;
+import dat.backend.model.entities.MaterialVariants;
 import dat.backend.model.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +9,11 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ItemListMapperTest {
+class MaterialVariantsMapperTest {
 
     private final static String USER = "root";
     private final static String PASSWORD = "StoreOliver";
@@ -53,12 +52,12 @@ class ItemListMapperTest {
             try (Statement stmt = testConnection.createStatement())
             {
                 // TODO: Remove all rows from all tables - add your own tables here
-                stmt.execute("delete from item_list");
+                stmt.execute("delete from material_variants");
 
                 // TODO: Insert a few users - insert rows into your own tables here
 
-                stmt.execute("insert into item_list (use_description, quantity, price, order_id) " +
-                        "values ('Dette er en spær','15','250','7'),('Stolpe','6','699','7'), ('facade','1','120','7')");
+                stmt.execute("insert into material_variants (length, quantity, material_id, item_list_id) " +
+                        "values ('320','12','1','7'),('170','6','3','7'), ('560','2','3','7')");
             }
         }
         catch (SQLException throwables)
@@ -80,32 +79,35 @@ class ItemListMapperTest {
     }
 
     @Test
-    void getItemListByOrderId() throws DatabaseException {
-        //chooseing an arbitary high number to show that it sends exception if the "item" is not found in database
-        List<ItemList> emptylist = new ArrayList<>();
-        assertEquals(emptylist,ItemListFacade.getItemListByOrderId(999999, connectionPool));
+    void getAllMaterialVariantsByItemListId() throws DatabaseException {
+        List<MaterialVariants> list = MaterialVariantsMapper.getAllMaterialVariantsByItemListId(7,connectionPool);
 
+        assertEquals(3, list.size());
 
-        List<ItemList> itemListList = ItemListFacade.getItemListByOrderId(1,connectionPool);
-        ItemList item = new ItemList(19, "Dette er en spær", 15, 250, 1);
-        assertEquals(item.getQuantity(), itemListList.get(0).getQuantity());
+        assertEquals(12,list.get(0).getQuantity());
+
+        assertEquals(560, list.get(2).getLength());
     }
 
     @Test
-    void addItem() throws DatabaseException {
-        ItemListFacade.addItem(1,"Very good spær", 25, 67.25, connectionPool);
+    void getVariantsByMaterialId() throws DatabaseException {
+        List<MaterialVariants> list = MaterialVariantsMapper.getVariantsByMaterialId(3, connectionPool);
 
-        List<ItemList> itemListList = ItemListFacade.getItemListByOrderId(1,connectionPool);
-        assertEquals("Very good spær", itemListList.get(3).getUseDescription());
-        assertEquals(67.25, itemListList.get(3).getPrice());
+        assertEquals(2, list.get(1).getQuantity());
     }
 
     @Test
-    void sumPrice() throws DatabaseException {
-        //price when looking in the database
-        double currentSum = 250+699+120;
+    void getVariantByVariantId() {
+        //shit function i dont think we are gonna use tbh
+    }
 
-        assertEquals(currentSum, ItemListFacade.sumPrice(1,connectionPool));
+    @Test
+    void addVariant() throws DatabaseException {
+        List<MaterialVariants> list = MaterialVariantsMapper.getAllMaterialVariantsByItemListId(7, connectionPool);
+        MaterialVariantsMapper.addVariant(2,250,8,7,connectionPool);
 
+        List<MaterialVariants> newList = MaterialVariantsMapper.getAllMaterialVariantsByItemListId(7,connectionPool);
+
+        assertEquals(list.size()+1, newList.size());
     }
 }

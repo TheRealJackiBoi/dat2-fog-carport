@@ -1,6 +1,6 @@
 package dat.backend.model.persistence;
 
-import dat.backend.model.entities.ItemList;
+import dat.backend.model.entities.Materials;
 import dat.backend.model.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +9,11 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ItemListMapperTest {
+class MaterialsMapperTest {
 
     private final static String USER = "root";
     private final static String PASSWORD = "StoreOliver";
@@ -53,12 +52,15 @@ class ItemListMapperTest {
             try (Statement stmt = testConnection.createStatement())
             {
                 // TODO: Remove all rows from all tables - add your own tables here
-                stmt.execute("delete from item_list");
+                //cannot delete tables where there are keys being used elsewhere
+                //stmt.execute("delete from materials");
 
                 // TODO: Insert a few users - insert rows into your own tables here
 
-                stmt.execute("insert into item_list (use_description, quantity, price, order_id) " +
-                        "values ('Dette er en spær','15','250','7'),('Stolpe','6','699','7'), ('facade','1','120','7')");
+                /*
+                stmt.execute("insert into materials (description, unit, unit_price, type) " +
+                        "values ('besalg','stk','25','misc'),('35mm','stk','42','misc'), ('50mm','stk','50','misc')");
+                */
             }
         }
         catch (SQLException throwables)
@@ -80,32 +82,41 @@ class ItemListMapperTest {
     }
 
     @Test
-    void getItemListByOrderId() throws DatabaseException {
-        //chooseing an arbitary high number to show that it sends exception if the "item" is not found in database
-        List<ItemList> emptylist = new ArrayList<>();
-        assertEquals(emptylist,ItemListFacade.getItemListByOrderId(999999, connectionPool));
+    void getMaterialsByMaterialId() throws DatabaseException {
+        Materials materials = MaterialsMapper.getMaterialsByMaterialId(4,connectionPool);
 
-
-        List<ItemList> itemListList = ItemListFacade.getItemListByOrderId(1,connectionPool);
-        ItemList item = new ItemList(19, "Dette er en spær", 15, 250, 1);
-        assertEquals(item.getQuantity(), itemListList.get(0).getQuantity());
+        assertEquals("20x15", materials.getDescription());
+        assertEquals(97,materials.getUnitPrice());
     }
 
     @Test
-    void addItem() throws DatabaseException {
-        ItemListFacade.addItem(1,"Very good spær", 25, 67.25, connectionPool);
+    void getMaterialByType() throws DatabaseException {
+        List<Materials> list = MaterialsMapper.getMaterialByType("wood", connectionPool);
 
-        List<ItemList> itemListList = ItemListFacade.getItemListByOrderId(1,connectionPool);
-        assertEquals("Very good spær", itemListList.get(3).getUseDescription());
-        assertEquals(67.25, itemListList.get(3).getPrice());
+        assertEquals("wood", list.get(0).getType());
+        assertEquals("wood", list.get(1).getType());
+        assertEquals("wood", list.get(2).getType());
+        assertEquals("wood", list.get(3).getType());
+        assertEquals("wood", list.get(4).getType());
+        assertEquals("wood", list.get(5).getType());
+        assertEquals(6,list.size());
     }
 
     @Test
-    void sumPrice() throws DatabaseException {
-        //price when looking in the database
-        double currentSum = 250+699+120;
+    void getMaterialByDescription() throws DatabaseException {
+        List<Materials> materials = MaterialsMapper.getMaterialByDescription("25x25", connectionPool);
 
-        assertEquals(currentSum, ItemListFacade.sumPrice(1,connectionPool));
+        assertEquals(1, materials.size());
+        assertEquals(120, materials.get(0).getUnitPrice());
 
+    }
+
+    @Test
+    void addMaterial() throws DatabaseException {
+        MaterialsMapper.addMaterial("Stor ting", "stk", 4000, "misc", connectionPool);
+
+        List<Materials> list= MaterialsMapper.getMaterialByDescription("Stor ting", connectionPool);
+        assertEquals("Stor ting",list.get(0).getDescription());
+        assertEquals(4000, list.get(0).getUnitPrice());
     }
 }

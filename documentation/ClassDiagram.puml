@@ -1,0 +1,125 @@
+@startuml
+
+class Orders
+class User
+class Calculator
+class Item_list
+class Material_variants
+class Materials
+
+User --* Orders : has-many
+Orders --* Item_list : has-a
+Item_list --* Material_variants : has-many
+Material_variants --* Materials : has-many
+
+
+
+class Orders{
+    -int length
+    -int width
+    -int height
+    -double s_width
+    -double s_length
+    -User user;
+    -int price
+
+
+   +int getWidth()
+   +void setWidth(int width)
+   +int getLength()
+   +void set_length(int length)
+   +int set_s_width()
+   +void s_width(int r_width)
+   +int getR_length()
+   +void setR_length(int r_length)
+   +Carport(int width, int length)
+}
+
+static class Calculator{
+    List<Materials> MaterialList
+    -int beamQuantity
+    -int remQuantity
+    -int poleQuantity
+    -int beamPrice
+    -int remPrice
+    -int polePrice
+
+    +int calculateBeamQuantity()
+    +int calculateRemQuantity()
+    +int calculatePoleQuantity()
+    +int calculateBeamPrice()
+    +int calculateRemPrice()
+    +int calculatePolePrice()
+}
+
+class User{
+    -String email
+    -String password
+    -String name
+    -int zip_code
+    -String city
+    -String adress
+    -String role
+
+    +User(Constructor)
+    +void setEmail()
+    +String getEmail()
+    +void setPassword()
+    +String getPassword()
+    +void setName()
+    +String getName()
+    +void setZip_code()
+    +int getZip_code()
+    +void setCity()
+    +String getCity()
+    +void setAdress()
+    +String getAdress()
+    +void setRole()
+    +String getRole()
+
+}
+class Item_list{
+    -String use_description
+    -int quantity
+    -double price
+
+    +void setUse_desciption
+    +String getUse_description
+    +void setQuantity
+    +int getQuantity
+    +void setPrice
+    +double getPrice
+
+}
+class Materials{
+    -String description
+    -String unit
+    -double unitPrice
+    -String material
+    -String type
+
+    +void setDesctription()
+    +String getDescription()
+    +void setUnit()
+    +String getUnit()
+    +void setUnitPice()
+    +double getUnitPrice()
+    +void setMaterial()
+    +String getMaterial()
+    +void setType()
+    +String getType()
+
+}
+
+class Material_variants {
+    -double length
+    -int quantity
+
+    +void set_length()
+    +double getLength()
+    +void setQuantity()
+    +int getQuantity()
+}
+
+
+@enduml
