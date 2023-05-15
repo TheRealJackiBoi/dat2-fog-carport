@@ -41,11 +41,11 @@ class UserMapper
         return user;
     }
 
-    static User createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException
+    static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException
     {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
-        String sql = "insert into user (email, password, name, zip, city, address) values (?,?,?,?,?,?)";
+        String sql = "insert into user (email, password, name, zip, city, adress, role) values (?,?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
@@ -56,36 +56,16 @@ class UserMapper
                 ps.setInt(4, zip);
                 ps.setString(5, city);
                 ps.setString(6, address);
+                ps.setString(7, role);
 
-                int rowsAffected = ps.executeUpdate();
-                ResultSet rs = ps.getGeneratedKeys();
-                if (rowsAffected == 1)
-                {
-                    int id = rs.getInt(1);
-                    user = new User(id, email, password, role);
-                } else
-                {
-                    throw new DatabaseException("The user with username = " + email + " could not be inserted into the database");
-                }
+                ps.executeUpdate();
             }
         }
         catch (SQLException ex)
         {
             throw new DatabaseException(ex, "Could not insert username into database");
         }
-        return user;
     }
-    //static User getUserId(ConnectionPool connectionPool){
-     //   String sql = "SELECT * FROM user WHERE user_id = ?";
-
-      ////  try (PreparedStatement ps = connection.prepareStatement(sql)){
-
-
-         //   }
-
-       // }
-
-  //  }
 
 
 }
