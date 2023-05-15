@@ -33,7 +33,7 @@ public class SignUp extends HttpServlet {
         String city = request.getParameter("city");
         String address = request.getParameter("address");
 
-        try{
+        try {
             user = UserFacade.createUser(email, password, name, zip, city, address, "customer", connectionPool);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (DatabaseException e) {
