@@ -25,9 +25,10 @@ public class EditUser extends HttpServlet {
         // Find the user object in session scope
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        String email = user.getEmail();
+        int id = user.getId();
+        // Fetch userId from current session user
         try {
-            user = UserFacade.getUserByEmail(email, connectionPool);
+            user = UserFacade.getUserById(id, connectionPool);
         } catch (DatabaseException e) {
             e.printStackTrace();
         }
@@ -39,6 +40,10 @@ public class EditUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        // Save variables for facade methods
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
@@ -46,14 +51,6 @@ public class EditUser extends HttpServlet {
         String city = request.getParameter("city");
         String address = request.getParameter("address");
         String role = request.getParameter("role");
-
-        User user = null;
-
-        try {
-            user = UserFacade.getUserByEmail(email, connectionPool);
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
         request.setAttribute("email", user);
 
         // Fetch user ID for updateUser method
@@ -64,26 +61,11 @@ public class EditUser extends HttpServlet {
             UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
 
             // Save updated user to sessionscope
-            HttpSession session = request.getSession();
-            user = UserFacade.getUserByEmail(((User)session.getAttribute("user")).getEmail(), connectionPool);
+            user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
             request.getSession().setAttribute("user", user);
             response.sendRedirect("edituser");
         } catch (DatabaseException e) {
             e.printStackTrace();
         }
-
-        /*
-        try {
-            UserMapper.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
-
-            //update current user
-            HttpSession session = request.getSession();
-            user = UserFacade.getUserByEmail(((User)session.getAttribute("user")).getEmail(), connectionPool);
-            request.getSession().setAttribute("user", user);
-            response.sendRedirect("edituser");
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
-         */
     }
 }

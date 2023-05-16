@@ -29,4 +29,8 @@ public class UserFacade
     public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
         return UserMapper.getUserByEmail(email, connectionPool);
     }
+
+    public static User getUserById(int id, ConnectionPool connectionPool) throws DatabaseException {
+        return UserMapper.getUserById(id, connectionPool);
+    }
 }

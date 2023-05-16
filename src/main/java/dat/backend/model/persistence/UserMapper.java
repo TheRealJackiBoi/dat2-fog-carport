@@ -103,7 +103,7 @@ public class UserMapper
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE email = ?";
 
-        List<User> userList = new ArrayList<>();
+        //List<User> userList = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -120,6 +120,35 @@ public class UserMapper
                     String role = resultSet.getString("role");
 
                     User newUser = new User(id, email_, password, name, zip, city, address, role);
+                    return newUser;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not fetch user information from email");
+        }
+        return null;
+    }
+
+    public static User getUserById(int id, ConnectionPool connectionPool) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        String sql = "SELECT * FROM user WHERE id = ?";
+
+        //List<User> userList = new ArrayList<>();
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    String name = resultSet.getString("name");
+                    int zip = resultSet.getInt("zip");
+                    String city = resultSet.getString("city");
+                    String address = resultSet.getString("address");
+                    String role = resultSet.getString("role");
+
+                    User newUser = new User(id, email, password, name, zip, city, address, role);
                     return newUser;
                 }
             }
@@ -152,6 +181,4 @@ public class UserMapper
         }
         return null;
     }
-
-
 }
