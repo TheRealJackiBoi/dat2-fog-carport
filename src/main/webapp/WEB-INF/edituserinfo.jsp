@@ -3,9 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
 
-<!-- TODO: NEEDS TO BE LINKED FROM SOMEWHERE -->
-
-
 <t:pagetemplate>
     <jsp:attribute name="header">
          Welcome to the logged in area
@@ -18,6 +15,13 @@
         </c:if>
 
         <h1 class="text-center">Ændre dine oplysninger</h1>
+        <h4 class="text-center">
+            <!-- TODO: Create boolean in servlet for when information is updated. Output error code in case of error -->
+            <c:choose>
+            <c:when test="${requestScope.updated == true}">Dine oplysninger er blevet ændret i databasen!</c:when>
+            <c:otherwise>Vi kunne ikke opdatere dine oplysninger</c:otherwise>
+            </c:choose>
+        </h4>
         <div class="container w-50 p-2 mt-4">
             <form action="edituser" name="edituser" method="POST">
                 <div class="mt-2">

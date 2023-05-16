@@ -159,7 +159,7 @@ public class UserMapper
     }
 
     public static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
-        //TODO: Update information based on user ID and not email
+        //TODO: Check if new email is already taken by another user!
 
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "UPDATE user SET email = ?, password = ?, name = ?, zip = ?, city = ?, address = ? WHERE id = ?";

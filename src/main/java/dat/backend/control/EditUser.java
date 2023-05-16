@@ -17,9 +17,6 @@ import java.util.List;
 public class EditUser extends HttpServlet {
     private static ConnectionPool connectionPool = ApplicationStart.getConnectionPool();
 
-    // TODO: FIX methods - it doesn't show current info
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Find the user object in session scope
@@ -42,6 +39,7 @@ public class EditUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        boolean updated = false;
 
         // Save variables for facade methods
         String email = request.getParameter("email");
