@@ -78,19 +78,6 @@ class MaterialVariantsMapperTest {
         }
     }
 
-    /*
-    DELETE THIS WHEN DATABASE IS FIXED
-    @Test
-    void getAllMaterialVariantsByItemListId() throws DatabaseException {
-        List<MaterialVariants> list = MaterialVariantsMapper.getAllMaterialVariantsByItemListId(7,connectionPool);
-
-        assertEquals(3, list.size());
-
-        assertEquals(12,list.get(0).getQuantity());
-
-        assertEquals(560, list.get(2).getLength());
-    }
-    */
 
     @Test
     void getVariantsByMaterialId() throws DatabaseException {

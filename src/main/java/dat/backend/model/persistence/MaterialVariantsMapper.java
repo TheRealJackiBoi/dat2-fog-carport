@@ -13,38 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MaterialVariantsMapper {
-
-    //THERE ISENT AN ITEMLIST ID IN THE MATERIAL_VARIATNS TABLE ANYMORE.
-
-    /*
-    DELETE THIS WHEN DATABASE IS FIXED
-    static List<MaterialVariants> getAllMaterialVariantsByItemListId(int itemListId, ConnectionPool connectionPool) throws DatabaseException {
-        Logger.getLogger("web").log(Level.INFO, "");
-
-        List<MaterialVariants> materialVariantsList = new ArrayList<>();
-
-        String sql = "SELECT * FROM material_variants WHERE item_list_id = ?";
-
-        try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql)){
-                ps.setInt(1,itemListId);
-                ResultSet rs = ps.executeQuery();
-
-                while(rs.next()){
-                    int variantId = rs.getInt("variant_id");
-                    double length = rs.getDouble("length");
-                    int quantity = rs.getInt("quantity");
-                    int materialId = rs.getInt("material_id");
-                    //int itemListId = rs.getInt("item_list_id");
-                    materialVariantsList.add(new MaterialVariants(variantId,length,quantity,materialId,itemListId));
-                }
-            }
-        }catch (SQLException e){
-            throw new DatabaseException(e, "We couldnt get all the variants for this material");
-        }
-        return materialVariantsList;
-    }
-     */
+    
 
     static List<MaterialVariants> getVariantsByMaterialId(int materialId, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
