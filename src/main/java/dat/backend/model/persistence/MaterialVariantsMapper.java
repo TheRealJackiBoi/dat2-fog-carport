@@ -14,6 +14,10 @@ import java.util.logging.Logger;
 
 public class MaterialVariantsMapper {
 
+    //THERE ISENT AN ITEMLIST ID IN THE MATERIAL_VARIATNS TABLE ANYMORE.
+
+    /*
+    DELETE THIS WHEN DATABASE IS FIXED
     static List<MaterialVariants> getAllMaterialVariantsByItemListId(int itemListId, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -40,6 +44,7 @@ public class MaterialVariantsMapper {
         }
         return materialVariantsList;
     }
+     */
 
     static List<MaterialVariants> getVariantsByMaterialId(int materialId, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
@@ -58,8 +63,7 @@ public class MaterialVariantsMapper {
                     double length = rs.getDouble("length");
                     int quantity = rs.getInt("quantity");
                     //int materialId = rs.getInt("material_id");
-                    int itemListId = rs.getInt("item_list_id");
-                    materialVariantsList.add(new MaterialVariants(variantId,length,quantity,materialId,itemListId));
+                    materialVariantsList.add(new MaterialVariants(variantId,length,quantity,materialId));
                 }
             }
         }catch (SQLException e){
@@ -85,8 +89,7 @@ public class MaterialVariantsMapper {
                     double length = rs.getDouble("length");
                     int quantity = rs.getInt("quantity");
                     int materialId = rs.getInt("material_id");
-                    int itemListId = rs.getInt("item_list_id");
-                    variant = new MaterialVariants(variantId,length,quantity,materialId,itemListId);
+                    variant = new MaterialVariants(variantId,length,quantity,materialId);
                 }
             }
         }catch (SQLException e){

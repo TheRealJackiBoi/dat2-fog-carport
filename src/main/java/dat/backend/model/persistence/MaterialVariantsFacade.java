@@ -7,9 +7,13 @@ import java.util.List;
 
 public class MaterialVariantsFacade {
 
+    /*
+    DELETE THIS WHEN DATABASE IS FIXED
     public static List<MaterialVariants> getAllMaterialVariantsByItemListId(int itemListId, ConnectionPool connectionPool) throws DatabaseException {
         return MaterialVariantsMapper.getAllMaterialVariantsByItemListId(itemListId, connectionPool);
     }
+
+     */
 
     public static List<MaterialVariants> getVariantsByMaterialId(int materialId, ConnectionPool connectionPool) throws DatabaseException {
         return MaterialVariantsMapper.getVariantsByMaterialId(materialId, connectionPool);

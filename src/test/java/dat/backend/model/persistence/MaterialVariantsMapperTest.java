@@ -56,8 +56,8 @@ class MaterialVariantsMapperTest {
 
                 // TODO: Insert a few users - insert rows into your own tables here
 
-                stmt.execute("insert into material_variants (length, quantity, material_id, item_list_id) " +
-                        "values ('320','12','1','7'),('170','6','3','7'), ('560','2','3','7')");
+                stmt.execute("insert into material_variants (length, quantity, material_id) " +
+                        "values ('320','12','1'),('170','6','3'), ('560','2','3')");
             }
         }
         catch (SQLException throwables)
@@ -78,6 +78,8 @@ class MaterialVariantsMapperTest {
         }
     }
 
+    /*
+    DELETE THIS WHEN DATABASE IS FIXED
     @Test
     void getAllMaterialVariantsByItemListId() throws DatabaseException {
         List<MaterialVariants> list = MaterialVariantsMapper.getAllMaterialVariantsByItemListId(7,connectionPool);
@@ -88,6 +90,7 @@ class MaterialVariantsMapperTest {
 
         assertEquals(560, list.get(2).getLength());
     }
+    */
 
     @Test
     void getVariantsByMaterialId() throws DatabaseException {
@@ -103,10 +106,10 @@ class MaterialVariantsMapperTest {
 
     @Test
     void addVariant() throws DatabaseException {
-        List<MaterialVariants> list = MaterialVariantsMapper.getAllMaterialVariantsByItemListId(7, connectionPool);
+        List<MaterialVariants> list = MaterialVariantsMapper.getVariantsByMaterialId(3, connectionPool);
         MaterialVariantsMapper.addVariant(2,250,8,7,connectionPool);
 
-        List<MaterialVariants> newList = MaterialVariantsMapper.getAllMaterialVariantsByItemListId(7,connectionPool);
+        List<MaterialVariants> newList = MaterialVariantsMapper.getVariantsByMaterialId(3,connectionPool);
 
         assertEquals(list.size()+1, newList.size());
     }
