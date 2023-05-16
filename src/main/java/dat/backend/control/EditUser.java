@@ -17,18 +17,15 @@ import java.util.List;
 public class EditUser extends HttpServlet {
     private static ConnectionPool connectionPool = ApplicationStart.getConnectionPool();
 
+    // TODO: FIX methods - it doesn't show current info
+
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("email");
+        User user = UserFacade.getUserByEmail(email, connectionPool);
 
-
-        List<User> userList = null;
-        try {
-            userList = UserFacade.getAllUsers(connectionPool);
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("userList", userList);
-
+        request.setAttribute("edituser", user);
         request.getRequestDispatcher("WEB-INF/edituserinfo.jsp").forward(request, response);
 
     }
@@ -46,11 +43,6 @@ public class EditUser extends HttpServlet {
 
         User user = UserFacade.getUserByEmail(email, connectionPool);
         request.setAttribute("email", user);
-        request.setAttribute("password", user);
-        request.setAttribute("name", user);
-        request.setAttribute("zip", user);
-        request.setAttribute("city", user);
-        request.setAttribute("address", user);
 
         try {
             UserMapper.updateUser(email, password, name, zip, city, address, role, connectionPool);

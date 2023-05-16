@@ -17,35 +17,40 @@
                     href="../login.jsp">Login</a></p>
         </c:if>
 
-        <div class="container mx-auto">
-        <form action="edituser" name="edituser" method="POST">
-        <div class="mx-auto col-lg-4">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="${requestScope.email}" required>
+        <h1 class="text-center">Opret Din Bruger</h1>
+        <div class="container w-50 p-2 mt-4">
+            <form action="edituser" name="edituser" method="POST">
+                <div class="mt-2">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="${requestScope.edituser.email}" required>
+                </div>
+                <div class="mt-2">
+                    <label for="password">Kodeord</label>
+                    <input type="password" class="form-control" id="password" name="password" value="${requestScope.edituser.password}"required>
+                </div>
+                <div class="mt-2">
+                    <label for="name">Navn</label>
+                    <input type="text" class="form-control" id="name" name="name" value="${requestScope.edituser.name}" required>
+                </div>
+                <div class="form-row mt-2">
+                    <label for="address">Adresse</label>
+                    <input type="text" class="form-control" id="address" name="address" value="${requestScope.edituser.address}" required>
+                </div>
+
+                <div class="d-inline-flex justify-content-between w-100 mt-2">
+                    <div class="col-8">
+                        <label for="city">By</label>
+                        <input type="text" id="city" class="form-control " name="city" value="${requestScope.edituser.city}" required>
+                    </div>
+                    <div class="col-3">
+                        <label for="zip">Post-nr.</label>
+                        <input type="text" id="zip" class="form-control" name="zip" value="${requestScope.edituser.zip}"required><br>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary col-3" type="submit">Bekræft ændringer</button>
+            </form>
         </div>
-        <div class="mx-auto col-lg-4">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" value="${requestScope.password}" required>
-        </div>
-        <div class="mx-auto col-md-4">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Jon Bertelsen" required>
-        </div>
-        <div class="mx-auto col-md-4">
-            <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="Østerbrogade 4, 1. th." required>
-        </div>
-        <div class="row mx-auto col-md-4">
-            <div class="col">
-                <label for="city">City</label>
-                <input type="text" id="city" class="form-control" name="city" placeholder="København" required>
-            </div>
-            <div class="col">
-                <label for="zip">Zip</label>
-                <input type="text" id="zip" class="form-control" name="zip" placeholder="2100" required><br>
-            </div>
-        </div>
-        </form>
     </jsp:body>
 
 </t:pagetemplate>
