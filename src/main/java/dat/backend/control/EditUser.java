@@ -47,7 +47,6 @@ public class EditUser extends HttpServlet {
         String address = request.getParameter("address");
         String role = request.getParameter("role");
 
-
         User user = null;
 
         try {
@@ -57,8 +56,25 @@ public class EditUser extends HttpServlet {
         }
         request.setAttribute("email", user);
 
+        // Fetch user ID for updateUser method
+        int id = user.getId();
+
         try {
-            UserMapper.updateUser(email, password, name, zip, city, address, role, connectionPool);
+            // Update the current user
+            UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
+
+            // Save updated user to sessionscope
+            HttpSession session = request.getSession();
+            user = UserFacade.getUserByEmail(((User)session.getAttribute("user")).getEmail(), connectionPool);
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect("edituser");
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+
+        /*
+        try {
+            UserMapper.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
 
             //update current user
             HttpSession session = request.getSession();
@@ -68,5 +84,6 @@ public class EditUser extends HttpServlet {
         } catch (DatabaseException e) {
             e.printStackTrace();
         }
+         */
     }
 }
