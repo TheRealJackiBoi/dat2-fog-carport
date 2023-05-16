@@ -33,12 +33,17 @@ class UserMapper {
         return user;
     }
 
-    static User createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+
+    static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException
+    {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
-        String sql = "insert into user (email, password, name, zip, city, address, role) values (?,?,?,?,?,?,?)";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        String sql = "insert into user (email, password, name, zip, city, adress, role) values (?,?,?,?,?,?,?)";
+        try (Connection connection = connectionPool.getConnection())
+        {
+            try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
+            {
+
                 ps.setString(1, email);
                 ps.setString(2, password);
                 ps.setString(3, name);
@@ -47,17 +52,12 @@ class UserMapper {
                 ps.setString(6, address);
                 ps.setString(7, role);
 
-                int rowsAffected = ps.executeUpdate();
-                if (rowsAffected == 1) {
-                    user = new User(email, password, role);
-                } else {
-                    throw new DatabaseException("The user with username = " + email + " could not be inserted into the database");
-                }
+                ps.executeUpdate();
+
             }
         }
         catch (SQLException ex) {
             throw new DatabaseException(ex, "Could not insert username into database");
         }
-        return user;
     }
 }
