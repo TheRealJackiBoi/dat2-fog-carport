@@ -3,6 +3,7 @@ package dat.backend.model.persistence;
 import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class UserMapper
     {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
-        String sql = "insert into user (email, password, name, zip, city, adress, role) values (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO user (email, password, name, zip, city, adress, role) values (?,?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))
@@ -98,7 +99,7 @@ public class UserMapper
         return userList;
     }
 
-    public static User getUserByEmail(String email, ConnectionPool connectionPool) {
+    public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE email = ?";
 
@@ -123,12 +124,14 @@ public class UserMapper
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException(e, "Could not fetch user information from email");
         }
         return null;
     }
 
     public static User updateUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+        //TODO: Update information based on user ID and not email
+
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "UPDATE user SET email = ?, password = ?, name = ?, zip = ?, city = ?, address = ?, role = ? WHERE email = ?";
 

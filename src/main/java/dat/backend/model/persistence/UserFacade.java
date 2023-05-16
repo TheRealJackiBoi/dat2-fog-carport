@@ -3,6 +3,7 @@ package dat.backend.model.persistence;
 import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 public class UserFacade
@@ -25,7 +26,7 @@ public class UserFacade
         return UserMapper.updateUser(email, password, name, zip, city, address, role, connectionPool);
     }
 
-    public static User getUserByEmail(String email, ConnectionPool connectionPool) {
+    public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
         return UserMapper.getUserByEmail(email, connectionPool);
     }
 }

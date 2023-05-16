@@ -22,8 +22,15 @@ public class EditUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        User user = UserFacade.getUserByEmail(email, connectionPool);
+        // Find the user object in session scope
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String email = user.getEmail();
+        try {
+            user = UserFacade.getUserByEmail(email, connectionPool);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
 
         request.setAttribute("edituser", user);
         request.getRequestDispatcher("WEB-INF/edituserinfo.jsp").forward(request, response);
@@ -41,7 +48,13 @@ public class EditUser extends HttpServlet {
         String role = request.getParameter("role");
 
 
-        User user = UserFacade.getUserByEmail(email, connectionPool);
+        User user = null;
+
+        try {
+            user = UserFacade.getUserByEmail(email, connectionPool);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
         request.setAttribute("email", user);
 
         try {
