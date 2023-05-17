@@ -226,19 +226,19 @@ public class OrdersMapper {
         }
     }
 
-    static void updateSpecificOrderById(int orderId, int width, int length, int height, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateSpecificOrderById(int orderId, double width, double length, double height, ConnectionPool connectionPool) throws DatabaseException {
 
         String sql = "UPDATE orders SET (c_width, c_length, c_height) = (?,?,?) WHERE order_id = ?";
 
         try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql)){
-                ps.setInt(1,width);
-                ps.setInt(2, length);
-                ps.setInt(3, height);
+            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setDouble(1,width);
+                ps.setDouble(2, length);
+                ps.setDouble(3, height);
 
             }
         } catch (SQLException e){
-            throw new DatabaseException(e, "Something went wrong when updating the dimensions of the carport")
+            throw new DatabaseException(e, "Something went wrong when updating the dimensions of the carport");
         }
     }
 }

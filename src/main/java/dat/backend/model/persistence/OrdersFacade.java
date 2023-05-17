@@ -41,4 +41,8 @@ public class OrdersFacade {
     public static void changeStatusByOrderIdToAccepted(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         OrdersMapper.changeStatusByOrderIdToAccepted(orderId, connectionPool);
     }
-}
+    public static void updateSpecificOrderById(int orderId, double width, double length, double height, ConnectionPool connectionPool) throws DatabaseException {
+        OrdersMapper.updateSpecificOrderById(orderId, width, length, height, connectionPool);
+    }
+
+    }
