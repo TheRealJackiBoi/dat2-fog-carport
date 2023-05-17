@@ -32,13 +32,12 @@
                 <td>${order.salesPrice}</td>
                 <td>${order.status}</td>
                 <td>
-
                     <form action="viewSpecificOrder">
                         <button class="btn btn-primary" name="button" value="${order.orderId}">
                             Se Order
                         </button>
                     </form>
-                    <form action="annuller">
+                    <form action="cancelorder">
                         <button class="btn btn-danger">
                         Annuller
                         </button>
