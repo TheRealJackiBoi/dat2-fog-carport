@@ -11,7 +11,6 @@
 
     <jsp:body>
         <h1 class="text-center">Se alle ordrer</h1> <br/>
-        ${requestScope.list}
         <table class="table table-hover table-striped">
         <thead>
         <tr>
@@ -33,10 +32,10 @@
                 <td>${order.salesPrice}</td>
                 <td>${order.status}</td>
                 <td>
-                    <button formaction="seOrder" name="item_id" value="seOrder">
+                    <button formaction="seOrder" class="btn btn-primary" name="item_id" value="seOrder">
                         Se Order
                     </button>
-                    <button formaction="annuller" name="item_id" value="annuller">
+                    <button formaction="annuller" name="item_id" class="btn btn-danger" value="annuller">
                         Annuller
                     </button>
                 </td>

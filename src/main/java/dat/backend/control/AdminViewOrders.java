@@ -32,19 +32,23 @@ public class AdminViewOrders extends HttpServlet
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        List<Order> orders;
 
-
+        if(user == null){
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        }
+        else {
         try {
-            List<Order> orders = OrdersFacade.getEmailByUserId(connectionPool);
+            orders = OrdersFacade.getEmailByUserId(connectionPool);
             request.setAttribute("list", orders);
-            System.out.println("jeg hedder william");
-            System.out.println(orders);
             request.getRequestDispatcher("WEB-INF/admin-view-orders.jsp").forward(request, response);
-        } catch (DatabaseException e) {
+            } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
         }
-
 
     }
 
