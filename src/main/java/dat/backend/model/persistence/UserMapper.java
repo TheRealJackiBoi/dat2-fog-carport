@@ -4,6 +4,8 @@ import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,17 +77,5 @@ class UserMapper
         }
         return user;
     }
-    //static User getUserId(ConnectionPool connectionPool){
-     //   String sql = "SELECT * FROM user WHERE user_id = ?";
-
-      ////  try (PreparedStatement ps = connection.prepareStatement(sql)){
-
-
-         //   }
-
-       // }
-
-  //  }
-
 
 }
