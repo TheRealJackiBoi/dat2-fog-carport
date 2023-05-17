@@ -225,4 +225,20 @@ public class OrdersMapper {
             throw new DatabaseException(e, "Something went wrong when trying to change status on this Order");
         }
     }
+
+    static void updateSpecificOrderById(int orderId, int width, int length, int height, ConnectionPool connectionPool) throws DatabaseException {
+
+        String sql = "UPDATE orders SET (c_width, c_length, c_height) = (?,?,?) WHERE order_id = ?";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setInt(1,width);
+                ps.setInt(2, length);
+                ps.setInt(3, height);
+
+            }
+        } catch (SQLException e){
+            throw new DatabaseException(e, "Something went wrong when updating the dimensions of the carport")
+        }
+    }
 }
