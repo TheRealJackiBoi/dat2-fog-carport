@@ -15,30 +15,58 @@
         <h1 class="text-center">Design din carport</h1>
 
         <div class="container">
-            <form name="ordering" method="post">
+            <c:if test="${sessionScope.current_order_id != null}">
+            <form method="post">
                 <div class="form inline">
                 <div class="mx-auto col-10 col-md-8 col-lg-3">
-                    <label for="enterHeight">Højde i meter</label>
-                    <input type="number" step="0.01" class="form-control" id="enterHeight" name="height" placeholder="Enter Height">
-                </div><br>
-                <div class="mx-auto col-10 col-md-8 col-lg-3">
                     <label for="enterWidth">Bredde i meter</label>
-                    <input type="number" step="0.01" class="form-control" id="enterWidth" name="width" placeholder="Enter Width">
+                    <input type="number" step="0.01" min="2" max="6.80" class="form-control" id="enterWidth" name="width" placeholder="Bredde" value="${requestScope.width}">
                 </div><br>
                 </div>
                 <div class="mx-auto col-10 col-md-8 col-lg-3">
                     <label for="enterLength">Længde i meter</label>
-                    <input type="number" step="0.01" class="form-control" id="enterLength" name="length" placeholder="Enter Length">
+                    <input type="number" step="0.01" min="3.50" max="7.80" class="form-control" id="enterLength" name="length" placeholder="Længde" value="${requestScope.length}">
+                </div><br>
+                <div class="mx-auto col-10 col-md-8 col-lg-3">
+                    <label for="enterHeight">Højde i meter</label>
+                    <input type="number" step="0.01" min="2.30" max="3"class="form-control" id="enterHeight" name="height" placeholder="Højde" value="${requestScope.height}">
                 </div><br>
                 <div class="mx-auto col-10 col-md-8 col-lg-3">
                     <textarea for="textArea" rows="3"  placeholder="Skrive her" class="w-100"></textarea>
                 </div><br>
                 <div class="mx-auto mx-auto col-10 col-md-8 col-lg-3 d-flex justify-content-between">
                     <button type="submit" formaction="cancelorder" formmethod="post" class="btn btn-danger">Cancel</button>
-                    <button type="submit" formaction="ordering" formmethod="post" name="submit" value="update" class="btn btn-primary">Opdater</button>
-                    <button type="submit" formaction="ordering" formmethod="post" name="submit" value="order" class="btn btn-success">Bestil</button>
+                    <button type="submit" formaction="bestil" formmethod="post" name="submit" value="update" class="btn btn-primary">Opdater</button>
+                    <button type="submit" formaction="bestil" formmethod="post" name="submit" value="order" class="btn btn-success">Bestil</button>
                 </div>
             </form>
+            </c:if>
+            <c:if test="${sessionScope.current_order_id == null}">
+                <form method="post">
+                    <div class="form inline">
+                        <div class="mx-auto col-10 col-md-8 col-lg-3">
+                            <label for="enterHeight">Højde i meter</label>
+                            <input type="number" step="0.01" class="form-control" id="enterHeight" name="height" placeholder="Enter Height">
+                        </div><br>
+                        <div class="mx-auto col-10 col-md-8 col-lg-3">
+                            <label for="enterWidth">Bredde i meter</label>
+                            <input type="number" step="0.01" class="form-control" id="enterWidth" name="width" placeholder="Enter Width">
+                        </div><br>
+                    </div>
+                    <div class="mx-auto col-10 col-md-8 col-lg-3">
+                        <label for="enterLength">Længde i meter</label>
+                        <input type="number" step="0.01" class="form-control" id="enterLength" name="length" placeholder="Enter Length">
+                    </div><br>
+                    <div class="mx-auto col-10 col-md-8 col-lg-3">
+                        <textarea for="textArea" rows="3"  placeholder="Skrive her" class="w-100"></textarea>
+                    </div><br>
+                    <div class="mx-auto mx-auto col-10 col-md-8 col-lg-3 d-flex justify-content-between">
+                        <button type="submit" formaction="cancelorder" formmethod="post" class="btn btn-danger">Cancel</button>
+                        <button type="submit" formaction="bestil" formmethod="post" name="submit" value="update" class="btn btn-primary">Opdater</button>
+                        <button type="submit" formaction="bestil" formmethod="post" name="submit" value="order" class="btn btn-success">Bestil</button>
+                    </div>
+                </form>
+            </c:if>
         </div>
 
 

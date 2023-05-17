@@ -29,7 +29,6 @@ public class CreateOrder extends HttpServlet
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
-        response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null){
@@ -38,18 +37,8 @@ public class CreateOrder extends HttpServlet
 
             int currentOrderId;
             int userId = user.getId();
-            if (session.getAttribute("submit").equals("update")) {
 
-            }
-            else if (session.getAttribute("submit").equals("order")) {
-
-            }
-            else {
-                // You shouldn't end up here
-                request.setAttribute("errormessage", "Hmmm, der gik noget galt🤔");
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-            }
-
+            //pulling dimensions from form on ordering.jsp
             double length = Double.parseDouble(request.getParameter("length"));
             double width = Double.parseDouble(request.getParameter("width"));
             double height = Double.parseDouble(request.getParameter("height"));
@@ -58,25 +47,88 @@ public class CreateOrder extends HttpServlet
             double s_width = 0;
             double s_length = 0;
 
-            try {
-                orderId = OrdersFacade.addOrder(width, length, height, userId, s_width, s_length, connectionPool);
-                session.setAttribute("orderId", orderId);
+            if (request.getParameter("submit").equals("update")) {
 
-                //needs to be send to the right path once that is created
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                if (session.getAttribute("current_order_id") == null) {
+                    try {
+                        currentOrderId = OrdersFacade.addOrder(width, length, height, userId, s_width, s_length, connectionPool);
+                        session.setAttribute("current_order_id", currentOrderId);
 
-            } catch (DatabaseException e) {
-                request.setAttribute("errormessage", e.getMessage());
+                        Order order = OrdersFacade.getOrderByOrderId(currentOrderId, connectionPool);
+                        //forwarding variables to jsp form
+                        request.setAttribute("length", order.getCarportLength());
+                        request.setAttribute("width", order.getCarportWidth());
+                        request.setAttribute("height", order.getCarportHeight());
+
+                        request.getRequestDispatcher("WEB-INF/ordering.jsp").forward(request, response);
+
+                    } catch (DatabaseException e) {
+                        request.setAttribute("errormessage", e.getMessage());
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                } else {
+                    try {
+                        currentOrderId = (int)session.getAttribute("current_order_id");
+                        OrdersFacade.updateSpecificOrderById(currentOrderId, width, length, height, connectionPool);
+                        Order order = OrdersFacade.getOrderByOrderId(currentOrderId, connectionPool);
+
+                        //forwarding variables to jsp form
+                        request.setAttribute("length", order.getCarportLength());
+                        request.setAttribute("width", order.getCarportWidth());
+                        request.setAttribute("height", order.getCarportHeight());
+                        // Forwards to this servlets get method to update the output on the jsp page
+                        request.getRequestDispatcher("WEB-INF/ordering.jsp").forward(request, response);
+                    }
+                    catch (DatabaseException e) {
+                        request.setAttribute("errormessage", e.getMessage());
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                }
+            }
+            else if (request.getParameter("submit").equals("order")) {
+                if (session.getAttribute("current_order_id") == null) {
+                    try {
+                        currentOrderId = OrdersFacade.addOrder(width, length, height, userId, s_width, s_length, connectionPool);
+                        OrdersFacade.changeStatusByOrderIdToOrderPlaced(currentOrderId, connectionPool);
+                        session.setAttribute("orderId", currentOrderId);
+
+                        request.setAttribute("confirmed_order_id", currentOrderId);
+                        session.setAttribute("current_order_id", null);
+                        // TODO: Redirect to some kind of orderconfirmation
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+
+                    } catch (DatabaseException e) {
+                        request.setAttribute("errormessage", e.getMessage());
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                }
+                else {
+                    try {
+                        currentOrderId = (int)session.getAttribute("current_order_id");
+                        OrdersFacade.updateSpecificOrderById(currentOrderId, width, length, height, connectionPool);
+                        OrdersFacade.changeStatusByOrderIdToOrderPlaced(currentOrderId, connectionPool);
+
+                        request.setAttribute("confirmed_order_id", currentOrderId);
+                        session.setAttribute("current_order_id", null);
+                        // TODO: Redirect to some kind of orderconfirmation
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+
+                    } catch (DatabaseException e) {
+                        request.setAttribute("errormessage", e.getMessage());
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                }
+            }
+            else {
+                // You shouldn't end up here
+                request.setAttribute("errormessage", "Hmmm, der gik noget galt🤔");
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
-
         }
-
     }
 //If order id in session scope, get that, then forward ordervalues for form in jsp, else forward null object in order
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null){
