@@ -1,10 +1,16 @@
 package dat.backend.model.persistence;
 
+import dat.backend.model.entities.LinkItemListMaterialVariants;
 import dat.backend.model.exceptions.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LinkItemListMaterialsVariantsMapper {
 
@@ -24,6 +30,5 @@ public class LinkItemListMaterialsVariantsMapper {
         }
     }
 
-
-
+   
 }
