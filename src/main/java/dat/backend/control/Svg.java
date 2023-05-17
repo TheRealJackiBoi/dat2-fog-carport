@@ -35,7 +35,7 @@ public class Svg extends HttpServlet
         carport.addInnerSvg(outerSVG);
 
         request.setAttribute("svg", carport.toString());
-        request.getRequestDispatcher("/svg-drawing.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/svg-drawing.jsp").forward(request, response);
     }
 
     @Override
