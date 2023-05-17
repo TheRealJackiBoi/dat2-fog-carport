@@ -32,12 +32,17 @@
                 <td>${order.salesPrice}</td>
                 <td>${order.status}</td>
                 <td>
-                    <button formaction="seOrder" class="btn btn-primary" name="item_id" value="seOrder">
-                        Se Order
-                    </button>
-                    <button formaction="annuller" name="item_id" class="btn btn-danger" value="annuller">
+
+                    <form action="viewSpecificOrder">
+                        <button class="btn btn-primary" name="button" value="${order.orderId}">
+                            Se Order
+                        </button>
+                    </form>
+                    <form action="annuller">
+                        <button class="btn btn-danger">
                         Annuller
-                    </button>
+                        </button>
+                    </form>
                 </td>
             </tr>
         </c:forEach>
