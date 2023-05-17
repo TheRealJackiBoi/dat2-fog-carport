@@ -41,7 +41,7 @@ public class OrdersFacade {
     public static void changeStatusByOrderIdToAccepted(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         OrdersMapper.changeStatusByOrderIdToAccepted(orderId, connectionPool);
     }
-    public static List<Order> getEmailByUserId(ConnectionPool connectionPool) throws DatabaseException{
-        return OrdersMapper.getEmailByUserId(connectionPool);
+    public static List<Order> getAllOrdersPlusEmail(ConnectionPool connectionPool) throws DatabaseException{
+        return OrdersMapper.getAllOrdersPlusEmail(connectionPool);
     }
 }

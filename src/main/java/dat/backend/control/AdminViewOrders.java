@@ -41,13 +41,14 @@ public class AdminViewOrders extends HttpServlet
         }
         else {
         try {
-            orders = OrdersFacade.getEmailByUserId(connectionPool);
+            orders = OrdersFacade.getAllOrdersPlusEmail(connectionPool);
             request.setAttribute("list", orders);
             request.getRequestDispatcher("WEB-INF/admin-view-orders.jsp").forward(request, response);
             } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
             }
+
         }
 
     }

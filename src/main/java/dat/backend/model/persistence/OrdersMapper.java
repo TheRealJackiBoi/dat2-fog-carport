@@ -226,7 +226,7 @@ public class OrdersMapper {
         }
     }
     //return a list of all orders in the database including the email
-    static List<Order> getEmailByUserId(ConnectionPool connectionPool) throws DatabaseException {
+    static List<Order> getAllOrdersPlusEmail(ConnectionPool connectionPool) throws DatabaseException {
 
         Logger.getLogger("web").log(Level.INFO,"");
         List<Order> orderList = new ArrayList<>();
