@@ -238,7 +238,7 @@ public class OrdersMapper {
 
             }
         } catch (SQLException e){
-            throw new DatabaseException(e, "Something went wrong when updating the dimensions of the carport")
+            throw new DatabaseException(e, "Something went wrong when updating the dimensions of the carport");
         }
     }
 }
