@@ -70,7 +70,7 @@ public class ItemListMapper {
     }
 
     //Hardcoded methods that adds specific variants, since coding automatic choosing would take a lot of time
-    static void addPosts(int orderId, String descripton, int quantity, double price, ConnectionPool connectionPool) throws DatabaseException{
+    static void addPosts(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO,"");
 
         Materials post = MaterialsFacade.getMaterialsByMaterialId(3, connectionPool);
@@ -98,7 +98,7 @@ public class ItemListMapper {
         }
     }
 
-    static void addRafts(int orderId, String descripton, int quantity, double price, ConnectionPool connectionPool) throws DatabaseException{
+    static void addRafts(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO,"");
 
         Materials raft = MaterialsFacade.getMaterialsByMaterialId(2, connectionPool);
@@ -127,7 +127,7 @@ public class ItemListMapper {
         }
     }
 
-    static void addRaisingPlate(int orderId, String descripton, int quantity, double price, ConnectionPool connectionPool) throws DatabaseException{
+    static void addRaisingPlate(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO,"");
 
         Materials raisingPlate = MaterialsFacade.getMaterialsByMaterialId(1, connectionPool);
@@ -156,7 +156,7 @@ public class ItemListMapper {
         }
     }
 
-    static void addRoof(int orderId, String descripton, int quantity, double price, ConnectionPool connectionPool) throws DatabaseException{
+    static void addRoof(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO,"");
 
         Materials raisingPlate = MaterialsFacade.getMaterialsByMaterialId(4, connectionPool);

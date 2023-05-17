@@ -36,8 +36,8 @@ public class LinkItemListMaterialsVariantsMapper {
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
                 ps.setInt(1,itemListId);
-                //3 is posts material ID, so 5-7 is its variants - 5 is 300cm
-                ps.setInt(2, 5);
+                //3 is posts material ID, so 5-7 is its variants - 6 is 420cm
+                ps.setInt(2, 6);
 
                 ps.executeUpdate();
             }
@@ -68,8 +68,8 @@ public class LinkItemListMaterialsVariantsMapper {
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
                 ps.setInt(1,itemListId);
-                //1 is raisingplates material ID, so 1-2 is its variants - 5 is 360cm
-                ps.setInt(2, 1);
+                //1 is raisingplates material ID, so 1-2 is its variants - 2 is 480cm
+                ps.setInt(2, 2);
 
                 ps.executeUpdate();
             }
