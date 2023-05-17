@@ -13,7 +13,6 @@
 
        <img src="${pageContext.request.contextPath}/images/carport.jpg" class="img-fluid">
 
-
     </jsp:body>
 
 </t:pagetemplate>

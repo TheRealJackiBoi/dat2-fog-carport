@@ -5,52 +5,52 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-         Fedt, lad os få dig oprettet!
+         Opret Bruger
     </jsp:attribute>
 
     <jsp:body>
-
-        <div class="container mx-auto">
+        <h1 class="text-center">Opret Din Bruger</h1>
+        <div class="container w-50 p-2 mt-4">
         <form action="signup" name="signup" method="POST">
-            <div class="mx-auto col-lg-4">
+            <div class="mt-2">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com" required>
             </div>
-            <div class="mx-auto col-lg-4">
-                <label for="repeatemail">Repeat email</label>
+            <div class="mt-2">
+                <label for="repeatemail">Gentag email</label>
                 <input type="email" class="form-control" id="repeatemail" name="repeatemail" placeholder="email@email.com" required>
             </div>
-            <div class="mx-auto col-lg-4">
-                <label for="password">Password</label>
+            <div class="mt-2">
+                <label for="password">Kodeord</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required>
             </div>
-            <div class="mx-auto col-lg-4">
-                <label for="repeatpassword">Repeat password</label>
+            <div class="mt-2">
+                <label for="repeatpassword">Gentag Kodeord</label>
                 <input type="password" class="form-control" id="repeatpassword" name="repeatpassword" placeholder="Pa$$w0RD!" required>
             </div>
-            <div class="mx-auto col-md-4">
-                <label for="name">Name</label>
+            <div class="mt-2">
+                <label for="name">Navn</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Jon Bertelsen" required>
             </div>
-            <div class="mx-auto col-md-4">
-                <label for="address">Address</label>
+            <div class="form-row mt-2">
+                <label for="address">Addresse</label>
                 <input type="text" class="form-control" id="address" name="address" placeholder="Østerbrogade 4, 1. th." required>
             </div>
-            <div class="row mx-auto col-md-4">
-                <div class="col">
-                    <label for="city">City</label>
-                    <input type="text" id="city" class="form-control" name="city" placeholder="København" required>
+
+            <div class="d-inline-flex justify-content-between w-100 mt-2">
+                <div class="col-8">
+                    <label for="city">By</label>
+                    <input type="text" id="city" class="form-control " name="city" placeholder="København" required>
                 </div>
-                <div class="col">
-                    <label for="zip">Zip</label>
+                <div class="col-3">
+                    <label for="zip">Post-nr.</label>
                     <input type="text" id="zip" class="form-control" name="zip" placeholder="2100" required><br>
                 </div>
             </div>
-            <div class="row mx-auto col-lg-2">
-                <button class="btn btn-primary" type="submit" >Create user</button>
-            </div>
-        </form>
 
+                <button class="btn btn-primary col-3 float-center" type="submit" >Opret Bruger</button>
+        </form>
+        </div>
 
     </jsp:body>
 

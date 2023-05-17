@@ -9,7 +9,6 @@
              Error page
     </jsp:attribute>
 
-
     <jsp:body>
 
         <p>An error has occured. This is the best message we can come up
