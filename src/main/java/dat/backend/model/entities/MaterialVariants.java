@@ -6,14 +6,13 @@ public class MaterialVariants {
     private double length;
     private int quantity;
     private int materialsId;
-    private int itemListId;
 
-    public MaterialVariants(int variantId, double length, int quantity, int materialsId, int itemListId) {
+
+    public MaterialVariants(int variantId, double length, int quantity, int materialsId) {
         this.variantId = variantId;
         this.length = length;
         this.quantity = quantity;
         this.materialsId = materialsId;
-        this.itemListId = itemListId;
     }
 
     public int getVariantId() {
@@ -32,7 +31,4 @@ public class MaterialVariants {
         return materialsId;
     }
 
-    public int getItemListId() {
-        return itemListId;
-    }
 }

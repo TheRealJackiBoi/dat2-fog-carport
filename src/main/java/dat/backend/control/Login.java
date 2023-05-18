@@ -16,15 +16,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "login", urlPatterns = {"/login"} )
-public class Login extends HttpServlet
-{
+public class Login extends HttpServlet {
     private ConnectionPool connectionPool;
 
     @Override
-    public void init() throws ServletException
-    {
+    public void init() throws ServletException {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
+
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
@@ -32,6 +31,7 @@ public class Login extends HttpServlet
         response.sendRedirect("index.jsp");
     }
 
+  
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
         response.setContentType("text/html");
@@ -40,15 +40,13 @@ public class Login extends HttpServlet
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        try
-        {
+        try {
             User user = UserFacade.login(email, password, connectionPool);
             session = request.getSession();
             session.setAttribute("user", user); // adding user object to session scope
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
-        catch (DatabaseException e)
-        {
+        catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }

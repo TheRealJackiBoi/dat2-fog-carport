@@ -24,7 +24,6 @@ public class SignUp extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         session.setAttribute("user", null); // invalidating user object in session scope
-        User user;
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");

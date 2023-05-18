@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserMapper {
+
+class UserMapper {
     static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
@@ -51,13 +52,14 @@ public class UserMapper {
                 ps.setString(7, role);
 
                 ps.executeUpdate();
+
             }
         }
         catch (SQLException ex) {
             throw new DatabaseException(ex, "Could not insert username into database");
         }
     }
-
+  
     static List<User> getAllUsers(ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user";

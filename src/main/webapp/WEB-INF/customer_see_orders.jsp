@@ -11,8 +11,9 @@
 
     <jsp:body>
 
-        <h1>Dine Ordre</h1>
-        <table class="table table-hover">
+        <h1 class="text-center">Dine Ordre</h1>
+        <br/>
+        <table class="table table-hover table-striped">
             <thead>
             <tr>
                 <th scope="col">#</th>
@@ -21,7 +22,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="order" items="customer_orders" >
+            <c:forEach var="order" items="${requestScope.get('customer_orders')}" >
                 <tr>
                     <th scope="row">${order.orderId}</th>
                     <td>${order.salesPrice}</td>
@@ -29,7 +30,7 @@
                     <form>
                         <input name="specific_order_id" type="number" value="${order.Id}" style="display: none" readonly/>
                         <!-- TODO: place formaction route -->
-                        <button type="submit" formaction="" formmethod="get">See</button>
+                        <button type="submit" formaction="CustomerSeeOrder" formmethod="get">See</button>
                     </form>
                     <c:if test="${order.status.equals('Order_placed') || order.status.equals('Creating')}">
                         <form>
