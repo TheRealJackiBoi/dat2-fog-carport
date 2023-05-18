@@ -42,7 +42,7 @@ class UserMapper {
     static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
-        String sql = "INSERT INTO user (email, password, name, zip, city, adress, role) values (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO user (email, password, name, zip, city, address, role) values (?,?,?,?,?,?,?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, email);
@@ -56,12 +56,11 @@ class UserMapper {
                 ps.executeUpdate();
 
             }
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new DatabaseException(ex, "Could not insert username into database");
         }
     }
-  
+
     static List<User> getAllUsers(ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user";
@@ -69,7 +68,7 @@ class UserMapper {
         List<User> userList = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection()) {
-            try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
@@ -91,7 +90,7 @@ class UserMapper {
         return userList;
     }
 
-    public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
+    static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE email = ?";
 
@@ -121,7 +120,7 @@ class UserMapper {
         return null;
     }
 
-    public static User getUserById(int id, ConnectionPool connectionPool) throws DatabaseException {
+    static User getUserById(int id, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE id = ?";
 
@@ -150,7 +149,7 @@ class UserMapper {
         return null;
     }
 
-    public static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
         //TODO: Check if new email is already taken by another user!
 
         Logger.getLogger("web").log(Level.INFO, "");
@@ -167,10 +166,31 @@ class UserMapper {
                 ps.setInt(7, id);
                 ps.executeUpdate();
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DatabaseException(e, "Failed to update user information");
 
         }
         return null;
+    }
+
+   static List<String> checkEmail(ConnectionPool connectionPool) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        List<String> emailList = new ArrayList<>();
+        String sql = "SELECT email FROM user";
+
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                // preparedStatement.setString(1, email);
+                ResultSet rs = preparedStatement.executeQuery();
+                while (rs.next()) {
+                    String email_ = rs.getString("email");
+                    emailList.add(email_);
+                }
+                return emailList;
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Unable to fetch database information");
+        }
     }
 }

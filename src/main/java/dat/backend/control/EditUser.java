@@ -10,7 +10,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "EditUser", value = "/edituser")
 public class EditUser extends HttpServlet {
@@ -38,7 +37,6 @@ public class EditUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        boolean updated = false;
 
         // Save variables for facade methods
         String email = request.getParameter("email");
@@ -54,6 +52,7 @@ public class EditUser extends HttpServlet {
         int id = user.getId();
 
         try {
+
             // Update the current user
             UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
 
