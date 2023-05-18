@@ -18,7 +18,7 @@
         <h4 class="text-center">
             <!-- TODO: Create boolean in servlet for when information is updated. Output error code in case of error -->
             <c:choose>
-            <c:when test="${requestScope.updated == true}">Dine oplysninger er blevet ændret i databasen!</c:when>
+            <c:when test="${requestScope. == true}">Dine oplysninger er blevet ændret i databasen!</c:when>
             <c:otherwise>Vi kunne ikke opdatere dine oplysninger</c:otherwise>
             </c:choose>
         </h4>

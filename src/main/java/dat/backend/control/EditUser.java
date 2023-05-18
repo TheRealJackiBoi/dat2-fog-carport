@@ -5,14 +5,11 @@ import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.UserFacade;
-import dat.backend.model.persistence.UserMapper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet(name = "EditUser", value = "/edituser")
 public class EditUser extends HttpServlet {
@@ -40,7 +37,6 @@ public class EditUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        boolean updated = false;
 
         // Save variables for facade methods
         String email = request.getParameter("email");
@@ -56,6 +52,7 @@ public class EditUser extends HttpServlet {
         int id = user.getId();
 
         try {
+
             // Update the current user
             UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
 
@@ -63,7 +60,7 @@ public class EditUser extends HttpServlet {
             user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
             request.getSession().setAttribute("user", user);
             response.sendRedirect("edituser");
-        } catch (DatabaseException | SQLException e) {
+        } catch (DatabaseException e) {
             e.printStackTrace();
         }
     }
