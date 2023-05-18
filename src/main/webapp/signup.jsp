@@ -11,7 +11,6 @@
     <jsp:body>
         <h1 class="text-center">Opret Din Bruger</h1>
         <h4 class="text-center">
-            <!-- TODO: Create boolean in servlet for when information is updated. Output error code in case of error -->
             <c:if test="${sessionScope.error}">
                 <c:out value="Denne email er allerede registreret. Log ind eller vælg en anden email"></c:out>
             </c:if>
