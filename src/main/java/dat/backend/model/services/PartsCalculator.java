@@ -6,7 +6,7 @@ public class PartsCalculator {
         //Posts = stolper
 
         // https://www.johannesfog.dk/byggematerialer/trae/stolper/97x97-mm-fuldkantet-fyr-impr-ntr-a-1385097097_0300
-        // pris pr stk = 134,85
+        // price pr post = 134,85
 
         int numberOfPosts = 0;
         double maxSpaceBetweenPosts = 3.1; //each posts can carry 3.1 meter of roof
@@ -41,8 +41,8 @@ public class PartsCalculator {
         //Rafts = spær
         //We assume that our rafts are 45 cm in width and that there needs to be 0.55 cm between each
         // https://www.johannesfog.dk/byggematerialer/trae/spaertrae/47x100-mm-spaertrae-c24-1438047100_0360
-        // pris 89,81
-        // meter pris = 24.94
+        // price 89,81
+        // price pr meter = 24.94
 
         double raftWidth = 0.45;
         double spaceBetweenRafts = 0.55;
@@ -90,6 +90,5 @@ public class PartsCalculator {
         //use description: tagplader	monteres	på	spær
         return numberOfRoofPlates;
     }
-
 
 }
