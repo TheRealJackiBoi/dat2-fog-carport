@@ -35,7 +35,7 @@
                     <textarea for="textArea" rows="3"  placeholder="Skrive her" class="w-100"></textarea>
                 </div><br>
                 <div class="mx-auto mx-auto col-10 col-md-8 col-lg-3 d-flex justify-content-between">
-                    <button type="submit" formaction="cancelorder" formmethod="post" class="btn btn-danger">Cancel</button>
+                    <button type="submit" formaction="annuller_order" formmethod="post" name="order_id" value="${sessionScope.current_order_id}" class="btn btn-danger">Cancel</button>
                     <button type="submit" formaction="bestil" formmethod="post" name="submit" value="update" class="btn btn-primary">Opdater</button>
                     <button type="submit" formaction="bestil" formmethod="post" name="submit" value="order" class="btn btn-success">Bestil</button>
                 </div>
@@ -61,7 +61,6 @@
                         <textarea for="textArea" rows="3"  placeholder="Skrive her" class="w-100"></textarea>
                     </div><br>
                     <div class="mx-auto mx-auto col-10 col-md-8 col-lg-3 d-flex justify-content-between">
-                        <button type="submit" formaction="cancelorder" formmethod="post" class="btn btn-danger">Cancel</button>
                         <button type="submit" formaction="bestil" formmethod="post" name="submit" value="update" class="btn btn-primary">Opdater</button>
                         <button type="submit" formaction="bestil" formmethod="post" name="submit" value="order" class="btn btn-success">Bestil</button>
                     </div>

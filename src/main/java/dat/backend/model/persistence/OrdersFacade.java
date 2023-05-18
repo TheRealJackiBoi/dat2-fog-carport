@@ -45,4 +45,8 @@ public class OrdersFacade {
         OrdersMapper.updateSpecificOrderById(orderId, width, length, height, connectionPool);
     }
 
+    public static void changeStatusByOrderIdToCancelled(int order_id, ConnectionPool connectionPool) throws DatabaseException {
+        OrdersMapper.changeStatusByOrderIdToCancelled(order_id, connectionPool);
+    }
+
     }
