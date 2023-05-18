@@ -9,7 +9,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Locale;
 
-@WebServlet(name = "SvgServlet", value = "/svg-drawing")
+@WebServlet(name = "SvgServlet", value = "/svg")
 public class Svg extends HttpServlet
 {
     @Override
@@ -19,11 +19,14 @@ public class Svg extends HttpServlet
         response.setCharacterEncoding("UTF-8");
         Locale.setDefault(new Locale("US"));
 
-        SVG carport = CarportSVG.createNewSVG(0, 0, 100, 100, "0 0 855 690");
-        SVG outerSVG = CarportSVG.createNewSVG(0,0,100,100, "0 0 855 690");
+        int width = 200;
+        int length = 500;
+        int s_length = 0;
+        int s_width = 0;
 
-        int length = 200;
-        int width = 400;
+        SVG carport = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
+        SVG outerSVG = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
+
         carport = CarportSVG.addBeams(carport, length, width);
         carport = CarportSVG.addSides(carport, length, width);
         carport = CarportSVG.addPoles(carport, length, width);
@@ -35,7 +38,8 @@ public class Svg extends HttpServlet
         carport.addInnerSvg(outerSVG);
 
         request.setAttribute("svg", carport.toString());
-        request.getRequestDispatcher("WEB-INF/svg-drawing.jsp").forward(request, response);
+        request.getRequestDispatcher("/svg-drawing.jsp").forward(request, response);
+
     }
 
     @Override
