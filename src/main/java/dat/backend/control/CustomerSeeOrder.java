@@ -13,7 +13,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "CustomerSeeOrder", value = "/CustomerSeeOrder")
+@WebServlet(name = "CustomerSeeOrder", urlPatterns = {"/CustomerSeeOrder"})
 public class CustomerSeeOrder extends HttpServlet {
 
     private ConnectionPool connectionPool;
@@ -23,6 +23,7 @@ public class CustomerSeeOrder extends HttpServlet {
     {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -30,24 +31,21 @@ public class CustomerSeeOrder extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null){
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        }
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } else {
 
-        try {
-            customer_orders = OrdersFacade.getOrdersByUserId(user.getId(), connectionPool);
+            try {
+                customer_orders = OrdersFacade.getOrdersByUserId(user.getId(), connectionPool);
 
-            request.setAttribute("customer_orders", customer_orders);
-            request.getRequestDispatcher("/customer_orders.jsp").forward(request, response);
-        } catch (DatabaseException e)
-        {
-            request.setAttribute("errormessage", e.getMessage());
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+                request.setAttribute("customer_orders", customer_orders);
+                request.getRequestDispatcher("WEB-INF/customer_see_orders.jsp").forward(request, response);
+            } catch (DatabaseException e) {
+                request.setAttribute("errormessage", e.getMessage());
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
         }
     }
 
     //For deleting an order with the "Annuller" button on each order
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
 }

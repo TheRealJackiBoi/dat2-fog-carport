@@ -36,10 +36,11 @@ public class UserMapper {
         return user;
     }
 
-    static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException, SQLException {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
         String sql = "INSERT INTO user (email, password, name, zip, city, adress, role) values (?,?,?,?,?,?,?)";
+        checkEmail(email, connectionPool);
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, email);
@@ -146,11 +147,12 @@ public class UserMapper {
         return null;
     }
 
-    public static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    public static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException, SQLException {
         //TODO: Check if new email is already taken by another user!
 
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "UPDATE user SET email = ?, password = ?, name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
+        checkEmail(email, connectionPool);
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -168,5 +170,25 @@ public class UserMapper {
 
         }
         return null;
+    }
+
+    static boolean checkEmail(String email, ConnectionPool connectionPool) throws DatabaseException, SQLException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        String sql = "SELECT email FROM user";
+        List<String> emailList = null;
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String email_ = rs.getString(email);
+                    emailList.add(email_);
+                }
+                return !emailList.contains(email);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }

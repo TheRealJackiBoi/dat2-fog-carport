@@ -11,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "EditUser", value = "/edituser")
@@ -62,7 +63,7 @@ public class EditUser extends HttpServlet {
             user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
             request.getSession().setAttribute("user", user);
             response.sendRedirect("edituser");
-        } catch (DatabaseException e) {
+        } catch (DatabaseException | SQLException e) {
             e.printStackTrace();
         }
     }

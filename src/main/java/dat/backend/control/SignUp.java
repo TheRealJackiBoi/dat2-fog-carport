@@ -10,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "signup", urlPatterns = {"/signup"})
 public class SignUp extends HttpServlet {
@@ -24,7 +25,6 @@ public class SignUp extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         session.setAttribute("user", null); // invalidating user object in session scope
-        User user;
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -36,9 +36,8 @@ public class SignUp extends HttpServlet {
         try{
             UserFacade.createUser(email, password, name, zip, city, address, "customer", connectionPool);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
-        } catch (DatabaseException e) {
+        } catch (DatabaseException | SQLException e) {
             e.printStackTrace();
         }
-
     }
 }

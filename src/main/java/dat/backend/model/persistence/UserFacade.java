@@ -3,6 +3,7 @@ package dat.backend.model.persistence;
 import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserFacade {
@@ -10,7 +11,7 @@ public class UserFacade {
         return UserMapper.login(email, password, connectionPool);
     }
 
-    public static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    public static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException, SQLException {
         UserMapper.createUser(email, password, name, zip, city, address, role, connectionPool);
     }
 
@@ -18,7 +19,7 @@ public class UserFacade {
         return UserMapper.getAllUsers(connectionPool);
     }
 
-    public static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    public static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException, SQLException {
         return UserMapper.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
     }
 

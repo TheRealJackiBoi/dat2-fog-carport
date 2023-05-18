@@ -29,10 +29,6 @@ public class CreateOrder extends HttpServlet
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
-        //add overskrift til jsp side
-
-
-
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -40,16 +36,20 @@ public class CreateOrder extends HttpServlet
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }else {
             int orderId;
-            int userId = ((User) session.getAttribute("user")).getId();
+            int userId = user.getId();
             double length = Double.parseDouble(request.getParameter("length"));
             double width = Double.parseDouble(request.getParameter("width"));
             double height = Double.parseDouble(request.getParameter("height"));
+
+            //dosent take shed variables in at the moment to keep things simple.
             double s_width = 0;
             double s_length = 0;
 
             try {
                 orderId = OrdersFacade.addOrder(width, length, height, userId, s_width, s_length, connectionPool);
                 session.setAttribute("orderId", orderId);
+
+                //needs to be send to the right path once that is created
                 request.getRequestDispatcher("index.jsp").forward(request, response);
 
             } catch (DatabaseException e) {
