@@ -29,6 +29,9 @@
                 <label for="password">Kodeord</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required>
             </div>
+
+            <!-- TODO: Check if repeatpassword matche password value/string -->
+
             <div class="mt-2">
                 <label for="repeatpassword">Gentag Kodeord</label>
                 <input type="password" class="form-control" id="repeatpassword" name="repeatpassword" placeholder="Pa$$w0RD!" required>
