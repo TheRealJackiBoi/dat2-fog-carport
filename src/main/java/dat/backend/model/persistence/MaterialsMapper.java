@@ -122,4 +122,30 @@ public class MaterialsMapper {
         }
         return 0;
     }
+
+    static List<Materials> getAllMaterials(ConnectionPool connectionPool) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        List<Materials> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM materials";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()){
+                    int materialId = rs.getInt("material_id");
+                    String description = rs.getString("description");
+                    String unit = rs.getString("unit");
+                    double unitPrice = rs.getDouble("unit_price");
+                    String type = rs.getString("type");
+                    list.add(new Materials(materialId,description,unit,unitPrice,type));
+                }
+            }
+        }catch (SQLException e){
+            throw new DatabaseException(e, "We couldnt get the material");
+        }
+        return list;
+    }
 }
