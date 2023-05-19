@@ -10,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "EditUser", value = "/edituser")
 public class EditUser extends HttpServlet {
@@ -37,6 +38,8 @@ public class EditUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        // Variable to keep visual track of errors
+        boolean error;
 
         // Save variables for facade methods
         String email = request.getParameter("email");
@@ -48,18 +51,39 @@ public class EditUser extends HttpServlet {
         String role = request.getParameter("role");
         request.setAttribute("email", user);
 
+        // Saves the current session email as a variable
+        String currentEmail = user.getEmail();
+
         // Fetch user ID for updateUser method
         int id = user.getId();
 
+        // Fetches email list from checkEmail method and sends it to the signup JSP
+        List<String> emailList = null;
         try {
+            emailList = UserFacade.checkEmail(connectionPool);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
 
-            // Update the current user
-            UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
+        request.setAttribute("emailList", emailList);
 
-            // Save updated user to sessionscope
-            user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
-            request.getSession().setAttribute("user", user);
-            response.sendRedirect("edituser");
+        try {
+            // Check if email already exists or if user is changing elements other than email
+            if (!emailList.contains(email) || email.equals(currentEmail)) {
+                error = false;
+                request.setAttribute("error", false);
+                // Update the current user
+                UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
+                // Save updated user to sessionscope
+                user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
+                request.getSession().setAttribute("user", user);
+                session.removeAttribute("error");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else {
+                error = true;
+                session.setAttribute("error", true);
+                response.sendRedirect("edituser");
+            }
         } catch (DatabaseException e) {
             e.printStackTrace();
         }

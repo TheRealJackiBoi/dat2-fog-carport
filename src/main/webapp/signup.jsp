@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-3">
                     <label for="zip">Post-nr.</label>
-                    <input type="text" id="zip" class="form-control" name="zip" placeholder="2100" required><br>
+                    <input type="number" id="zip" class="form-control" name="zip" placeholder="2100" required><br>
                 </div>
             </div>
 
