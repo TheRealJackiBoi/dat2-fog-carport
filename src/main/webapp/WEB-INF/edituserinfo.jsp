@@ -17,8 +17,6 @@
         <h1 class="text-center">Ændre dine oplysninger</h1>
         <h4 class="text-center">
 
-            <!-- TODO: Make sure this interacts the same way as createuser page -->
-
             <c:if test="${sessionScope.error}">
                 <c:out value="Denne email er allerede registreret. Log ind eller vælg en anden email"></c:out>
             </c:if>
@@ -49,7 +47,7 @@
                     </div>
                     <div class="col-3">
                         <label for="zip">Post-nr.</label>
-                        <input type="text" id="zip" class="form-control" name="zip" value="${requestScope.edituser.zip}" placeholder="${requestScope.edituser.zip}" required><br>
+                        <input type="number" id="zip" class="form-control" name="zip" value="${requestScope.edituser.zip}" placeholder="${requestScope.edituser.zip}" required><br>
                     </div>
                 </div>
 

@@ -94,8 +94,6 @@ class UserMapper {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE email = ?";
 
-        //List<User> userList = new ArrayList<>();
-
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, email);
@@ -123,8 +121,6 @@ class UserMapper {
     static User getUserById(int id, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE id = ?";
-
-        //List<User> userList = new ArrayList<>();
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -181,7 +177,6 @@ class UserMapper {
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                // preparedStatement.setString(1, email);
                 ResultSet rs = preparedStatement.executeQuery();
                 while (rs.next()) {
                     String email_ = rs.getString("email");
