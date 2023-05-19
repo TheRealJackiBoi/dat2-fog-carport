@@ -40,16 +40,24 @@ public class AdminViewOrders extends HttpServlet
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
         else {
-        try {
-            orders = OrdersFacade.getAllOrdersPlusEmail(connectionPool);
-            request.setAttribute("list", orders);
-            request.getRequestDispatcher("WEB-INF/admin-view-orders.jsp").forward(request, response);
-            } catch (DatabaseException e) {
+
+            try {
+                if (request.getParameter("search") != null){
+                    int inputString = Integer.parseInt(request.getParameter("search"));
+                    request.setAttribute("userIdSearch", inputString);
+                }
+
+                orders = OrdersFacade.getAllOrdersPlusEmail(connectionPool);
+                request.setAttribute("list", orders);
+                request.getRequestDispatcher("WEB-INF/admin-view-orders.jsp").forward(request, response);
+
+        } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
             }
 
         }
+
 
     }
 

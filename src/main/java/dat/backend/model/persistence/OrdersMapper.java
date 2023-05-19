@@ -230,7 +230,8 @@ public class OrdersMapper {
 
         Logger.getLogger("web").log(Level.INFO,"");
         List<Order> orderList = new ArrayList<>();
-        String sql = "SELECT orders.*, user.email FROM orders INNER JOIN user on user_id = orders.user_id";
+        String sql = "SELECT user.email, orders.* FROM user " +
+                "INNER Join orders WHERE user.id=orders.user_id;";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
