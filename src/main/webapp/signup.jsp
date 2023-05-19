@@ -9,6 +9,31 @@
     </jsp:attribute>
 
     <jsp:body>
+
+        <script>
+            var checkPass = function() {
+                if (document.getElementById('password').value ==
+                    document.getElementById('repeatpassword').value) {
+                    document.getElementById('message').style.color = 'green';
+                    document.getElementById('message').innerHTML = 'Stemmer overens';
+                } else {
+                    document.getElementById('message').style.color = 'red';
+                    document.getElementById('message').innerHTML = 'Stemmer ikke overens';
+                }
+            }
+
+            var checkEmail = function() {
+                if (document.getElementById('email').value ==
+                    document.getElementById('repeatemail').value) {
+                    document.getElementById('Emessage').style.color = 'green';
+                    document.getElementById('Emessage').innerHTML = 'Stemmer overens';
+                } else {
+                    document.getElementById('Emessage').style.color = 'red';
+                    document.getElementById('Emessage').innerHTML = 'Stemmer ikke overens';
+                }
+            }
+        </script>
+
         <h1 class="text-center">Opret Din Bruger</h1>
         <h4 class="text-center">
             <c:if test="${sessionScope.error}">
@@ -23,19 +48,21 @@
             </div>
             <div class="mt-2">
                 <label for="repeatemail">Gentag email</label>
-                <input type="email" class="form-control" id="repeatemail" name="repeatemail" placeholder="email@email.com" required>
+                <input type="email" class="form-control" id="repeatemail" name="repeatemail" placeholder="email@email.com"
+                       onkeyup='checkEmail();' required /> <span id='Emessage'></span>
             </div>
+
             <div class="mt-2">
                 <label for="password">Kodeord</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required>
             </div>
 
-            <!-- TODO: Check if repeatpassword matche password value/string -->
-
             <div class="mt-2">
                 <label for="repeatpassword">Gentag Kodeord</label>
-                <input type="password" class="form-control" id="repeatpassword" name="repeatpassword" placeholder="Pa$$w0RD!" required>
+                <input type="password" class="form-control" id="repeatpassword" name="repeatpassword" placeholder="Pa$$w0RD!"
+                       onkeyup='checkPass();' required /> <span id='message'></span>
             </div>
+
             <div class="mt-2">
                 <label for="name">Navn</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Jon Bertelsen" required>
