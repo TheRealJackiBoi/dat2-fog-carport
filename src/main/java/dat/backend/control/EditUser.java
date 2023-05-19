@@ -77,7 +77,10 @@ public class EditUser extends HttpServlet {
                 // Save updated user to sessionscope
                 user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
                 request.getSession().setAttribute("user", user);
+
+                // Remove the "error" attribute if user successfully changes information, so it won't show again
                 session.removeAttribute("error");
+
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
                 error = true;
