@@ -22,21 +22,23 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="order" items="${requestScope.get('customer_orders')}" >
+            <c:forEach var="order" items="${requestScope.customer_orders}" >
                 <tr>
                     <th scope="row">${order.orderId}</th>
                     <td>${order.salesPrice}</td>
                     <td>${order.status}</td>
-                    <form>
-                        <input name="specific_order_id" type="number" value="${order.Id}" style="display: none" readonly/>
-                        <!-- TODO: place formaction route -->
-                        <button type="submit" formaction="CustomerSeeOrder" formmethod="get">See</button>
-                    </form>
-                    <c:if test="${order.status.equals('Order_placed') || order.status.equals('Creating')}">
-                        <form>
-                            <button type="submit" formaction="CustomerSeeOrder" formmethod="post">Annuller</button>
+                    <td class="d-flex gap-2">
+                        <form class="d-inline-block">
+                            <input name="specific_order_id" type="number" value="${order.orderId}" style="display: none" readonly/>
+                            <!-- TODO: place formaction route -->
+                            <button type="submit" formaction="CustomerSeeOrder" formmethod="get" class="btn btn-primary">Se Ordren</button>
                         </form>
+                        <c:if test="${order.status.equals('Order_placed') || order.status.equals('Creating')}">
+                            <form class="d-inline-block">
+                                <button type="submit" formaction="annuller_order" formmethod="post" class="btn btn-danger" name="order_id" value="${order.orderId}">Annuller</button>
+                            </form>
                     </c:if>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

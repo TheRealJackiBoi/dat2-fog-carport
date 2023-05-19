@@ -1,6 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `fog` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `fog`;
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `cudia_dk_db` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cudia_dk_db`;
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: mysql24.unoeuro.com    Database: cudia_dk_db
 -- ------------------------------------------------------
@@ -47,6 +47,34 @@ LOCK TABLES `item_list` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `link_item_list_material_variants`
+--
+
+DROP TABLE IF EXISTS `link_item_list_material_variants`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `link_item_list_material_variants` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `item_list_id` int NOT NULL,
+  `material_variants_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_link_item_list_material_variants_item_list1_idx` (`item_list_id`),
+  KEY `fk_link_item_list_material_variants_material_variants1_idx` (`material_variants_id`),
+  CONSTRAINT `fk_link_item_list_material_variants_item_list1` FOREIGN KEY (`item_list_id`) REFERENCES `item_list` (`item_list_id`),
+  CONSTRAINT `fk_link_item_list_material_variants_material_variants1` FOREIGN KEY (`material_variants_id`) REFERENCES `material_variants` (`variant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `link_item_list_material_variants`
+--
+
+LOCK TABLES `link_item_list_material_variants` WRITE;
+/*!40000 ALTER TABLE `link_item_list_material_variants` DISABLE KEYS */;
+/*!40000 ALTER TABLE `link_item_list_material_variants` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `material_variants`
 --
 
@@ -58,14 +86,11 @@ CREATE TABLE `material_variants` (
   `length` double NOT NULL,
   `quantity` int NOT NULL,
   `material_id` int NOT NULL,
-  `item_list_id` int NOT NULL,
   PRIMARY KEY (`variant_id`),
   UNIQUE KEY `variant_id_UNIQUE` (`variant_id`),
   KEY `fk_material_variants_materials1_idx` (`material_id`),
-  KEY `fk_material_variants_item_list1_idx` (`item_list_id`),
-  CONSTRAINT `fk_material_variants_item_list1` FOREIGN KEY (`item_list_id`) REFERENCES `item_list` (`item_list_id`),
   CONSTRAINT `fk_material_variants_materials1` FOREIGN KEY (`material_id`) REFERENCES `materials` (`material_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +99,7 @@ CREATE TABLE `material_variants` (
 
 LOCK TABLES `material_variants` WRITE;
 /*!40000 ALTER TABLE `material_variants` DISABLE KEYS */;
+INSERT INTO `material_variants` VALUES (1,360,1,1),(2,480,1,1),(3,360,1,2),(4,480,1,2),(5,300,1,3),(6,420,1,3),(7,480,1,3),(8,360,1,4);
 /*!40000 ALTER TABLE `material_variants` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +113,6 @@ DROP TABLE IF EXISTS `materials`;
 CREATE TABLE `materials` (
   `material_id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(45) NOT NULL,
-  `materialscol` varchar(45) DEFAULT NULL,
   `unit` varchar(45) NOT NULL,
   `unit_price` double DEFAULT NULL,
   `type` varchar(45) NOT NULL,
@@ -97,7 +122,7 @@ CREATE TABLE `materials` (
   KEY `fk_materials_type1_idx` (`type`),
   CONSTRAINT `fk_materials_type1` FOREIGN KEY (`type`) REFERENCES `type` (`type`),
   CONSTRAINT `fk_materials_units1` FOREIGN KEY (`unit`) REFERENCES `units` (`unit`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,6 +131,7 @@ CREATE TABLE `materials` (
 
 LOCK TABLES `materials` WRITE;
 /*!40000 ALTER TABLE `materials` DISABLE KEYS */;
+INSERT INTO `materials` VALUES (1,'45X95 MM FYR TRYKIMP','meter',20.94,'wood'),(2,'45X100 MM SPÆRTRÆ HØVLET','meter',24.94,'wood'),(3,'97X97 MM FULDKANTET FYR IMPR','meter',44.95,'wood'),(4,'109X TRAPEZPLADE(Tag) BLÅTONET','unit',199,'misc');
 /*!40000 ALTER TABLE `materials` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,6 +190,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES ('admin'),('customer'),('salesman');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,6 +237,7 @@ CREATE TABLE `type` (
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
+INSERT INTO `type` VALUES ('misc'),('wood');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,6 +261,7 @@ CREATE TABLE `units` (
 
 LOCK TABLES `units` WRITE;
 /*!40000 ALTER TABLE `units` DISABLE KEYS */;
+INSERT INTO `units` VALUES ('meter'),('unit');
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,13 +280,13 @@ CREATE TABLE `user` (
   `zip` int NOT NULL,
   `city` varchar(45) NOT NULL,
   `adress` varchar(45) NOT NULL,
-  `role` varchar(45) NOT NULL,
+  `role` varchar(45) NOT NULL DEFAULT 'customer',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `fk_user_role_idx` (`role`),
   CONSTRAINT `fk_user_role` FOREIGN KEY (`role`) REFERENCES `role` (`role`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,6 +295,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'jack@oulund.dk','1234','Jack',2605,'BrÃ¸ndby','BrÃ¸ndbyÃ¸ster Torv 45','customer'),(2,'a@a.dk','1234','Julius',2900,'Charlottenlund','HosdinMoar 43','customer'),(3,'b@b.dk','1234','Bjarkfar',4760,'Vordingborg','Hosjulles Mutter','customer'),(4,'w@w.dk','1234','William',2950,'HÃ¸rsholm','Bjarkfarsmorsadresse','customer'),(6,'n@n.dk','1234','William',2950,'HÃ¸rsholm','Bjarkfarsmorsadresse','customer'),(7,'s@s.dk','1234','William',2950,'HÃ¸rsholm','Bjarkfarsmorsadresse','customer'),(8,'f@f.dk','1234','William',2950,'HÃ¸rsholm','Bjarkfarsmorsadresse','customer');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -278,4 +308,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-09 11:11:09
+-- Dump completed on 2023-05-17 10:47:01
