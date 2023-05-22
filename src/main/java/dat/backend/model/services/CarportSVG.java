@@ -29,8 +29,8 @@ public class CarportSVG
         return svg;
     }
     public static SVG addDashedLines(SVG svg, int length, int width){
-        svg.addLine(50, 30, length+55, width-5);
-        svg.addLine(length+55 , 30, 50, width-5);
+        svg.addLine(85, 50, length+290, width+115);
+        svg.addLine(length+290 , 50, 85, width+115);
         return svg;
     }
     public static SVG addLine(SVG svg, int length, int width){

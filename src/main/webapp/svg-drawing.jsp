@@ -8,9 +8,6 @@
     <jsp:attribute name="header">
              SVG drawing
     </jsp:attribute>
-
-
-
     <jsp:body>
 
         <h1>SVG drawing</h1>
