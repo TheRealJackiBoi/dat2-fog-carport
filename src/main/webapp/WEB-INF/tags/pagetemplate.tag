@@ -41,6 +41,7 @@
                     <c:if test="${sessionScope.user.role.equals('salesman') || sessionScope.user.role.equals('admin')}">
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin-view-orders">Ordre</a>
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Kunder</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin_change_costprices">Sæt ny indkøbspris</a>
                     </c:if>
                 </div>
             </div>
