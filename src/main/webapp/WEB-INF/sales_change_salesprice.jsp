@@ -13,24 +13,26 @@
         <form method="post">
             <thead>
             <tr>
+                <th>UserId</th>
                 <th>OrderId</th>
                 <th>Indkøbs pris</th>
                 <th>Foreslået salgspris</th>
-                <th>UserId</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <th>${requestScope.order.orderId}</th>
-                <th>${requestScope.order.materialCost}</th>
-                <th><div class="mx-auto col-10 col-md-8 col-lg-3">
+                <td>${requestScope.order.userId}</td>
+                <td>${requestScope.order.orderId}</td>
+                <td>${requestScope.order.materialCost}</td>
+                <form action="admin_change_sales_price">
+                <td><div class="mx-auto col-10 col-md-8 col-lg-3">
                     <label for="enterSalesPrice"></label>
                     <input type="number" step="0.01" class="form-control" id="enterSalesPrice" name="enterSalesPrice" placeholder="${requestScope.order.salesPrice}">
-                </div></th>
-                <th>${requestScope.order.userId}</th>
-                <th><div class="mx-auto mx-auto col-10 col-md-8 col-lg-3 d-flex justify-content-between">
-                    <button type="submit" formaction="admin_change_sales_price" formmethod="post" name="submit" value="update" class="btn btn-primary">Opdater</button>
-                </div></th>
+                </div></td>
+                <td><div class="mx-auto mx-auto col-10 col-md-8 col-lg-3 d-flex justify-content-between">
+                    <button type="submit" formaction="admin_change_sales_price" formmethod="POST" name="submit" value="${requestScope.order.orderId}" class="btn btn-primary">Opdater salgspris</button>
+                </div></td>
+                </form>
             </tr>
             </tbody>
         </form>

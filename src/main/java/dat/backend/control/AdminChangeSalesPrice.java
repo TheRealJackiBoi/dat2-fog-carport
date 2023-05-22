@@ -45,8 +45,8 @@ public class AdminChangeSalesPrice extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int orderID = (int) request.getAttribute("button");
-        int newPrice = (int) request.getAttribute("enterSalesPrice");
+        int orderID = Integer.parseInt(request.getParameter("button"));
+        int newPrice = Integer.parseInt(request.getParameter("enterSalesPrice"));
 
         try{
             OrdersFacade.adjustSalesPrice(orderID, newPrice, connectionPool);
