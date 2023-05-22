@@ -48,16 +48,20 @@ public class AdminChangeCostPrices extends HttpServlet {
         double newCostPrice = Double.parseDouble(request.getParameter("newcostprice"));
 
         List<Materials> list;
-        try{
-            MaterialsFacade.adjustCostPrice(materialId, newCostPrice,connectionPool);
-            list = MaterialsFacade.getAllMaterials(connectionPool);
+        if(request.getParameter("newcostprice") != null){
+            try{
+                MaterialsFacade.adjustCostPrice(materialId, newCostPrice,connectionPool);
+                list = MaterialsFacade.getAllMaterials(connectionPool);
 
-            request.setAttribute("materials", list);
-            request.getRequestDispatcher("WEB-INF/admin_change_costprices.jsp").forward(request, response);
-        } catch (DatabaseException e) {
-        request.setAttribute("errormessage", e.getMessage());
-        request.getRequestDispatcher("error.jsp").forward(request, response);
-    }
+                request.setAttribute("materials", list);
+                request.getRequestDispatcher("WEB-INF/admin_change_costprices.jsp").forward(request, response);
+            } catch (DatabaseException e) {
+                request.setAttribute("errormessage", e.getMessage());
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        } else {
+            request.getRequestDispatcher("admin_change_costprices").forward(request,response);
+        }
 
     }
 }
