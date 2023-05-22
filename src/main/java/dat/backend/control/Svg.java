@@ -27,15 +27,14 @@ public class Svg extends HttpServlet
         SVG carport = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
         SVG outerSVG = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
 
-
+        carport = CarportSVG.addBeams(carport, length, width);
         carport = CarportSVG.addSides(carport, length, width);
         carport = CarportSVG.addPoles(carport, length, width);
 
-        //outerSVG = CarportSVG.addLine(outerSVG, length, width);
-        //outerSVG = CarportSVG.addDashedLines(outerSVG, length, width);
-        //outerSVG = CarportSVG.addText(outerSVG, length/2, width+40, length);
-        //outerSVG = CarportSVG.addText(outerSVG, 15, length/2, width);
-        //carport.addInnerSvg(outerSVG);
+        outerSVG = CarportSVG.addDashedLines2(carport, length, width, 0, 0)
+
+
+        carport.addInnerSvg(outerSVG);
 
         request.setAttribute("svg", carport.toString());
         request.getRequestDispatcher("/svg-drawing.jsp").forward(request, response);

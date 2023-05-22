@@ -49,5 +49,19 @@ public class CarportSVG
         return svg;
     }
 
+    public static SVG addDashedLines2(SVG svg, int length, int width, int shedwidth, int shedlength) {
+
+        double d = Math.sqrt(Math.pow(width, 2) + Math.pow(length, 2));
+
+        if (shedlength == 0 && shedwidth == 0) {
+            svg.addLine(0, 65, length, width);
+            svg.addLine(length, 65, 0, width);
+        } else {
+            svg.addLine(0, 65, length - shedlength, width);
+            svg.addLine(length - shedlength, 65, 0, width);
+        }
+        return svg;
+    }
+
 
 }
