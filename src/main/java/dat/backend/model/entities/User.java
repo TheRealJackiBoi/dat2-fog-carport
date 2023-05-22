@@ -2,8 +2,7 @@ package dat.backend.model.entities;
 
 import java.util.Objects;
 
-public class User
-{
+public class User {
     private int id;
     private String email;
     private String password;
@@ -22,6 +21,16 @@ public class User
     public User(String email, String password, String role) {
         this.email = email;
         this.password = password;
+        this.role = role;
+    }
+
+    public User(String email, String password, String name, int zip, String city, String address, String role) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.zip = zip;
+        this.city = city;
+        this.address = address;
         this.role = role;
     }
 
