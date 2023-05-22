@@ -45,17 +45,26 @@
                 <td>${order.salesPrice}</td>
                 <td>${order.status}</td>
                 <td>
-                    <div class="btn-group" role="group">
-                    <form action="admin_stykliste" method="get">
-                        <button type="submit" class="btn btn-primary" name="button"  value="${order.orderId}">
-                            Se Order
-                        </button>
-                    </form>
-                    <form action="annuller_order" method="post">
-                        <button class="btn btn-danger">
-                        Annuller
-                        </button>
-                    </form>
+                    <div class="d-flex gap-2" role="group">
+                        <form action="se-din-ordre" method="get">
+                            <button type="submit" class="btn btn-primary" name="order_id"  value="${order.orderId}">
+                                Se Order
+                            </button>
+                        </form>
+
+                        <form>
+                            <button type="submit" class="btn btn-primary" name="order_id" value="${order.orderId}" formaction="admin_stykliste" formmethod="get">
+                                Stykliste
+                            </button>
+                        </form>
+
+                        <c:if test="${order.status != 'Cancelled'}">
+                            <form action="annuller_order" method="post">
+                                <button class="btn btn-danger" type="submit" name="order_id" value="${order.orderId}">
+                                    Annuller
+                                </button>
+                            </form>
+                        </c:if>
                     </div>
                 </td>
             </tr>
