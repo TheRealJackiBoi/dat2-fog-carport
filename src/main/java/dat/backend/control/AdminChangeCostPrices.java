@@ -32,7 +32,7 @@ public class AdminChangeCostPrices extends HttpServlet {
             list = MaterialsFacade.getAllMaterials(connectionPool);
 
             request.setAttribute("materials", list);
-            request.getRequestDispatcher("admin_change_costprices.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/admin_change_costprices.jsp").forward(request, response);
 
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
@@ -43,6 +43,21 @@ public class AdminChangeCostPrices extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        int materialId = Integer.parseInt(request.getParameter("materialid"));
+        double newCostPrice = Double.parseDouble(request.getParameter("newcostprice"));
+
+        List<Materials> list;
+        try{
+            MaterialsFacade.adjustCostPrice(materialId, newCostPrice,connectionPool);
+            list = MaterialsFacade.getAllMaterials(connectionPool);
+
+            request.setAttribute("materials", list);
+            request.getRequestDispatcher("WEB-INF/admin_change_costprices.jsp").forward(request, response);
+        } catch (DatabaseException e) {
+        request.setAttribute("errormessage", e.getMessage());
+        request.getRequestDispatcher("error.jsp").forward(request, response);
+    }
 
     }
 }

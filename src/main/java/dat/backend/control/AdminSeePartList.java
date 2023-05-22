@@ -35,7 +35,7 @@ public class AdminSeePartList extends HttpServlet {
             partsList = PartsFacade.getPartsListByOrderId(orderId, connectionPool);
 
             request.setAttribute("partslist", partsList);
-            request.getRequestDispatcher("admin_see_partslist.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/admin_see_partslist.jsp").forward(request, response);
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);

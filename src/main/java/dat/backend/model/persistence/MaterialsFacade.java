@@ -27,5 +27,8 @@ public class MaterialsFacade {
         return MaterialsMapper.getAllMaterials(connectionPool);
     }
 
+    public static void adjustCostPrice(int materialId, double newCostPrice ,ConnectionPool connectionPool) throws DatabaseException {
+        MaterialsMapper.adjustCostPrice(materialId, newCostPrice, connectionPool);
+    }
 
 }

@@ -33,7 +33,7 @@ public class AdminChangeSalesPrice extends HttpServlet {
             order = OrdersFacade.getOrderByOrderId(orderID, connectionPool);
 
             request.setAttribute("order", order);
-            request.getRequestDispatcher("sales_change_salesprice.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/sales_change_salesprice.jsp").forward(request, response);
 
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
@@ -53,7 +53,7 @@ public class AdminChangeSalesPrice extends HttpServlet {
 
             Order order = OrdersFacade.getOrderByOrderId(orderID, connectionPool);
             request.setAttribute("order", order);
-            request.getRequestDispatcher("sales_change_salesprice.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/sales_change_salesprice.jsp").forward(request, response);
 
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());

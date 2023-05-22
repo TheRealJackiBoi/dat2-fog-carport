@@ -148,4 +148,20 @@ public class MaterialsMapper {
         }
         return list;
     }
+
+    static void adjustCostPrice(int materialId, double newCostPrice,ConnectionPool connectionPool) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+
+        String sql = "UPDATE materials SET unit_price = (?) WHERE material_id = ?";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setDouble(1,newCostPrice);
+                ps.setInt(2, materialId);
+                ps.executeUpdate();
+            }
+        }catch (SQLException e){
+            throw new DatabaseException(e, "We couldnt update the meterial costprice");
+        }
+    }
 }

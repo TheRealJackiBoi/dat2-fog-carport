@@ -2,7 +2,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <t:pagetemplate>
     <jsp:attribute name="header">
         Fog
@@ -10,7 +9,7 @@
 
     <jsp:body>
 
-        <h1 class="text-center">Her er styklisten for denne ordre</h1>
+        <h1 class="text-center">Her kan du ændre lagerpriserne</h1>
         <br/>
         <table class="table table-hover table-striped">
             <thead>
@@ -18,18 +17,23 @@
                 <th>MaterialeId</th>
                 <th>Description</th>
                 <th>Enhed</th>
-                <th>Pris pr enhed</th>
                 <th>Type</th>
+                <th>Pris pr enhed</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="materials" items="${requestScope.materials}">
                 <tr>
-                    <th>${materials.materialId}</th>
-                    <th>${materials.description}</th>
-                    <th>${materials.unit}</th>
-                    <th>${materials.unitPrice}</th>
-                    <th>${materials.type}</th>
+                    <td>${materials.materialId}</td>
+                    <td>${materials.description}</td>
+                    <td>${materials.unit}</td>
+                    <td>${materials.type}</td>
+                    <td><form method="POST">
+                        <label for="enterCostPrice"></label>
+                        <input type="number" step="0.01" class="form-control" id="enterCostPrice" name="newcostprice" placeholder="${materials.unitPrice}">
+                        <input type="hidden" value="${materials.materialId}" name="materialid" id="materialid">
+                        <input type="submit" formaction="admin_change_costprices"  value="submit">
+                    </form></td>
                 </tr>
             </c:forEach>
             </tbody>
