@@ -12,6 +12,4 @@ public class UserFacade {
     {
         UserMapper.createUser(email, password, name, zip, city, address, role, connectionPool);
     }
-
-
 }
