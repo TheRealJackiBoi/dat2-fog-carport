@@ -92,10 +92,9 @@ public class CreateOrder extends HttpServlet
                         OrdersFacade.changeStatusByOrderIdToOrderPlaced(currentOrderId, connectionPool);
                         session.setAttribute("orderId", currentOrderId);
 
-                        request.setAttribute("confirmed_order_id", currentOrderId);
+                        request.setAttribute("order_id", currentOrderId);
                         session.setAttribute("current_order_id", null);
-                        // TODO: Redirect to some kind of orderconfirmation
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        request.getRequestDispatcher("se-din-ordre").forward(request, response);
 
                     } catch (DatabaseException e) {
                         request.setAttribute("errormessage", e.getMessage());
@@ -108,10 +107,9 @@ public class CreateOrder extends HttpServlet
                         OrdersFacade.updateSpecificOrderById(currentOrderId, width, length, height, connectionPool);
                         OrdersFacade.changeStatusByOrderIdToOrderPlaced(currentOrderId, connectionPool);
 
-                        request.setAttribute("confirmed_order_id", currentOrderId);
+                        request.setAttribute("order_id", currentOrderId);
                         session.setAttribute("current_order_id", null);
-                        // TODO: Redirect to some kind of orderconfirmation
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        request.getRequestDispatcher("se-din-ordre").forward(request, response);
 
                     } catch (DatabaseException e) {
                         request.setAttribute("errormessage", e.getMessage());
