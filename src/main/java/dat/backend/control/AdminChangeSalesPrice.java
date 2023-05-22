@@ -26,11 +26,19 @@ public class AdminChangeSalesPrice extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int orderID = (int) request.getAttribute("button");
+        int orderID = Integer.parseInt(request.getParameter("order_id"));
         Order order = null;
 
         try{
             order = OrdersFacade.getOrderByOrderId(orderID, connectionPool);
+            double salesprice = order.getSalesPrice();
+            double costpris = order.getMaterialCost();
+
+            double contributionMargin = salesprice - costpris;
+            double degreeOfCoverage = contributionMargin * 100 / salesprice;
+
+            request.setAttribute("degreeOfCoverage", degreeOfCoverage);
+            request.setAttribute("contributionMargin", contributionMargin);
 
             request.setAttribute("order", order);
             request.getRequestDispatcher("WEB-INF/sales_change_salesprice.jsp").forward(request, response);
@@ -52,6 +60,15 @@ public class AdminChangeSalesPrice extends HttpServlet {
             OrdersFacade.adjustSalesPrice(orderID, newPrice, connectionPool);
 
             Order order = OrdersFacade.getOrderByOrderId(orderID, connectionPool);
+
+            double salesprice = order.getSalesPrice();
+            double costpris = order.getMaterialCost();
+
+            double contributionMargin = salesprice - costpris;
+            double degreeOfCoverage = contributionMargin * 100 / salesprice;
+
+            request.setAttribute("degreeOfCoverage", degreeOfCoverage);
+            request.setAttribute("contributionMargin", contributionMargin);
             request.setAttribute("order", order);
             request.getRequestDispatcher("WEB-INF/sales_change_salesprice.jsp").forward(request, response);
 
