@@ -53,7 +53,7 @@ public class AdminChangeSalesPrice extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int orderID = Integer.parseInt(request.getParameter("button"));
+        int orderID = Integer.parseInt(request.getParameter("order_id"));
         int newPrice = Integer.parseInt(request.getParameter("enterSalesPrice"));
 
         try{

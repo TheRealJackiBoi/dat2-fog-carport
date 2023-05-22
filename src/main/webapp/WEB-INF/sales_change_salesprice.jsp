@@ -10,11 +10,11 @@
     <jsp:body>
 
         <h1 class="text-center">Her kan du ændre prisen mens du forhandler med kunden</h1>
-        <form method="post">
+            <table class="table table-hover table-striped w-75 mx-auto">
             <thead>
             <tr>
-                <th>UserId</th>
-                <th>OrderId</th>
+                <th>User Id</th>
+                <th>Order Id</th>
                 <th>Indkøbs pris</th>
                 <th>Foreslået salgspris</th>
                 <th>Dækningsbidrag</th>
@@ -26,18 +26,17 @@
                 <td>${requestScope.order.userId}</td>
                 <td>${requestScope.order.orderId}</td>
                 <td>${requestScope.order.materialCost}</td>
-                <form action="admin_change_sales_price">
-                <td><div class="mx-auto col-10 col-md-8 col-lg-3 justify-content-between">
-                    <label for="enterSalesPrice"></label>
-                    <input type="number" step="0.01" class="form-control" id="enterSalesPrice" name="enterSalesPrice" placeholder="${requestScope.order.salesPrice}" required>
-                    <button type="submit" formaction="admin_change_sales_price" formmethod="POST" name="submit" value="${requestScope.order.orderId}" class="btn btn-primary">Opdater salgspris</button>
-                </div></td>
-                </form>
+                <td>
+                    <form class="d-flex gap-2">
+                        <input type="number" step="0.01" class="form-control w-50" id="enterSalesPrice" name="enterSalesPrice" placeholder="${requestScope.order.salesPrice}" required>
+                        <button type="submit" formaction="admin_change_sales_price" formmethod="POST" name="order_id" value="${requestScope.order.orderId}" class="btn btn-primary">Opdater salgspris</button>
+                    </form>
+                </td>
                 <td>${requestScope.contributionMargin}</td>
                 <td>${requestScope.degreeOfCoverage}</td>
             </tr>
             </tbody>
-        </form>
+            </table>
     </jsp:body>
 
 </t:pagetemplate>

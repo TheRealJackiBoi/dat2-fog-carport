@@ -30,7 +30,6 @@
         <thead>
         <tbody>
 
-
         <c:forEach var="order" items="${requestScope.list}">
             <c:if test="${requestScope.userIdSearch == order.orderId}">
             <tr class="table-primary" >
@@ -45,7 +44,7 @@
                 <td>${order.salesPrice}</td>
                 <td>${order.status}</td>
                 <td>
-                    <div class="d-flex gap-2" role="group">
+                    <div class="d-flex gap-2 w-100" role="group">
                         <form action="se-din-ordre" method="get">
                             <button type="submit" class="btn btn-primary" name="order_id"  value="${order.orderId}">
                                 Se Order
@@ -55,6 +54,11 @@
                         <form>
                             <button type="submit" class="btn btn-primary" name="order_id" value="${order.orderId}" formaction="admin_stykliste" formmethod="get">
                                 Stykliste
+                            </button>
+                        </form>
+                        <form>
+                            <button type="submit" class="btn btn-primary" name="order_id" value="${order.orderId}" formaction="admin_change_sales_price" formmethod="get">
+                                Ændre Salgspris
                             </button>
                         </form>
 

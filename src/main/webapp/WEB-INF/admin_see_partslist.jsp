@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <t:pagetemplate>
     <jsp:attribute name="header">
         Fog
