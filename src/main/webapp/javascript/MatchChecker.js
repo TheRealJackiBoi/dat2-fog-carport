@@ -30,6 +30,8 @@ function finalCheck() {
     let city = document.forms["signup"]["city"].value;
     let zip = document.forms["signup"]["zip"].value;
 
+    // Find en nemmere måde at gøre det her på?
+
     if (email == "") {
         alert("Please enter an email");
         return false;
