@@ -13,7 +13,6 @@
 
         <h1 class="text-center">Tak for din bestilling</h1>
 
-
         <div class="w-50 mx-auto my-4">
 
             <div class=" w-100 text-light mx-auto d-flex gap-3 justify-content-between">
@@ -87,12 +86,12 @@
 
         </div>
 
-        <c:if test="${requestScope.order.status.equals('Pending') || requestScope.order.status.equals('Accepted')}">
-            <div>
-                <!-- TODO: Insert svg -->
-                place svg here
-            </div>
-        </c:if>
+
+        <div class="mx-auto w-50 mt-4 bg-info">
+            <h2 class="text-center"> Plantegning</h2>
+                ${requestScope.svg}
+        </div>
+
 
     </jsp:body>
 

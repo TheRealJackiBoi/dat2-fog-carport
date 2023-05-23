@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import dat.backend.model.entities.Order;
 import dat.backend.model.services.CarportSVG;
 import dat.backend.model.services.SVG;
 
@@ -20,8 +21,10 @@ public class SvgServlet extends HttpServlet
         response.setCharacterEncoding("UTF-8");
         Locale.setDefault(new Locale("US"));
 
-        double testLenth = 300.21;
-        double testWidth = 221.25;
+
+
+        double testLenth = 300.12;
+        double testWidth = 250.43;
         int length = (int) testLenth;
         int width = (int) testWidth;
 
@@ -38,9 +41,7 @@ public class SvgServlet extends HttpServlet
 
         carport.addInnerSvg(outerSvg);
 
-
-
-        request.setAttribute("svg", carport.toString());
+        request.setAttribute("svg1", carport.toString());
         request.getRequestDispatcher("svg-drawing.jsp").forward(request, response);
 
     }

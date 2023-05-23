@@ -7,11 +7,14 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.OrdersFacade;
 import dat.backend.model.persistence.OrdersMapper;
+import dat.backend.model.services.CarportSVG;
+import dat.backend.model.services.SVG;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.Locale;
 
 @WebServlet(name = "SeeOrder", value = "/se-din-ordre")
 public class SeeOrder extends HttpServlet {
@@ -46,6 +49,34 @@ public class SeeOrder extends HttpServlet {
 
         try {
             Order order = OrdersFacade.getOrderByOrderId(order_id, connectionPool);
+
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            Locale.setDefault(new Locale("US"));
+
+
+
+            double exactLength = order.getCarportLength()*100;
+            double exactWidth = order.getCarportWidth()*100;
+            System.out.println(exactLength);
+            System.out.println(exactWidth);
+            int length = (int) exactLength;
+            int width = (int) exactWidth;
+
+            SVG carport = CarportSVG.createNewSvg(200,0,100, 100, "0 0 855 690");
+            SVG outerSvg = CarportSVG.createNewSvg(200,0,100,100, "0 0 855 690");
+            carport = CarportSVG.addBeams(carport, length, width);
+            carport = CarportSVG.addSides(carport, length, width);
+            carport = CarportSVG.addPoles(carport, length, width);
+
+            outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
+            outerSvg = CarportSVG.addLine(outerSvg, length, width);
+            outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, exactLength);
+            outerSvg = CarportSVG.addText(outerSvg, 15, length/2,90, exactWidth);
+
+            carport.addInnerSvg(outerSvg);
+
+            request.setAttribute("svg", carport.toString());
             request.setAttribute("order", order);
             request.getRequestDispatcher("WEB-INF/view_order.jsp").forward(request, response);
         } catch (DatabaseException e) {
@@ -58,6 +89,7 @@ public class SeeOrder extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+
 
         if (user == null) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -77,6 +109,31 @@ public class SeeOrder extends HttpServlet {
 
         try {
             Order order = OrdersFacade.getOrderByOrderId(order_id, connectionPool);
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            Locale.setDefault(new Locale("US"));
+
+
+
+            double exactLength = order.getCarportLength();
+            double exactWidth = order.getShedWidth();
+            int length = (int) exactLength;
+            int width = (int) exactWidth;
+
+            SVG carport = CarportSVG.createNewSvg(200,0,100, 100, "0 0 855 690");
+            SVG outerSvg = CarportSVG.createNewSvg(200,0,100,100, "0 0 855 690");
+            carport = CarportSVG.addBeams(carport, length, width);
+            carport = CarportSVG.addSides(carport, length, width);
+            carport = CarportSVG.addPoles(carport, length, width);
+
+            outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
+            outerSvg = CarportSVG.addLine(outerSvg, length, width);
+            outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, exactLength);
+            outerSvg = CarportSVG.addText(outerSvg, 15, length/2,90, exactWidth);
+
+            carport.addInnerSvg(outerSvg);
+
+            request.setAttribute("svg1", carport.toString());
             request.setAttribute("order", order);
             request.getRequestDispatcher("WEB-INF/view_order.jsp").forward(request, response);
         } catch (DatabaseException e) {

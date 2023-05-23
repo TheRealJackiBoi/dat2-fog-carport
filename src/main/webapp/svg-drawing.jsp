@@ -12,7 +12,7 @@
 
         <h1>SVG drawing</h1>
         <div style="text-align:center;">
-            ${requestScope.svg}
+                ${requestScope.svg}
         </div>
 
     </jsp:body>
