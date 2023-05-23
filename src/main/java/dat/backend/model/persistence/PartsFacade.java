@@ -8,6 +8,6 @@ import java.util.List;
 public class PartsFacade {
 
     public static List<Part> getPartsListByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
-        return getPartsListByOrderId(orderId, connectionPool);
+        return PartsMapper.getPartsListByOrderId(orderId, connectionPool);
     }
 }

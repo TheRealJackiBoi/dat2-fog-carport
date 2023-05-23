@@ -226,6 +226,38 @@ public class OrdersMapper {
         }
     }
 
+  //return a list of all orders in the database including the email
+    static List<Order> getAllOrdersPlusEmail(ConnectionPool connectionPool) throws DatabaseException {
+
+        Logger.getLogger("web").log(Level.INFO,"");
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT user.email, orders.* FROM user " +
+                "INNER Join orders WHERE user.id=orders.user_id;";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()){
+                    int orderId = rs.getInt("order_id");
+                    double materialCost = rs.getDouble("material_cost");
+                    double salesPrice = rs.getDouble("sales_price");
+                    double carportWidth = rs.getDouble("c_width");
+                    double carportLength = rs.getDouble("c_length");
+                    double carportHeight = rs.getDouble("c_height");
+                    int userId = rs.getInt("user_id");
+                    String status = rs.getString("status");
+                    double shedWidth = rs.getDouble("s_width");
+                    double shedLength = rs.getDouble("s_length");
+                    String email = rs.getString("email");
+                    orderList.add(new Order(orderId, materialCost, salesPrice, carportWidth, carportLength, carportHeight, userId, status, shedWidth, shedLength, email));
+                }
+            }
+        }catch (SQLException e){
+            throw new DatabaseException(e, "We couldnt get all the orders");
+        }
+        return orderList;
+    }
+
     //Change Order Status to Accepted
     public static void changeStatusByOrderIdToCancelled(int order_id, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";

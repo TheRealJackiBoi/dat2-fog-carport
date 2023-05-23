@@ -29,9 +29,9 @@
                     <td>${order.status}</td>
                     <td class="d-flex gap-2">
                         <form class="d-inline-block">
-                            <input name="specific_order_id" type="number" value="${order.orderId}" style="display: none" readonly/>
+                            <input name="order_id" type="number" value="${order.orderId}" style="display: none" readonly/>
                             <!-- TODO: place formaction route -->
-                            <button type="submit" formaction="CustomerSeeOrder" formmethod="get" class="btn btn-primary">Se Ordren</button>
+                            <button type="submit" formaction="se-din-ordre" formmethod="get" class="btn btn-primary">Se Ordren</button>
                         </form>
                         <c:if test="${order.status.equals('Order_placed') || order.status.equals('Creating')}">
                             <form class="d-inline-block">
