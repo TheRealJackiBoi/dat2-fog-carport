@@ -108,6 +108,7 @@ public class CreateOrder extends HttpServlet
                         currentOrderId = (int)session.getAttribute("current_order_id");
                         OrdersFacade.updateSpecificOrderById(currentOrderId, width, length, height, connectionPool);
                         OrdersFacade.changeStatusByOrderIdToOrderPlaced(currentOrderId, connectionPool);
+                        ItemListPopulator.populate(currentOrderId, length, width, height, connectionPool);
 
                         request.setAttribute("order_id", currentOrderId);
                         session.setAttribute("current_order_id", null);

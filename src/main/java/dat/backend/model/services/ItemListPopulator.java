@@ -10,13 +10,18 @@ import java.util.List;
 public class ItemListPopulator {
 
     //this method populate the itemlist and the LINkED between itemlist and material_variants
-    public static void populate(int orderId, double length, double width, double height, ConnectionPool connectionPool) throws DatabaseException {
+    public static void populate(int orderId, double lengthInMeter, double widthInMeter, double heightInMeter, ConnectionPool connectionPool) throws DatabaseException {
 
         // these assure that it only happens once
         boolean postAdded = false;
         boolean raftsAdded = false;
         boolean raisingplatesAdded = false;
         boolean roofAdded = false;
+
+        //RECALCULATE TO CM TO MATCH DATABASE
+        double length = lengthInMeter*100;
+        double width = widthInMeter*100;
+        double height = heightInMeter*100;
 
         // TODO: make sure that we add the longest, if we dont have any that are long enough??
 
@@ -26,26 +31,26 @@ public class ItemListPopulator {
         //description found in fogs samlevejledning
         String postDescription = "Stolper nedgraves 90 cm. i jord";
 
-        List<Materials> posts = MaterialsFacade.getMaterialByType("Posts",connectionPool);
-        List<MaterialVariants> postsVariantsList = MaterialVariantsFacade.getVariantsByMaterialId(posts.get(0).getMaterialId(), connectionPool);
+        Materials posts = MaterialsFacade.getMaterialByType("Posts",connectionPool);
+        List<MaterialVariants> postsVariantsList = MaterialVariantsFacade.getVariantsByMaterialId(posts.getMaterialId(), connectionPool);
         for (MaterialVariants m: postsVariantsList) {
             if(m.getLength() >= height+90 && !postAdded){
-                ItemListFacade.addPosts(orderId, postDescription,numberOfPosts, m.getMaterialsId(), connectionPool);
+                ItemListFacade.addPosts(orderId, postDescription,numberOfPosts, m.getVariantId(), connectionPool);
                 postAdded = true;
             }
         }
-        
+
 
         //adds rafts
         int numberOfRafts = PartsCalculator.calculateNumberOfRafts(length, width);
         //description found in fogs samlevejledning
         String raftsDescription = "Spær, monteres på rem";
 
-        List<Materials> rafts = MaterialsFacade.getMaterialByType("Rafts", connectionPool);
-        List<MaterialVariants> raftList = MaterialVariantsFacade.getVariantsByMaterialId(rafts.get(0).getMaterialId(), connectionPool);
+        Materials rafts = MaterialsFacade.getMaterialByType("Rafts", connectionPool);
+        List<MaterialVariants> raftList = MaterialVariantsFacade.getVariantsByMaterialId(rafts.getMaterialId(), connectionPool);
         for (MaterialVariants m: raftList) {
             if(m.getLength() >= width && !raftsAdded){
-                ItemListFacade.addRafts(orderId, raftsDescription, numberOfRafts, m.getMaterialsId(), connectionPool);
+                ItemListFacade.addRafts(orderId, raftsDescription, numberOfRafts, m.getVariantId(), connectionPool);
                 raftsAdded = true;
             }
         }
@@ -56,11 +61,11 @@ public class ItemListPopulator {
         //description found in fogs samlevejledning
         String raisingPlatesDescription = "Remme i sider, sadles ned i stolper";
 
-        List<Materials> raisingPlates = MaterialsFacade.getMaterialByType("Raisingplate", connectionPool);
-        List<MaterialVariants> raisingPlatesVariants = MaterialVariantsFacade.getVariantsByMaterialId(raisingPlates.get(0).getMaterialId(), connectionPool);
+        Materials raisingPlates = MaterialsFacade.getMaterialByType("Raisingplate", connectionPool);
+        List<MaterialVariants> raisingPlatesVariants = MaterialVariantsFacade.getVariantsByMaterialId(raisingPlates.getMaterialId(), connectionPool);
         for(MaterialVariants m: raisingPlatesVariants){
             if(m.getLength() >= length && !raisingplatesAdded){
-                ItemListFacade.addRaisingPlate(orderId, raisingPlatesDescription, numberOfRaisingPlates, m.getMaterialsId(), connectionPool);
+                ItemListFacade.addRaisingPlate(orderId, raisingPlatesDescription, numberOfRaisingPlates, m.getVariantId(), connectionPool);
                 raisingplatesAdded = true;
             }
         }
@@ -72,15 +77,12 @@ public class ItemListPopulator {
         //description found in fogs samlevejledning
         String roofDescription = "tagplader monteres på spær";
 
+        //ALWAYS TAKES THESAME SINCE WE ONLY HAVE 1 ROFF PLATE IN STOCK
+        Materials roofs = MaterialsFacade.getMaterialByType("Roofplates", connectionPool);
+        List<MaterialVariants> roofPlatesVariants = MaterialVariantsFacade.getVariantsByMaterialId(roofs.getMaterialId(), connectionPool);
 
-        List<Materials> roofs = MaterialsFacade.getMaterialByType("Roofplates", connectionPool);
-        List<MaterialVariants> roofPlatesVariants = MaterialVariantsFacade.getVariantsByMaterialId(roofs.get(0).getMaterialId(), connectionPool);
-        for(MaterialVariants m: roofPlatesVariants){
-            if (m.getLength() >= length && !roofAdded){
-                ItemListFacade.addRoof(orderId, roofDescription, numberOfRoofPlates, m.getMaterialsId(), connectionPool);
-                roofAdded = true;
-            }
-        }
+        ItemListFacade.addRoof(orderId, roofDescription, numberOfRoofPlates, roofPlatesVariants.get(0).getVariantId(), connectionPool);
+
 
 
         //now sums the price

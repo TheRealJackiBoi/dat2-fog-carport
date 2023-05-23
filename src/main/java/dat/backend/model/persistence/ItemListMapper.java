@@ -72,17 +72,23 @@ public class ItemListMapper {
     static void addPosts(int orderId, String descripton, int quantity, int materialVariantId, ConnectionPool connectionPool) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO,"");
 
-        Materials post = MaterialsFacade.getMaterialsByMaterialId(3, connectionPool);
+        Materials post = MaterialsFacade.getMaterialByType("Posts",connectionPool);
         MaterialVariants variant = MaterialVariantsFacade.getVariantByVariantId(materialVariantId, connectionPool);
+
+        double unitPrice = post.getUnitPrice();
+        double unitLength = variant.getLength()/100;
+        double price = (unitPrice*unitLength)*quantity;
 
         String sql = "INSERT INTO item_list (use_description, quantity, price, order_id) VALUES (?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
                 ps.setString(1, descripton);
                 ps.setInt(2, quantity);
-                ps.setDouble(3, post.getUnitPrice()*(variant.getLength()/100));
+                ps.setDouble(3, price);
                 ps.setInt(4,orderId);
+
+                ps.executeUpdate();
 
                 ResultSet rs = ps.getGeneratedKeys();
 
@@ -99,19 +105,24 @@ public class ItemListMapper {
     static void addRafts(int orderId, String descripton, int quantity, int materialVariantId, ConnectionPool connectionPool) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO,"");
 
-        Materials raft = MaterialsFacade.getMaterialsByMaterialId(2, connectionPool);
-        MaterialVariants variant = MaterialVariantsFacade.getVariantByVariantId(3, connectionPool);
+        Materials raft = MaterialsFacade.getMaterialByType("Rafts", connectionPool);
+        MaterialVariants variant = MaterialVariantsFacade.getVariantByVariantId(materialVariantId, connectionPool);
+
+        double unitPrice = raft.getUnitPrice();
+        double unitLength = variant.getLength()/100;
+        double price = (unitPrice*unitLength)*quantity;
 
 
         String sql = "INSERT INTO item_list (use_description, quantity, price, order_id) VALUES (?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
                 ps.setString(1, descripton);
                 ps.setInt(2, quantity);
-                ps.setDouble(3, raft.getUnitPrice()*(variant.getLength()/100));
+                ps.setDouble(3, price);
                 ps.setInt(4,orderId);
 
+                ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
 
                 if(rs.next()){
@@ -127,25 +138,30 @@ public class ItemListMapper {
     static void addRaisingPlate(int orderId, String descripton, int quantity, int materialVariantsId, ConnectionPool connectionPool) throws DatabaseException{
         Logger.getLogger("web").log(Level.INFO,"");
 
-        Materials raisingPlate = MaterialsFacade.getMaterialsByMaterialId(1, connectionPool);
-        MaterialVariants variant = MaterialVariantsFacade.getVariantByVariantId(1, connectionPool);
+        Materials raisingPlates = MaterialsFacade.getMaterialByType("Raisingplate", connectionPool);
+        MaterialVariants variant = MaterialVariantsFacade.getVariantByVariantId(materialVariantsId, connectionPool);
+
+        double unitPrice = raisingPlates.getUnitPrice();
+        double unitLength = variant.getLength()/100;
+        double price = (unitPrice*unitLength)*quantity;
 
 
         String sql = "INSERT INTO item_list (use_description, quantity, price, order_id) VALUES (?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
                 ps.setString(1, descripton);
                 ps.setInt(2, quantity);
-                ps.setDouble(3, raisingPlate.getUnitPrice()*(variant.getLength()/100));
+                ps.setDouble(3, price);
                 ps.setInt(4,orderId);
 
+                ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
 
                 if(rs.next()){
                     int itemlistID = rs.getInt(1);
                     //kald tilføj stolpe
-                    LinkItemListMaterialsVariantsFacade.addRaisingPlate(itemlistID, materialVariantsId, connectionPool);
+                    LinkItemListMaterialsVariantsFacade.addLink(itemlistID, materialVariantsId, connectionPool);
                 }
             }
         } catch (SQLException e){
@@ -161,18 +177,19 @@ public class ItemListMapper {
         String sql = "INSERT INTO item_list (use_description, quantity, price, order_id) VALUES (?,?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
                 ps.setString(1, descripton);
                 ps.setInt(2, quantity);
-                ps.setDouble(3, raisingPlate.getUnitPrice());
+                ps.setDouble(3, raisingPlate.getUnitPrice()*quantity);
                 ps.setInt(4,orderId);
 
+                ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
 
                 if(rs.next()){
                     int itemlistID = rs.getInt(1);
                     //kald tilføj stolpe
-                    LinkItemListMaterialsVariantsFacade.addRoof(itemlistID, materialVariantsId, connectionPool);
+                    LinkItemListMaterialsVariantsFacade.addLink(itemlistID, materialVariantsId, connectionPool);
                 }
             }
         } catch (SQLException e){
