@@ -10,6 +10,11 @@
 
     <jsp:body>
         <h1 class="text-center">Opret Din Bruger</h1>
+        <h4 class="text-center">
+            <c:if test="${sessionScope.error}">
+                <c:out value="Denne email er allerede registreret. Log ind eller vælg en anden email"></c:out>
+            </c:if>
+        </h4>
         <div class="container w-50 p-2 mt-4">
         <form action="signup" name="signup" method="POST">
             <div class="mt-2">
@@ -24,6 +29,9 @@
                 <label for="password">Kodeord</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required>
             </div>
+
+            <!-- TODO: Check if repeatpassword matche password value/string -->
+
             <div class="mt-2">
                 <label for="repeatpassword">Gentag Kodeord</label>
                 <input type="password" class="form-control" id="repeatpassword" name="repeatpassword" placeholder="Pa$$w0RD!" required>
@@ -44,7 +52,7 @@
                 </div>
                 <div class="col-3">
                     <label for="zip">Post-nr.</label>
-                    <input type="text" id="zip" class="form-control" name="zip" placeholder="2100" required><br>
+                    <input type="number" id="zip" class="form-control" name="zip" placeholder="2100" required><br>
                 </div>
             </div>
 

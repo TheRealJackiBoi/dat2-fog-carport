@@ -225,4 +225,69 @@ public class OrdersMapper {
             throw new DatabaseException(e, "Something went wrong when trying to change status on this Order");
         }
     }
+
+  //return a list of all orders in the database including the email
+    static List<Order> getAllOrdersPlusEmail(ConnectionPool connectionPool) throws DatabaseException {
+
+        Logger.getLogger("web").log(Level.INFO,"");
+        List<Order> orderList = new ArrayList<>();
+        String sql = "SELECT user.email, orders.* FROM user " +
+                "INNER Join orders WHERE user.id=orders.user_id;";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()){
+                    int orderId = rs.getInt("order_id");
+                    double materialCost = rs.getDouble("material_cost");
+                    double salesPrice = rs.getDouble("sales_price");
+                    double carportWidth = rs.getDouble("c_width");
+                    double carportLength = rs.getDouble("c_length");
+                    double carportHeight = rs.getDouble("c_height");
+                    int userId = rs.getInt("user_id");
+                    String status = rs.getString("status");
+                    double shedWidth = rs.getDouble("s_width");
+                    double shedLength = rs.getDouble("s_length");
+                    String email = rs.getString("email");
+                    orderList.add(new Order(orderId, materialCost, salesPrice, carportWidth, carportLength, carportHeight, userId, status, shedWidth, shedLength, email));
+                }
+            }
+        }catch (SQLException e){
+            throw new DatabaseException(e, "We couldnt get all the orders");
+        }
+        return orderList;
+    }
+
+    //Change Order Status to Accepted
+    public static void changeStatusByOrderIdToCancelled(int order_id, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setString(1,"Cancelled");
+                ps.setInt(2, order_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e){
+            throw new DatabaseException(e, "Something went wrong when trying to change status on this Order");
+        }
+    }
+
+    static void updateSpecificOrderById(int orderId, double width, double length, double height, ConnectionPool connectionPool) throws DatabaseException {
+
+        String sql = "UPDATE orders SET c_width = ?, c_length = ?, c_height = ? WHERE order_id = ?";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setDouble(1,width);
+                ps.setDouble(2, length);
+                ps.setDouble(3, height);
+                ps.setDouble(4, orderId);
+
+                ps.executeUpdate();
+            }
+        } catch (SQLException e){
+            throw new DatabaseException(e, "Something went wrong when updating the dimensions of the carport");
+        }
+    }
 }

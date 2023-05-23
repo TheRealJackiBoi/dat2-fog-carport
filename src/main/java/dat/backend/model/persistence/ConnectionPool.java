@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class ConnectionPool {
     // TODO: Change access credentials for MySql server as needed below:
 
-  private HikariDataSource ds;
+    private HikariDataSource ds;
     private static String USER = "root";
     private static String PASSWORD = "william2450";
     private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db";
@@ -23,7 +23,7 @@ public class ConnectionPool {
 
 
     public ConnectionPool(String USER, String PASSWORD, String URL) {
-         String deployed = System.getenv("DEPLOYED");
+        String deployed = System.getenv("DEPLOYED");
         if (deployed != null) {
             // Prod: hent variabler fra setenv.sh i Tomcats bin folder
             USER = System.getenv("JDBC_USER");
