@@ -146,8 +146,6 @@ class UserMapper {
     }
 
     static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
-        //TODO: Check if new email is already taken by another user!
-
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "UPDATE user SET email = ?, password = ?, name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
 
@@ -169,7 +167,24 @@ class UserMapper {
         return null;
     }
 
-   static List<String> checkEmail(ConnectionPool connectionPool) throws DatabaseException {
+    static User updateRole(String role, int id, ConnectionPool connectionPool) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        String sql = "UPDATE user SET role = ? WHERE id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, role);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Failed to update user information");
+
+        }
+        return null;
+    }
+
+    static List<String> checkEmail(ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         List<String> emailList = new ArrayList<>();
         String sql = "SELECT email FROM user";
