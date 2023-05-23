@@ -27,23 +27,25 @@ public class AdminSeePartList extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        //gets the orderId by the button from the previous page
-        int orderId = (int) request.getAttribute("button");
+
+        int order_id = 0;
+        if (request.getParameter("order_id") != null) {
+            order_id = Integer.parseInt(request.getParameter("order_id"));
+        }
+        else {
+            request.setAttribute("errormessage", "Didn't get an order id to cancel");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
         List<Part> partsList;
 
         try {
-            partsList = PartsFacade.getPartsListByOrderId(orderId, connectionPool);
+            partsList = PartsFacade.getPartsListByOrderId(order_id, connectionPool);
 
             request.setAttribute("partslist", partsList);
-            request.getRequestDispatcher("").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/admin_see_partslist.jsp").forward(request, response);
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
