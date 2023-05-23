@@ -87,7 +87,7 @@
         </div>
 
 
-        <div class="mx-auto w-50 mt-4 bg-info">
+        <div id="display-svg" class="mx-auto w-50 mt-4 bg-info">
             <h2 class="text-center"> Plantegning</h2>
                 ${requestScope.svg}
         </div>
