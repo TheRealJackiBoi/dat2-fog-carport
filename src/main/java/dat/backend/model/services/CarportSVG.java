@@ -1,36 +1,36 @@
 package dat.backend.model.services;
 
-public class CarportSVG
-{
-    public static SVG createNewSVG(int x, int y, int height, int width, String viewbox)
-    {
-        return new SVG(x, y, height, width, viewbox);
-    }
 
-    public static SVG addBeams(SVG svg, int length, int width)
-    {
-        for (int i = 0; i <= length; i +=50)
-        {
-            svg.addRect(i+50, 30, width-35, 4.5);
+public class CarportSVG {
+
+    public static SVG createNewSvg(int x, int y, int height, int width, String viewbox){
+        return new SVG(x,y,height,width,viewbox);
+    }
+    public static SVG addBeams(SVG svg, int length, int width){
+        for(int i = 0; i <= length; i+=50){
+            svg.addRect(i+250, 30, width-35, 4.5);
         }
+        svg.addRect(length+250, 30, width-35, 4.5);
         return svg;
     }
     public static SVG addSides(SVG svg, int length, int width){
-        svg.addRect(50,30, 10, length);
-        svg.addRect(50,width-15, 10, length);
+        svg.addRect(250,30, 10, length);
+        svg.addRect(250,width-15, 10, length);
 
         return svg;
     }
     public static SVG addPoles(SVG svg, int length, int width){
-        svg.addRect(50,30, 10,10);
-        svg.addRect(50, width-15, 10,10);
-        svg.addRect(length+45,30, 10,10);
-        svg.addRect(length+45,width-15, 10,10);
+        svg.addRect(250,30, 10,10);
+        svg.addRect(250, width-15, 10,10);
+        svg.addRect(length+245,30, 10,10);
+        svg.addRect(length+245,width-15, 10,10);
         return svg;
     }
+
+
     public static SVG addDashedLines(SVG svg, int length, int width){
-        svg.addLine(85, 50, length+290, width+115);
-        svg.addLine(length+290 , 50, 85, width+115);
+        svg.addLine(50, 30, length+55, width-5);
+        svg.addLine(length+55 , 30, 50, width-5);
         return svg;
     }
     public static SVG addLine(SVG svg, int length, int width){
@@ -38,30 +38,18 @@ public class CarportSVG
         svg.addLine(50, width+20, length+55, width+20 );
         return svg;
     }
-    public static SVG addText(SVG svg, int width, int length, int number){
-        svg.addText(width, length, 0, number);
-        return svg;
-    }
-    public static SVG addArrow(SVG svg, int length, int width){
-        svg.addArrowLine(55, 50, 55, 280);
-        //svg.addText(45, 165, "rotate(-90)", 230, "cm");
+    public static SVG addArrows(SVG svg, int x1, int y1, int x2, int y2){
+        svg.addArrow(x1, y1, x2, y2);
 
         return svg;
+
     }
-
-    public static SVG addDashedLines2(SVG svg, int length, int width, int shedwidth, int shedlength) {
-
-        double d = Math.sqrt(Math.pow(width, 2) + Math.pow(length, 2));
-
-        if (shedlength == 0 && shedwidth == 0) {
-            svg.addLine(0, 65, length, width);
-            svg.addLine(length, 65, 0, width);
-        } else {
-            svg.addLine(0, 65, length - shedlength, width);
-            svg.addLine(length - shedlength, 65, 0, width);
-        }
+    public static SVG addText(SVG svg, int width, int length, int rotate, double number){
+        svg.addText(width, length, rotate, number);
         return svg;
     }
+
+
 
 
 }

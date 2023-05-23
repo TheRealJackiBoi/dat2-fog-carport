@@ -13,8 +13,8 @@ public class ConnectionPool {
 
   private HikariDataSource ds;
     private static String USER = "root";
-    private static String PASSWORD = "root";
-    private static String URL = "jdbc:mysql://localhost:3306/fog_carport";
+    private static String PASSWORD = "william2450";
+    private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db";
 
     public ConnectionPool()
     {

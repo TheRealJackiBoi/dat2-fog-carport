@@ -11,7 +11,9 @@
     <jsp:body>
 
         <h1>SVG drawing</h1>
-        ${requestScope.svg}
+        <div style="text-align:center;">
+            ${requestScope.svg}
+        </div>
 
     </jsp:body>
 </t:pagetemplate>
