@@ -21,7 +21,7 @@ public class PartsMapper {
 
         List<Part> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM parts WHERE order_id = ?";
+        String sql = "SELECT * FROM Parts WHERE order_id = ?";
 
         try (Connection connection = connectionPool.getConnection() ){
             try (PreparedStatement ps = connection.prepareStatement(sql)){

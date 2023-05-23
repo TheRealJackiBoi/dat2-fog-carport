@@ -55,6 +55,7 @@
                 <div class="col-3">
                     <label for="zip">Post-nr.</label>
                     <input type="number" id="zip" class="form-control" name="zip" placeholder="2100" ><br>
+
                 </div>
             </div>
                 <button class="btn btn-primary col-3 float-center" type="submit" name="signupbtn" id="signupbtn" >Opret Bruger</button>
