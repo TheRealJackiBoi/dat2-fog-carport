@@ -10,34 +10,38 @@ import java.io.IOException;
 import java.util.Locale;
 
 @WebServlet(name = "SvgServlet", value = "/svg")
-public class Svg extends HttpServlet
+public class SvgServlet extends HttpServlet
 {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         Locale.setDefault(new Locale("US"));
 
-        int width = 200;
-        int length = 500;
-        int s_length = 0;
-        int s_width = 0;
+        double testLenth = 300.21;
+        double testWidth = 221.25;
+        int length = (int) testLenth;
+        int width = (int) testWidth;
 
-        SVG carport = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
-        SVG outerSVG = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
-
+        SVG carport = CarportSVG.createNewSvg(200,0,100, 100, "0 0 855 690");
+        SVG outerSvg = CarportSVG.createNewSvg(200,0,100,100, "0 0 855 690");
         carport = CarportSVG.addBeams(carport, length, width);
         carport = CarportSVG.addSides(carport, length, width);
         carport = CarportSVG.addPoles(carport, length, width);
 
-        outerSVG = CarportSVG.addDashedLines2(carport, length, width, 0, 0)
+        outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
+        outerSvg = CarportSVG.addLine(outerSvg, length, width);
+        outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, testLenth);
+        outerSvg = CarportSVG.addText(outerSvg, 15, length/2,90, testWidth);
+
+        carport.addInnerSvg(outerSvg);
 
 
-        carport.addInnerSvg(outerSVG);
 
         request.setAttribute("svg", carport.toString());
-        request.getRequestDispatcher("/svg-drawing.jsp").forward(request, response);
+        request.getRequestDispatcher("svg-drawing.jsp").forward(request, response);
 
     }
 
