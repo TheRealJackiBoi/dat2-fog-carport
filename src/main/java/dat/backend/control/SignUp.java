@@ -45,6 +45,8 @@ public class SignUp extends HttpServlet {
             if (!emailList.contains(email)) {
                 error = false;
                 UserFacade.createUser(email, password, name, zip, city, address, "customer", connectionPool);
+                String message = "Din bruger er nu oprettet - velkommen til Fog!";
+                request.setAttribute("message", message);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 error = true;

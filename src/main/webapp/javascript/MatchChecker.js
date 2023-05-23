@@ -1,5 +1,4 @@
-document.getElementById('signupbtn').disabled = true;
-
+// This function checks whether the password and repeatpassword match and colours it green/red respectively
 function checkPass() {
     if (document.getElementById('password').value ===
         document.getElementById('repeatpassword').value) {
@@ -10,6 +9,8 @@ function checkPass() {
         document.getElementById('message').innerHTML = 'Kodeord felter stemmer ikke overens';
     }
 }
+
+// This function checks whether the email and repeatemail match and colours it green/red respectively
 function checkEmail() {
     if (document.getElementById('email').value ===
         document.getElementById('repeatemail').value) {
@@ -20,7 +21,9 @@ function checkEmail() {
         document.getElementById('Emessage').innerHTML = 'Email felter stemmer ikke overens';
     }
 }
-function finalCheck() {
+
+// This function saves the variables of the form and checks whether they are empty (no input)
+function signupFinalCheck() {
     let email = document.forms["signup"]["email"].value;
     let repeatemail = document.forms["signup"]["repeatemail"].value;
     let password = document.forms["signup"]["password"].value;
@@ -29,8 +32,6 @@ function finalCheck() {
     let address = document.forms["signup"]["address"].value;
     let city = document.forms["signup"]["city"].value;
     let zip = document.forms["signup"]["zip"].value;
-
-    // Find en nemmere måde at gøre det her på?
 
     if (email == "") {
         alert("Please enter an email");
@@ -64,6 +65,7 @@ function finalCheck() {
         alert("Please enter a zip");
         return false;
     }
+    // Finally we check whether the email and password match their repeat values
     if (document.getElementById('email').value ===
         document.getElementById('repeatemail').value &&
         (document.getElementById('password').value ===
