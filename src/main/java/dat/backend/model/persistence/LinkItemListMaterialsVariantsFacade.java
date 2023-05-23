@@ -12,15 +12,15 @@ public class LinkItemListMaterialsVariantsFacade {
         LinkItemListMaterialsVariantsMapper.addPost(itemListId, connectionPool);
     }
 
-    static void addRafts(int itemListId, ConnectionPool connectionPool) throws DatabaseException{
-        LinkItemListMaterialsVariantsMapper.addRafts(itemListId, connectionPool);
+    static void addRafts(int itemListId, int materialVariantsId, ConnectionPool connectionPool) throws DatabaseException{
+        LinkItemListMaterialsVariantsMapper.addRafts(itemListId, materialVariantsId, connectionPool);
     }
 
-    static void addRaisingPlate(int itemListId, ConnectionPool connectionPool) throws DatabaseException{
-        LinkItemListMaterialsVariantsMapper.addRaisingPlate(itemListId, connectionPool);
+    static void addRaisingPlate(int itemListId, int materialVariantsId, ConnectionPool connectionPool) throws DatabaseException{
+        LinkItemListMaterialsVariantsMapper.addRaisingPlate(itemListId, materialVariantsId, connectionPool);
     }
 
-    static void addRoof(int itemListId, ConnectionPool connectionPool) throws DatabaseException{
-        LinkItemListMaterialsVariantsMapper.addRoof(itemListId, connectionPool);
+    static void addRoof(int itemListId, int materialVariantsId, ConnectionPool connectionPool) throws DatabaseException{
+        LinkItemListMaterialsVariantsMapper.addRoof(itemListId, materialVariantsId, connectionPool);
     }
 }
