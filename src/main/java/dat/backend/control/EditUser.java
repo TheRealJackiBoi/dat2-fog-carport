@@ -31,7 +31,6 @@ public class EditUser extends HttpServlet {
 
         request.setAttribute("edituser", user);
         request.getRequestDispatcher("WEB-INF/edituserinfo.jsp").forward(request, response);
-
     }
 
     @Override
@@ -73,7 +72,7 @@ public class EditUser extends HttpServlet {
                 error = false;
                 request.setAttribute("error", false);
                 // Update the current user
-                UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
+                UserFacade.updateUser(id, name, zip, city, address, role, connectionPool);
                 // Save updated user to sessionscope
                 user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
                 request.getSession().setAttribute("user", user);

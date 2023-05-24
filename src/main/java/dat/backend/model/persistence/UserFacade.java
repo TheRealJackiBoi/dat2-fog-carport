@@ -18,8 +18,8 @@ public class UserFacade {
         return UserMapper.getAllUsers(connectionPool);
     }
 
-    public static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
-        return UserMapper.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
+    public static User updateUser(int id, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+        return UserMapper.updateUser(id, name, zip, city, address, role, connectionPool);
     }
 
     public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
