@@ -27,7 +27,7 @@ public class Svg extends HttpServlet
         SVG carport = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
         SVG outerSVG = CarportSVG.createNewSVG(0, 0, 100, 60, "0 0 855 690");
 
-
+        carport = CarportSVG.addBeams(carport, length, width);
         carport = CarportSVG.addSides(carport, length, width);
         carport = CarportSVG.addPoles(carport, length, width);
 

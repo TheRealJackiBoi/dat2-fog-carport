@@ -12,6 +12,9 @@
     <jsp:body>
 
        <img src="${pageContext.request.contextPath}/images/carport.jpg" class="img-fluid">
+        <a href="svg">svg</a>
+
+
 
     </jsp:body>
 

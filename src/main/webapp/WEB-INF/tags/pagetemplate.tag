@@ -34,7 +34,7 @@
                         <!-- TODO: Insert Link -->
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Ordre</a>
                     </c:if>
-                    <!-- Links for admin orders
+                    <!-- Links for admin orders -->
                     <!-- TODO: insert links -->
                     <c:if test="${sessionScope.user.role.equals('salesman') || sessionScope.user.role.equals('admin')}">
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Ordre</a>
