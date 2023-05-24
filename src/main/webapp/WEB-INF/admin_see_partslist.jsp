@@ -27,11 +27,11 @@
             <tbody>
             <c:forEach var="partsList" items="${requestScope.partslist}">
                 <tr>
-                    <th>${partsList.dimensions}</th>
-                    <th><fmt:formatNumber type="number" maxFractionDigits="0" value="${partsList.length}"/></th>
-                    <th>${partsList.quantity}</th>
-                    <th>${partsList.unit}</th>
-                    <th>${partsList.useDescription}</th>
+                    <td>${partsList.dimensions}</td>
+                    <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${partsList.length}"/></td>
+                    <td>${partsList.quantity}</td>
+                    <td>${partsList.unit}</td>
+                    <td>${partsList.useDescription}</td>
                 </tr>
             </c:forEach>
             </tbody>
