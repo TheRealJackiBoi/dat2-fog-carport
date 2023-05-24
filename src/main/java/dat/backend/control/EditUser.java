@@ -18,9 +18,11 @@ public class EditUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Find the user object in session scope
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        if (user == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         int id = user.getId();
         // Fetch userId from current session user
         try {

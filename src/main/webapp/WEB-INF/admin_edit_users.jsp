@@ -11,6 +11,7 @@
 
     <jsp:body>
         <h4 class="text-center">Her kan du ændre roller på brugere</h4>
+        <form action="/kunder">
         <table class="table table-striped mt-4">
             <tr>
                 <th>ID</th>
@@ -26,38 +27,41 @@
             <c:forEach var="user" items="${requestScope.userList}">
                 <tr>
                     <td>
-                        ${user.id}
+                            ${user.id}
                     </td>
                     <td>
-                        ${user.email}
+                            ${user.email}
                     </td>
                     <td>
-                        ${user.name}
+                            ${user.name}
                     </td>
                     <td>
-                        ${user.address}
+                            ${user.address}
                     </td>
                     <td>
-                        ${user.city}
+                            ${user.city}
                     </td>
                     <td>
-                        ${user.zip}
+                            ${user.zip}
                     </td>
                     <td>
-                        ${user.role}
+                            ${user.role}
                     </td>
                     <td>
-                        <select name="role">
-                            <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
-                                <option value="${loop.index}">
-                                    ${role}
-                                </option>
-                            </c:forEach>
-                        </select>
-                        <button class="btn btn-primary" type="submit">OK</button>
+                        <form>
+                            <select name="roleSelect">
+                                <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
+                                    <option value="${role.role}">
+                                            ${role.role}
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        <button class="btn btn-primary" type="submit" formaction="kunder" formmethod="post" name="user_id" value="${user.id}">OK</button>
+                        </form>
                     </td>
                 </tr>
             </c:forEach>
         </table>
+        </form>
     </jsp:body>
 </t:pagetemplate>

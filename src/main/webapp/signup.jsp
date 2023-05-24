@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page errorPage="error.jsp" isErrorPage="false" %>
+<script type="text/javascript" src="${pageContext.request.contextPath}/javascript/MatchChecker.js"></script>
 
 <t:pagetemplate>
     <jsp:attribute name="header">
@@ -61,8 +62,6 @@
                 <button class="btn btn-primary col-3 float-center" type="submit" name="signupbtn" id="signupbtn" >Opret Bruger</button>
         </form>
         </div>
-
-        <script type="text/javascript" src="${pageContext.request.contextPath}/javascript/MatchChecker.js"></script>
 
     </jsp:body>
 
