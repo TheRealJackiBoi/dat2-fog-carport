@@ -23,18 +23,18 @@ public class PartsCalculator {
 
     public static int calculateNumberOfRafts(double length, double width){
         //Rafts = spær
-        //We assume that our rafts are 45 cm in width and that there needs to be 0.55 cm between each
+        //We assume that our rafts are 4.5 cm in width and that there needs to be 55 cm between each
         // https://www.johannesfog.dk/byggematerialer/trae/spaertrae/47x100-mm-spaertrae-c24-1438047100_0360
         // price 89,81
         // price pr meter = 24.94
 
         //numbers are in CM
-        double raftWidth = 45;
+        double raftWidth = 4.5;
         double spaceBetweenRafts = 55;
 
         int numberOfRafts = 0;
 
-        for(double i = spaceBetweenRafts; i < length; i = i + raftWidth + spaceBetweenRafts){
+        for(double i = 0; i < length; i = i + raftWidth + spaceBetweenRafts){
             numberOfRafts++;
         }
 
