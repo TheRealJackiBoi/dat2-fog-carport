@@ -11,6 +11,19 @@
     --transparent-black: rgba(0, 16, 33, 0.5);
 }
 
+.circle {
+    border-radius: 50% !important;
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.circle p {
+    transform: translate(0%, 25%);
+}
+
 body {
     width: 100vw !important;
     overflow-x: hidden !important;
@@ -35,30 +48,24 @@ body {
     height: 100%;
     width: 100%;
     margin: 0 !important;
-}#footer-logo-container{
+}
+#footer-logo-container {
      height: 100%;
      width: 100%;
  }
 
-table {
-    border-collapse: collapse;
-    border: 1px solid silver;
-    padding:15px;
-}
-
-th, td {
-    border: 1px solid silver;
-    padding:15px;
-}
-
-
 #footer {
     width: 100vw !important;
-
     min-height: 10vh;
     padding: 1rem;
 }
-.btn {
+
+#display-svg {
+
+}
+
+#display-svg svg {
+    width: 100% !important;
 }
 
 /* background colors */

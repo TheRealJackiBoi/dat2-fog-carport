@@ -10,6 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><jsp:invoke fragment="header"/></title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/Fog_logo.ico">
     <!-- Styles -->
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -30,15 +32,16 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/index.jsp">Hjem</a>
                     <c:if test="${sessionScope.user != null }">
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/ordering">Bestil Carport</a>
+                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/bestil">Bestil Carport</a>
                         <!-- TODO: Insert Link -->
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Ordre</a>
                     </c:if>
-                    <!-- Links for admin orders -->
+                    <!-- Links for admin orders-->
                     <!-- TODO: insert links -->
                     <c:if test="${sessionScope.user.role.equals('salesman') || sessionScope.user.role.equals('admin')}">
-                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin-view-orders">Ordre</a>
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Kunder</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin_change_costprices">Sæt ny indkøbspris</a>
                     </c:if>
                 </div>
             </div>

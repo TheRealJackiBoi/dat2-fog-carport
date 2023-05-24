@@ -10,13 +10,16 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "signup", urlPatterns = {"/signup"})
 public class SignUp extends HttpServlet {
     private ConnectionPool connectionPool;
 
+
     @Override
-    public void init() throws ServletException{
+    public void init() throws ServletException {
         this.connectionPool = ApplicationStart.getConnectionPool();
 
     }
@@ -24,7 +27,10 @@ public class SignUp extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         session.setAttribute("user", null); // invalidating user object in session scope
+        // Variable to keep visual track of errors
+        boolean error;
 
+        // Save variables for facade methods
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
@@ -32,12 +38,22 @@ public class SignUp extends HttpServlet {
         String city = request.getParameter("city");
         String address = request.getParameter("address");
 
-        try{
-            UserFacade.createUser(email, password, name, zip, city, address, "customer", connectionPool);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        try {
+            // Fetches email list from checkEmail method and sends it to the signup JSP
+            List<String> emailList = UserFacade.checkEmail(connectionPool);
+            request.setAttribute("emailList", emailList);
+            if (!emailList.contains(email)) {
+                error = false;
+                UserFacade.createUser(email, password, name, zip, city, address, "customer", connectionPool);
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            } else {
+                error = true;
+                session.setAttribute("error", true);
+                response.sendRedirect("signup.jsp");
+            }
         } catch (DatabaseException e) {
             e.printStackTrace();
+            response.sendRedirect("signup.jsp");
         }
-
     }
 }
