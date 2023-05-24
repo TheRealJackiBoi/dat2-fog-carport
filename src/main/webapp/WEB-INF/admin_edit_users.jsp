@@ -20,6 +20,7 @@
                 <th>By</th>
                 <th>Post nr.</th>
                 <th>Rolle</th>
+                <th>Ændre rolle</th>
             </tr>
             <!-- Prints user values from userList into tables -->
             <c:forEach var="user" items="${requestScope.userList}">
@@ -47,8 +48,13 @@
                     </td>
                     <td>
                         <select name="role">
-                            <c:forEach var="role" items="${requestScope.}
+                            <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
+                                <option value="${loop.index}">
+                                    ${role}
+                                </option>
+                            </c:forEach>
                         </select>
+                        <button class="btn btn-primary" type="submit">OK</button>
                     </td>
                 </tr>
             </c:forEach>
