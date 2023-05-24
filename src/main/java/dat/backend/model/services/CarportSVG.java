@@ -8,22 +8,40 @@ public class CarportSVG {
     }
     public static SVG addBeams(SVG svg, int length, int width){
         for(int i = 0; i <= length; i+=50){
-            svg.addRect(i+250, 30, width-35, 4.5);
+            svg.addRect(i, 30, width-35, 4.5);
         }
-        svg.addRect(length+250, 30, width-35, 4.5);
+        //svg.addRect(length+250, 30, width-35, 4.5);
         return svg;
     }
     public static SVG addSides(SVG svg, int length, int width){
-        svg.addRect(250,30, 10, length);
-        svg.addRect(250,width-15, 10, length);
+        svg.addRect(0,30, 10, length);
+        svg.addRect(0,width-15, 10, length);
 
         return svg;
     }
     public static SVG addPoles(SVG svg, int length, int width){
-        svg.addRect(250,30, 10,10);
-        svg.addRect(250, width-15, 10,10);
-        svg.addRect(length+245,30, 10,10);
-        svg.addRect(length+245,width-15, 10,10);
+        svg.addRect(0,30, 10,10);
+        svg.addRect(0, width-15, 10,10);
+        svg.addRect(length-5,30, 10,10);
+        svg.addRect(length-5,width-15, 10,10);
+
+        if (length > 300){
+            svg.addRect(length/2, 30, 10, 10);
+            svg.addRect(length/2, width-15, 10,10);
+        }
+        if (length > 600){
+            svg.addRect(length/2, 30, 10, 10);
+            svg.addRect(length/2, width-15, 10,10);
+
+        }
+        if (length > 900){
+            svg.addRect(length/2, 30, 10, 10);
+            svg.addRect(length/2, width-15, 10,10);
+        }
+        return svg;
+    }
+    public static SVG addShed(SVG svg, int length, int width, int shedWidth, int shedLength){
+        svg.addRect(length - shedLength, 65, shedWidth, width);
         return svg;
     }
 

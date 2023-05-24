@@ -28,8 +28,8 @@ public class SvgServlet extends HttpServlet
         int length = (int) testLenth;
         int width = (int) testWidth;
 
-        SVG carport = CarportSVG.createNewSvg(200,0,100, 100, "0 0 855 690");
-        SVG outerSvg = CarportSVG.createNewSvg(200,0,100,100, "0 0 855 690");
+        SVG carport = CarportSVG.createNewSvg(0,0,100, 100, "0 0 855 690");
+        SVG outerSvg = CarportSVG.createNewSvg(0,0,100,100, "0 0 855 690");
         carport = CarportSVG.addBeams(carport, length, width);
         carport = CarportSVG.addSides(carport, length, width);
         carport = CarportSVG.addPoles(carport, length, width);

@@ -63,16 +63,16 @@ public class SeeOrder extends HttpServlet {
             int length = (int) exactLength;
             int width = (int) exactWidth;
 
-            SVG carport = CarportSVG.createNewSvg(200,0,100, 100, "0 0 855 690");
-            SVG outerSvg = CarportSVG.createNewSvg(200,0,100,100, "0 0 855 690");
+            SVG carport = CarportSVG.createNewSvg(0,0,100, 100, "0 0 855 690");
+            SVG outerSvg = CarportSVG.createNewSvg(0,0,100,100, "0 0 855 690");
             carport = CarportSVG.addBeams(carport, length, width);
             carport = CarportSVG.addSides(carport, length, width);
             carport = CarportSVG.addPoles(carport, length, width);
 
-            outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
-            outerSvg = CarportSVG.addLine(outerSvg, length, width);
-            outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, exactLength);
-            outerSvg = CarportSVG.addText(outerSvg, 15, length/2,90, exactWidth);
+            //outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
+            //outerSvg = CarportSVG.addLine(outerSvg, length, width);
+            //outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, exactLength);
+            //outerSvg = CarportSVG.addText(outerSvg, 15, length/2,90, exactWidth);
 
             carport.addInnerSvg(outerSvg);
 
@@ -120,8 +120,8 @@ public class SeeOrder extends HttpServlet {
             int length = (int) exactLength;
             int width = (int) exactWidth;
 
-            SVG carport = CarportSVG.createNewSvg(200,0,100, 100, "0 0 855 690");
-            SVG outerSvg = CarportSVG.createNewSvg(200,0,100,100, "0 0 855 690");
+            SVG carport = CarportSVG.createNewSvg(0,0,100, 100, "0 0 855 690");
+            SVG outerSvg = CarportSVG.createNewSvg(0,0,100,100, "0 0 855 690");
             carport = CarportSVG.addBeams(carport, length, width);
             carport = CarportSVG.addSides(carport, length, width);
             carport = CarportSVG.addPoles(carport, length, width);

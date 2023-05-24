@@ -87,12 +87,16 @@
         </div>
 
 
-        <div class="mx-auto w-50 mt-4 bg-info">
-            <h2 class="text-center"> Plantegning</h2>
-                ${requestScope.svg}
+        <div class="row">
+            <div class="col-8 ">
+                <p class="lead"><strong> Plantegning</strong></p>
+                    ${requestScope.svg}
+
+            </div>
         </div>
 
 
     </jsp:body>
+
 
 </t:pagetemplate>
