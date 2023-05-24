@@ -11,7 +11,7 @@ public class MaterialsFacade {
         return MaterialsMapper.getMaterialsByMaterialId(materialId, connectionPool);
     }
 
-    public static List<Materials> getMaterialByType(String type, ConnectionPool connectionPool) throws DatabaseException{
+    public static Materials getMaterialByType(String type, ConnectionPool connectionPool) throws DatabaseException{
         return MaterialsMapper.getMaterialByType(type, connectionPool);
     }
 

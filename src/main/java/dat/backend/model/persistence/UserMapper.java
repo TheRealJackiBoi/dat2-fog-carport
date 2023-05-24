@@ -145,19 +145,18 @@ class UserMapper {
         return null;
     }
 
-    static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+
+    static User updateUser(int id, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
-        String sql = "UPDATE user SET email = ?, password = ?, name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
+        String sql = "UPDATE user SET name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setString(1, email);
-                ps.setString(2, password);
-                ps.setString(3, name);
-                ps.setInt(4, zip);
-                ps.setString(5, city);
-                ps.setString(6, address);
-                ps.setInt(7, id);
+                ps.setString(1, name);
+                ps.setInt(2, zip);
+                ps.setString(3, city);
+                ps.setString(4, address);
+                ps.setInt(5, id);
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
