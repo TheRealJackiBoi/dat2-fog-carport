@@ -50,6 +50,7 @@ public class AdminEditUsers extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
 
+        // Fetch parameters from JSP
         int user_id = Integer.parseInt(request.getParameter("user_id"));
         String role = request.getParameter("roleSelect");
 
@@ -59,11 +60,6 @@ public class AdminEditUsers extends HttpServlet {
             e.printStackTrace();
         }
         response.sendRedirect("kunder");
-
-        System.out.println(user_id);
-        System.out.println(role);
     }
-
-
 }
 
