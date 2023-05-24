@@ -22,6 +22,10 @@ public class UserFacade {
         return UserMapper.updateUser(id, name, zip, city, address, role, connectionPool);
     }
 
+    public static User updateRole(String role, int id, ConnectionPool connectionPool) throws DatabaseException {
+        return UserMapper.updateRole(role, id, connectionPool);
+    }
+
     public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
         return UserMapper.getUserByEmail(email, connectionPool);
     }
