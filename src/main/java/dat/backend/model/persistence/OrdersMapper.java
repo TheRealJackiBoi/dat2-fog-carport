@@ -147,7 +147,7 @@ public class OrdersMapper {
 
         double cost = ItemListFacade.sumPrice(orderId, connectionPool);
         //According to the Fog presentation video they had a 39% degree of coverage, so that is what we are gonna use
-        double salesPrice = cost * 1.39;
+        double salesPrice = cost * 1.667;
 
         String sql = "UPDATE orders SET material_cost = ?, sales_price = ? WHERE order_id = ?";
 
