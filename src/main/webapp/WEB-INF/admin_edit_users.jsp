@@ -49,6 +49,7 @@
                         </td>
                         <td>
                             <form>
+                                <!-- If the user is a salesman, he cannot changes roles -->
                                 <c:choose>
                                     <c:when test="${sessionScope.user.role.equals('admin')}">
                                         <select name="roleSelect">
