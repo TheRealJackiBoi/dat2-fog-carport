@@ -2,7 +2,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <t:pagetemplate>
     <jsp:attribute name="header">
         Fog
@@ -25,11 +27,11 @@
             <tbody>
             <c:forEach var="partsList" items="${requestScope.partslist}">
                 <tr>
-                    <th>${partsList.dimensions}</th>
-                    <th>${partsList.length}</th>
-                    <th>${partsList.quantity}</th>
-                    <th>${partsList.unit}</th>
-                    <th>${partsList.useDescription}</th>
+                    <td>${partsList.dimensions}</td>
+                    <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${partsList.length}"/></td>
+                    <td>${partsList.quantity}</td>
+                    <td>${partsList.unit}</td>
+                    <td>${partsList.useDescription}</td>
                 </tr>
             </c:forEach>
             </tbody>

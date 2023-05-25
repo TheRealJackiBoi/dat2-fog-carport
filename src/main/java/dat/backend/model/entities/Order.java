@@ -12,6 +12,7 @@ public class Order {
     private String status;
     private double shedWidth;
     private double shedLength;
+    private String userEmail;
 
     //construktor for carport without a shed
     public Order(int orderId, double materialCost, double salesPrice, double carportWidth, double carportLength, double carportHeight, int userId, String status) {
@@ -36,6 +37,20 @@ public class Order {
         this.status = status;
         this.shedWidth = shedWidth;
         this.shedLength = shedLength;
+    }
+
+    public Order(int orderId, double materialCost, double salesPrice, double carportWidth, double carportLength, double carportHeight, int userId, String status, double shedWidth, double shedLength, String userEmail) {
+        this.orderId = orderId;
+        this.materialCost = materialCost;
+        this.salesPrice = salesPrice;
+        this.carportWidth = carportWidth;
+        this.carportLength = carportLength;
+        this.carportHeight = carportHeight;
+        this.userId = userId;
+        this.status = status;
+        this.shedWidth = shedWidth;
+        this.shedLength = shedLength;
+        this.userEmail = userEmail;
     }
 
     public int getOrderId() {
@@ -77,4 +92,14 @@ public class Order {
     public double getShedLength() {
         return shedLength;
     }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
 }
+

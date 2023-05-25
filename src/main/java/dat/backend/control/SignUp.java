@@ -27,8 +27,10 @@ public class SignUp extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         session.setAttribute("user", null); // invalidating user object in session scope
+        // Variable to keep visual track of errors
         boolean error;
 
+        // Save variables for facade methods
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
@@ -43,6 +45,8 @@ public class SignUp extends HttpServlet {
             if (!emailList.contains(email)) {
                 error = false;
                 UserFacade.createUser(email, password, name, zip, city, address, "customer", connectionPool);
+                String message = "Din bruger er nu oprettet - velkommen til Fog!";
+                request.setAttribute("message", message);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 error = true;

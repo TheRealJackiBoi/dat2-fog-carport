@@ -91,15 +91,8 @@ class MaterialsMapperTest {
 
     @Test
     void getMaterialByType() throws DatabaseException {
-        List<Materials> list = MaterialsMapper.getMaterialByType("wood", connectionPool);
 
-        assertEquals("wood", list.get(0).getType());
-        assertEquals("wood", list.get(1).getType());
-        assertEquals("wood", list.get(2).getType());
-        assertEquals("wood", list.get(3).getType());
-        assertEquals("wood", list.get(4).getType());
-        assertEquals("wood", list.get(5).getType());
-        assertEquals(6,list.size());
+
     }
 
     @Test

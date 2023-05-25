@@ -7,6 +7,7 @@ import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.OrdersFacade;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.services.ItemListPopulator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -90,12 +91,12 @@ public class CreateOrder extends HttpServlet
                     try {
                         currentOrderId = OrdersFacade.addOrder(width, length, height, userId, s_width, s_length, connectionPool);
                         OrdersFacade.changeStatusByOrderIdToOrderPlaced(currentOrderId, connectionPool);
+                        ItemListPopulator.populate(currentOrderId, length, width, height, connectionPool);
                         session.setAttribute("orderId", currentOrderId);
 
-                        request.setAttribute("confirmed_order_id", currentOrderId);
+                        request.setAttribute("order_id", currentOrderId);
                         session.setAttribute("current_order_id", null);
-                        // TODO: Redirect to some kind of orderconfirmation
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        request.getRequestDispatcher("se-din-ordre").forward(request, response);
 
                     } catch (DatabaseException e) {
                         request.setAttribute("errormessage", e.getMessage());
@@ -107,11 +108,11 @@ public class CreateOrder extends HttpServlet
                         currentOrderId = (int)session.getAttribute("current_order_id");
                         OrdersFacade.updateSpecificOrderById(currentOrderId, width, length, height, connectionPool);
                         OrdersFacade.changeStatusByOrderIdToOrderPlaced(currentOrderId, connectionPool);
+                        ItemListPopulator.populate(currentOrderId, length, width, height, connectionPool);
 
-                        request.setAttribute("confirmed_order_id", currentOrderId);
+                        request.setAttribute("order_id", currentOrderId);
                         session.setAttribute("current_order_id", null);
-                        // TODO: Redirect to some kind of orderconfirmation
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        request.getRequestDispatcher("se-din-ordre").forward(request, response);
 
                     } catch (DatabaseException e) {
                         request.setAttribute("errormessage", e.getMessage());

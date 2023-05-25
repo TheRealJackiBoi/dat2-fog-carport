@@ -94,8 +94,6 @@ class UserMapper {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE email = ?";
 
-        //List<User> userList = new ArrayList<>();
-
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, email);
@@ -124,8 +122,6 @@ class UserMapper {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "SELECT * FROM user WHERE id = ?";
 
-        //List<User> userList = new ArrayList<>();
-
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setInt(1, id);
@@ -149,21 +145,18 @@ class UserMapper {
         return null;
     }
 
-    static User updateUser(int id, String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
-        //TODO: Check if new email is already taken by another user!
 
+    static User updateUser(int id, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
-        String sql = "UPDATE user SET email = ?, password = ?, name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
+        String sql = "UPDATE user SET name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setString(1, email);
-                ps.setString(2, password);
-                ps.setString(3, name);
-                ps.setInt(4, zip);
-                ps.setString(5, city);
-                ps.setString(6, address);
-                ps.setInt(7, id);
+                ps.setString(1, name);
+                ps.setInt(2, zip);
+                ps.setString(3, city);
+                ps.setString(4, address);
+                ps.setInt(5, id);
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
@@ -173,7 +166,24 @@ class UserMapper {
         return null;
     }
 
-   static List<String> checkEmail(ConnectionPool connectionPool) throws DatabaseException {
+    static User updateRole(String role, int id, ConnectionPool connectionPool) throws DatabaseException {
+        Logger.getLogger("web").log(Level.INFO, "");
+        String sql = "UPDATE user SET role = ? WHERE id = ?";
+
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, role);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Failed to update user information");
+
+        }
+        return null;
+    }
+
+    static List<String> checkEmail(ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         List<String> emailList = new ArrayList<>();
         String sql = "SELECT email FROM user";
@@ -181,7 +191,6 @@ class UserMapper {
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                // preparedStatement.setString(1, email);
                 ResultSet rs = preparedStatement.executeQuery();
                 while (rs.next()) {
                     String email_ = rs.getString("email");
