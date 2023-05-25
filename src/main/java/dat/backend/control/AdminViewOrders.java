@@ -8,6 +8,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.OrdersFacade;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.UserFacade;
+import dat.backend.model.services.Authentication;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,12 +30,13 @@ public class AdminViewOrders extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        // If user is not an admin or salesman, redirect to index page (no access)
-        if (user == null || user.getRole().equals("customer")) {
+        // Authenticate user role
+        if (!Authentication.isRoleAllowed("admin", request) && (!Authentication.isRoleAllowed("salesman", request))) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
         List<Order> orders;
 
         if(user == null) {
