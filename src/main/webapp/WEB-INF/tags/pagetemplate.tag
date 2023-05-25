@@ -33,13 +33,14 @@
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/index.jsp">Hjem</a>
                     <c:if test="${sessionScope.user != null }">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/bestil">Bestil Carport</a>
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Ordre</a>
+                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Dine ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/edituser">Dine oplysninger</a>
                     </c:if>
                     <!-- Links for admin orders-->
                     <!-- TODO: insert links -->
                     <c:if test="${sessionScope.user.role.equals('salesman') || sessionScope.user.role.equals('admin')}">
-                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin-view-orders">Ordre</a>
-                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/kunder">Kunder</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin-view-orders">Admin ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/kunder">Se kunder</a>
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin_change_costprices">Sæt ny indkøbspris</a>
                     </c:if>
                 </div>

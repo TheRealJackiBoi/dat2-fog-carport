@@ -23,7 +23,8 @@ public class AdminEditUsers extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        if (user == null) {
+        // If user is not an admin or salesman, redirect to index page (no access)
+        if (user == null || user.getRole().equals("customer")) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
 
@@ -43,6 +44,7 @@ public class AdminEditUsers extends HttpServlet {
 
         request.setAttribute("roleList", roleList);
         request.setAttribute("userList", userList);
+        session.setAttribute("user", user);
 
         request.getRequestDispatcher("WEB-INF/admin_edit_users.jsp").forward(request, response);
     }
