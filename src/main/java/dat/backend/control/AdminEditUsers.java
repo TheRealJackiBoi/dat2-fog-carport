@@ -23,7 +23,8 @@ public class AdminEditUsers extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        if (user == null) {
+        // If user is not an admin, redirect to index page (no access)
+        if (user == null || !user.getRole().equals("admin")) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
 
