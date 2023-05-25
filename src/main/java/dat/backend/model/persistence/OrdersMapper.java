@@ -17,7 +17,7 @@ public class OrdersMapper {
 
     //returns all the orders in the system
     static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException{
-        Logger.getLogger("web").log(Level.INFO,"");
+        Logger.getLogger("web").log(Level.INFO,": getting all orders");
 
         List<Order> orderList = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class OrdersMapper {
 
     //returns 1 specific Order
     static Order getOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
-        Logger.getLogger("web").log(Level.INFO,"");
+        Logger.getLogger("web").log(Level.INFO,": getting orders by order id");
 
         Order order = null;
 
@@ -82,7 +82,7 @@ public class OrdersMapper {
 
     //Return all of a Users orders
     static List<Order> getOrdersByUserId(int userId, ConnectionPool connectionPool) throws DatabaseException{
-        Logger.getLogger("web").log(Level.INFO, "");
+        Logger.getLogger("web").log(Level.INFO, ": getting orders by user id");
 
         List<Order> orderList = new ArrayList<>();
         String sql = "SELECT * FROM orders WHERE user_id = ?";
@@ -229,7 +229,7 @@ public class OrdersMapper {
   //return a list of all orders in the database including the email
     static List<Order> getAllOrdersPlusEmail(ConnectionPool connectionPool) throws DatabaseException {
 
-        Logger.getLogger("web").log(Level.INFO,"");
+        Logger.getLogger("web").log(Level.INFO,": getting all orders and emails");
         List<Order> orderList = new ArrayList<>();
         String sql = "SELECT user.email, orders.* FROM user " +
                 "INNER Join orders WHERE user.id=orders.user_id;";
