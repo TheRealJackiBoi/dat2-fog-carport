@@ -20,23 +20,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "adminViewOrders", urlPatterns = {"/admin-view-orders"} )
-public class AdminViewOrders extends HttpServlet
-{
+public class AdminViewOrders extends HttpServlet {
     private ConnectionPool connectionPool;
 
     @Override
-    public void init() throws ServletException
-    {
+    public void init() throws ServletException {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
-    {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        // If user is not an admin or salesman, redirect to index page (no access)
+        if (user == null || user.getRole().equals("customer")) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         List<Order> orders;
 
-        if(user == null){
+        if(user == null) {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
         else {
@@ -55,10 +56,6 @@ public class AdminViewOrders extends HttpServlet
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
             }
-
         }
-
-
     }
-
 }

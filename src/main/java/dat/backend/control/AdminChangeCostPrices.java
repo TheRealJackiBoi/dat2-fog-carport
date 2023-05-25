@@ -2,6 +2,7 @@ package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.Materials;
+import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.MaterialsFacade;
@@ -25,6 +26,12 @@ public class AdminChangeCostPrices extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        // If user is not an admin or salesman, redirect to index page (no access)
+        if (user == null || user.getRole().equals("customer")) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
 
         List<Materials> list;
 
