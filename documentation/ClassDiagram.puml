@@ -1,125 +1,194 @@
 @startuml
 
-class Orders
-class User
-class Calculator
-class Item_list
-class Material_variants
-class Materials
-
-User --* Orders : has-many
-Orders --* Item_list : has-a
-Item_list --* Material_variants : has-many
-Material_variants --* Materials : has-many
-
-
-
-class Orders{
-    -int length
-    -int width
-    -int height
-    -double s_width
-    -double s_length
-    -User user;
-    -int price
-
-
-   +int getWidth()
-   +void setWidth(int width)
-   +int getLength()
-   +void set_length(int length)
-   +int set_s_width()
-   +void s_width(int r_width)
-   +int getR_length()
-   +void setR_length(int r_length)
-   +Carport(int width, int length)
-}
-
-static class Calculator{
-    List<Materials> MaterialList
-    -int beamQuantity
-    -int remQuantity
-    -int poleQuantity
-    -int beamPrice
-    -int remPrice
-    -int polePrice
-
-    +int calculateBeamQuantity()
-    +int calculateRemQuantity()
-    +int calculatePoleQuantity()
-    +int calculateBeamPrice()
-    +int calculateRemPrice()
-    +int calculatePolePrice()
-}
-
-class User{
-    -String email
-    -String password
-    -String name
-    -int zip_code
-    -String city
-    -String adress
-    -String role
-
-    +User(Constructor)
-    +void setEmail()
-    +String getEmail()
-    +void setPassword()
-    +String getPassword()
-    +void setName()
-    +String getName()
-    +void setZip_code()
-    +int getZip_code()
-    +void setCity()
-    +String getCity()
-    +void setAdress()
-    +String getAdress()
-    +void setRole()
-    +String getRole()
-
-}
-class Item_list{
-    -String use_description
+class ItemList{
+    -int itemListId
+    -useDescription
     -int quantity
     -double price
+    -int orderId
 
-    +void setUse_desciption
-    +String getUse_description
-    +void setQuantity
-    +int getQuantity
-    +void setPrice
-    +double getPrice
-
+    +ItemList()
+    +getters()
 }
-class Materials{
-    -String description
+
+class LinkItemListMaterialVariants {
+    -int itemListId
+    -int materialVariantsId
+
+    +LinkItemListMaterialVariants()
+    +getters()
+}
+
+class Material {
+    -int materialId
+    -String descriptions
     -String unit
     -double unitPrice
-    -String material
     -String type
 
-    +void setDesctription()
-    +String getDescription()
-    +void setUnit()
-    +String getUnit()
-    +void setUnitPice()
-    +double getUnitPrice()
-    +void setMaterial()
-    +String getMaterial()
-    +void setType()
-    +String getType()
+    +Materials()
+    +getters()
 
 }
 
-class Material_variants {
+class MaterialVariants {
+    -int variantId
     -double length
     -int quantity
+    -int materialId
 
-    +void set_length()
-    +double getLength()
-    +void setQuantity()
-    +int getQuantity()
+    +MaterialVariants()
+    +getters()
+
 }
+
+class Order {
+    -int orderId
+    -double materialCost
+    -double salesPrice
+    -double carportWidth;
+    -double carportLength;
+    -double carportHeight;
+    -int userId;
+    -String status;
+    -double shedWidth;
+    -double shedLength;
+    -String userEmail;
+
+    +Order(-shed)
+    +Order()
+    +Order(+email)
+    +getters()
+    +setters()
+
+}
+
+class Part {
+    -int order_id;
+    -String useDescription;
+    -int quantity;
+    -double price;
+    -int variantId;
+    -double length;
+    -int materialId;
+    -String dimensions;
+    -String unit;
+
+    +Part()
+    +getters()
+
+}
+
+class Role {
+    -String role
+
+    +Part()
+    +getters
+    +setters
+    +Strin toString()
+
+}
+
+class Status {
+    -String status
+
+    +Status()
+    +getters
+
+}
+
+class Type {
+    -String type
+
+    +Type()
+    +getters
+}
+
+class Unit {
+    -String unit
+
+    +Unit()
+    +getters
+
+}
+
+class User {
+    -int id;
+    -String email;
+    -String password;
+    -String name;
+    -int zip;
+    -String city;
+    -String address;
+    -String role;
+
+    +user()
+    +user()
+    +user()
+    +user()
+    +getters
+    +setters
+    +bolean equals()
+    +int hashcode
+    +Strin toString()
+
+}
+
+class ItemListPopulator {
+        -boolean postAdded
+        -boolean roofAdded
+        -double length
+        -double width
+        -double height
+        -String postDescription
+        -Materials roofs
+        -Materials rafts
+        -int numberOfRafts
+        -int numberOfPosts
+        -int numberOfRoofPlates
+        -int numberOfRaisingPlates
+        -List<MaterialVariants> raisingPlatesVariants
+        -List<MaterialVariants> raftList
+        -List<MaterialVariants> postsVariantsList
+        -List<MaterialVariants> roofPlatesVariants
+
+        +populate()
+        +addRaisinPlates()
+        +addRafts()
+
+
+}
+
+class PartsCalculator{
+        -int numberOfPosts
+        -double maxSpaceBetweenPost
+        -double raftWidth
+        -double spaceBetweenRafts
+        -int numberOfRafts
+        -double roofPlatesWidth
+        -double roofPlatesLength
+        -int numberOfRoofPlates
+        -int numberOfPlatesForLength
+        -int numberOfPlatesForWidth
+
+        +calculateNumberOfPosts()
+        +calculateNumberOfRafts()
+        +calculateNumberOfRoofPlates()
+
+}
+
+User *-- Order
+User *-- Role
+Order *-- ItemList
+Order *-- Status
+Order *-- PartsCalculator
+ItemList *-- LinkItemListMaterialVariants
+LinkItemListMaterialVariants *-- MaterialVariants
+MaterialVariants *-- Material
+Material *-- Unit
+Material *-- Type
+Material *-- ItemListPopulator
+Material *-- Part
 
 
 @enduml
