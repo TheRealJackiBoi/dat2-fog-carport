@@ -60,6 +60,13 @@ body {
     padding: 1rem;
 }
 
+#display-svg {
+
+}
+
+#display-svg svg {
+    width: 100% !important;
+}
 
 /* background colors */
 .bg-primary {

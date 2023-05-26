@@ -4,6 +4,7 @@
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <t:pagetemplate>
     <jsp:attribute name="header">
          Din Bestilling
@@ -13,7 +14,6 @@
     <jsp:body>
 
         <h1 class="text-center">Tak for din bestilling</h1>
-
 
         <div class="w-50 mx-auto my-4">
 
@@ -88,13 +88,12 @@
 
         </div>
 
-        <c:if test="${requestScope.order.status.equals('Pending') || requestScope.order.status.equals('Accepted')}">
-            <div>
-                <!-- TODO: Insert svg -->
-                place svg here
-            </div>
-        </c:if>
+        <div style="margin: 0 auto" class="moveSvg">
+                ${requestScope.svg}
+        </div>
+
 
     </jsp:body>
+
 
 </t:pagetemplate>
