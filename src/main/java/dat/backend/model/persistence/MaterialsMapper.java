@@ -42,10 +42,10 @@ public class MaterialsMapper {
         return materials;
     }
 
-    static List<Materials> getMaterialByType(String type, ConnectionPool connectionPool) throws DatabaseException {
+    static Materials getMaterialByType(String type, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
 
-        List<Materials> list = new ArrayList<>();
+        Materials material = null;
 
         String sql = "SELECT * FROM materials WHERE type = ?";
 
@@ -54,19 +54,19 @@ public class MaterialsMapper {
                 ps.setString(1,type);
                 ResultSet rs = ps.executeQuery();
 
-                while (rs.next()){
+                if (rs.next()){
                     int materialId = rs.getInt("material_id");
                     String description = rs.getString("description");
                     String unit = rs.getString("unit");
                     double unitPrice = rs.getDouble("unit_price");
                     //String type = rs.getString("type");
-                    list.add(new Materials(materialId,description,unit,unitPrice,type));
+                    material = new Materials(materialId,description,unit,unitPrice,type);
                 }
             }
         }catch (SQLException e){
             throw new DatabaseException(e, "We couldnt get the material");
         }
-        return list;
+        return material;
     }
 
     static List<Materials> getMaterialByDescription(String description, ConnectionPool connectionPool) throws DatabaseException {

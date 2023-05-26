@@ -2,7 +2,8 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/svgStyle.css">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <t:pagetemplate>
     <jsp:attribute name="header">
@@ -83,7 +84,7 @@
 
             <hr class="mt-4"/>
 
-            <p><b>Total:</b> ${requestScope.order.salesPrice} kr.</p>
+            <p><b>Total:</b> <fmt:formatNumber type="number" maxFractionDigits="2" value="${requestScope.order.salesPrice}"/> kr.</p>
 
         </div>
 

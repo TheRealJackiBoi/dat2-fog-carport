@@ -5,6 +5,7 @@ import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.UserFacade;
+import dat.backend.model.services.Authentication;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,21 +19,16 @@ public class EditUser extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Find the user object in session scope
+        // Authenticate user role
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        int id = user.getId();
-        // Fetch userId from current session user
-        try {
-            user = UserFacade.getUserById(id, connectionPool);
-        } catch (DatabaseException e) {
-            e.printStackTrace();
+
+        if (Authentication.isUserLoggedIn(request, connectionPool) == 0) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
 
-        request.setAttribute("edituser", user);
         request.getRequestDispatcher("WEB-INF/edituserinfo.jsp").forward(request, response);
-
-    }
+        }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -73,7 +69,7 @@ public class EditUser extends HttpServlet {
                 error = false;
                 request.setAttribute("error", false);
                 // Update the current user
-                UserFacade.updateUser(id, email, password, name, zip, city, address, role, connectionPool);
+                UserFacade.updateUser(id, name, zip, city, address, role, connectionPool);
                 // Save updated user to sessionscope
                 user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
                 request.getSession().setAttribute("user", user);

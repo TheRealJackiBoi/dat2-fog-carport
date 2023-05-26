@@ -19,20 +19,20 @@ public class ItemListFacade {
         return ItemListMapper.sumPrice(orderId, connectionPool);
     }
     
-    public static void addPosts(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
-        ItemListMapper.addPosts(orderId, descripton, quantity, connectionPool);
+    public static void addPosts(int orderId, String descripton, int quantity, int materialVariantId, ConnectionPool connectionPool) throws DatabaseException{
+        ItemListMapper.addPosts(orderId, descripton, quantity, materialVariantId, connectionPool);
     }
 
-    public static void addRafts(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
-        ItemListMapper.addRafts(orderId, descripton, quantity, connectionPool);
+    public static void addRafts(int orderId, String descripton, int quantity, int materialVariantsId, ConnectionPool connectionPool) throws DatabaseException{
+        ItemListMapper.addRafts(orderId, descripton, quantity, materialVariantsId, connectionPool);
     }
 
-    public static void addRaisingPlate(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
-        ItemListMapper.addRaisingPlate(orderId, descripton, quantity, connectionPool);
+    public static void addRaisingPlate(int orderId, String descripton, int quantity, int materialVariantsId, ConnectionPool connectionPool) throws DatabaseException{
+        ItemListMapper.addRaisingPlate(orderId, descripton, quantity, materialVariantsId, connectionPool);
     }
 
-    public static void addRoof(int orderId, String descripton, int quantity, ConnectionPool connectionPool) throws DatabaseException{
-        ItemListMapper.addRoof(orderId, descripton, quantity, connectionPool);
+    public static void addRoof(int orderId, String descripton, int quantity, int materialVariantsId, ConnectionPool connectionPool) throws DatabaseException{
+        ItemListMapper.addRoof(orderId, descripton, quantity, materialVariantsId, connectionPool);
     }
 
 }

@@ -28,26 +28,33 @@
             </a>
 
             <!-- Collapsable Links to the left -->
-            <div class="collapse navbar-collapse justify-content-start" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav justify-content-start">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/index.jsp">Hjem</a>
                     <c:if test="${sessionScope.user != null }">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/bestil">Bestil Carport</a>
-                        <!-- TODO: Insert Link -->
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Ordre</a>
+                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Dine ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/edituser">Dine oplysninger</a>
                     </c:if>
                     <!-- Links for admin orders-->
                     <!-- TODO: insert links -->
                     <c:if test="${sessionScope.user.role.equals('salesman') || sessionScope.user.role.equals('admin')}">
-                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin-view-orders">Ordre</a>
-                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/">Kunder</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin-view-orders">Admin ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/kunder">Se kunder</a>
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin_change_costprices">Sæt ny indkøbspris</a>
                     </c:if>
                 </div>
+
             </div>
 
+            <!-- Burgermenu for small devices -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
             <!-- Login / Logout -->
-            <div class="navbar-nav">
+            <div class="navbar-nav justify-content-end">
                 <c:if test="${sessionScope.user == null }">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/login.jsp">Login</a>
                 </c:if>
@@ -55,11 +62,6 @@
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/logout">Log out</a>
                 </c:if>
             </div>
-            <!-- Burgermenu for small devices -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
     </nav>
 </header>

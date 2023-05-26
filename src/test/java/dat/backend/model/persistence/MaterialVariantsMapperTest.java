@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.lang.model.element.VariableElement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -51,6 +52,7 @@ class MaterialVariantsMapperTest {
         {
             try (Statement stmt = testConnection.createStatement())
             {
+                /*
                 // TODO: Remove all rows from all tables - add your own tables here
                 stmt.execute("delete from material_variants");
 
@@ -58,6 +60,8 @@ class MaterialVariantsMapperTest {
 
                 stmt.execute("insert into material_variants (length, quantity, material_id) " +
                         "values ('320','12','1'),('170','6','3'), ('560','2','3')");
+
+                 */
             }
         }
         catch (SQLException throwables)
@@ -87,8 +91,14 @@ class MaterialVariantsMapperTest {
     }
 
     @Test
-    void getVariantByVariantId() {
-        //shit function i dont think we are gonna use tbh
+    void getVariantByVariantId() throws DatabaseException {
+
+        MaterialVariants variants = MaterialVariantsMapper.getVariantByVariantId(16, connectionPool);
+
+        assertEquals(170, variants.getLength());
+
+        assertNotEquals(1, variants.getVariantId());
+
     }
 
     @Test

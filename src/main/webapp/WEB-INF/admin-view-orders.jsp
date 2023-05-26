@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:pagetemplate>
     <jsp:attribute name="header">
@@ -40,8 +41,8 @@
 
                 <td>${order.userEmail}</td>
                 <td>${order.orderId}</td>
-                <td>${order.materialCost}</td>
-                <td>${order.salesPrice}</td>
+                <td><fmt:formatNumber type="number" maxFractionDigits="2" value="${order.materialCost}"/> kr.</td>
+                <td><fmt:formatNumber type="number" maxFractionDigits="2" value="${order.salesPrice}"/> kr.</td>
                 <td>${order.status}</td>
                 <td>
                     <div class="d-flex gap-2 w-100" role="group">
