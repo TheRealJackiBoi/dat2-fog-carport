@@ -87,11 +87,10 @@
 
         </div>
 
-        <div class="w-50 mt-4 mx-auto bg-primary">
-            <div class="moveSvg">
+        <div style="margin: 0 auto" class="moveSvg">
                 ${requestScope.svg}
-            </div>
         </div>
+
 
     </jsp:body>
 

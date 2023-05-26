@@ -63,8 +63,8 @@ public class SeeOrder extends HttpServlet {
             int length = (int) exactLength;
             int width = (int) exactWidth;
 
-            SVG carport = CarportSVG.createNewSvg(0,0,100, 100, "0 0 855 690");
-            SVG outerSvg = CarportSVG.createNewSvg(0,0,100,100, "0 0 855 690");
+            SVG carport = CarportSVG.createNewSvg(0,0,100, 100, "0 0 " + (length + 55) + " " + (width +90));
+            SVG outerSvg = CarportSVG.createNewSvg(0,0,100,100, "0 0 " + (length + 55) + " " + (width +90));
             carport = CarportSVG.addBeams(carport, length, width);
             carport = CarportSVG.addSides(carport, length, width);
             carport = CarportSVG.addPoles(carport, length, width);
@@ -123,8 +123,9 @@ public class SeeOrder extends HttpServlet {
             int length = (int) exactLength;
             int width = (int) exactWidth;
 
-            SVG carport = CarportSVG.createNewSvg(0,0,100, 100, "0 0 855 690");
-            SVG outerSvg = CarportSVG.createNewSvg(0,0,100,100, "0 0 855 690");
+
+            SVG carport = CarportSVG.createNewSvg(0,0,100, 100, "0 0 " + length + 55 + " " + width +90);
+            SVG outerSvg = CarportSVG.createNewSvg(0,0,100,100, "0 0 " + length + 55 + " " + width +90);
             carport = CarportSVG.addBeams(carport, length, width);
             carport = CarportSVG.addSides(carport, length, width);
             carport = CarportSVG.addPoles(carport, length, width);
