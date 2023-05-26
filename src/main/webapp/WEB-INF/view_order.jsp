@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page errorPage="../error.jsp" isErrorPage="false" %>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/svgStyle.css">
 
 <t:pagetemplate>
     <jsp:attribute name="header">
@@ -86,15 +87,11 @@
 
         </div>
 
-
-        <div class="row">
-            <div class="col-8 ">
-                <p class="lead"><strong> Plantegning</strong></p>
-                    ${requestScope.svg}
-
+        <div class="w-50 mt-4 mx-auto bg-primary">
+            <div class="moveSvg">
+                ${requestScope.svg}
             </div>
         </div>
-
 
     </jsp:body>
 

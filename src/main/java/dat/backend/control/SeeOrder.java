@@ -69,10 +69,10 @@ public class SeeOrder extends HttpServlet {
             carport = CarportSVG.addSides(carport, length, width);
             carport = CarportSVG.addPoles(carport, length, width);
 
-            //outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
-            //outerSvg = CarportSVG.addLine(outerSvg, length, width);
-            //outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, exactLength);
-            //outerSvg = CarportSVG.addText(outerSvg, 15, length/2,90, exactWidth);
+            outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
+            outerSvg = CarportSVG.addLine(outerSvg, length, width);
+            outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, exactLength);
+            outerSvg = CarportSVG.addText(outerSvg, 0, length/2,90, exactWidth);
 
             carport.addInnerSvg(outerSvg);
 
@@ -109,14 +109,17 @@ public class SeeOrder extends HttpServlet {
 
         try {
             Order order = OrdersFacade.getOrderByOrderId(order_id, connectionPool);
+
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
             Locale.setDefault(new Locale("US"));
 
 
 
-            double exactLength = order.getCarportLength();
-            double exactWidth = order.getShedWidth();
+            double exactLength = order.getCarportLength()*100;
+            double exactWidth = order.getCarportWidth()*100;
+            System.out.println(exactLength);
+            System.out.println(exactWidth);
             int length = (int) exactLength;
             int width = (int) exactWidth;
 
@@ -129,11 +132,11 @@ public class SeeOrder extends HttpServlet {
             outerSvg = CarportSVG.addDashedLines(outerSvg, length, width);
             outerSvg = CarportSVG.addLine(outerSvg, length, width);
             outerSvg = CarportSVG.addText(outerSvg, length/2, width+40,0, exactLength);
-            outerSvg = CarportSVG.addText(outerSvg, 15, length/2,90, exactWidth);
+            outerSvg = CarportSVG.addText(outerSvg, 0, length/2,90, exactWidth);
 
             carport.addInnerSvg(outerSvg);
 
-            request.setAttribute("svg1", carport.toString());
+            request.setAttribute("svg", carport.toString());
             request.setAttribute("order", order);
             request.getRequestDispatcher("WEB-INF/view_order.jsp").forward(request, response);
         } catch (DatabaseException e) {
