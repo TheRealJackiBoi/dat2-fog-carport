@@ -279,7 +279,7 @@ CREATE TABLE `user` (
   `name` varchar(45) NOT NULL,
   `zip` int NOT NULL,
   `city` varchar(45) NOT NULL,
-  `adress` varchar(45) NOT NULL,
+  `address` varchar(45) NOT NULL,
   `role` varchar(45) NOT NULL DEFAULT 'customer',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),

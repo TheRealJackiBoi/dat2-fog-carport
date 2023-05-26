@@ -13,9 +13,6 @@
         <h4 class="text-center">${requestScope.message}</h4>
 
        <img src="${pageContext.request.contextPath}/images/carport.jpg" class="img-fluid">
-        <a href="svg">svg</a>
-
-
 
     </jsp:body>
 
