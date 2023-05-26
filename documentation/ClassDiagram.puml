@@ -82,7 +82,7 @@ class Part {
 class Role {
     -String role
 
-    +Part()
+    +Role()
     +getters
     +setters
     +Strin toString()
@@ -181,14 +181,15 @@ User *-- Order
 User *-- Role
 Order *-- ItemList
 Order *-- Status
-Order *-- PartsCalculator
+ItemListPopulator *-- PartsCalculator
 ItemList *-- LinkItemListMaterialVariants
 LinkItemListMaterialVariants *-- MaterialVariants
 MaterialVariants *-- Material
 Material *-- Unit
 Material *-- Type
-Material *-- ItemListPopulator
-Material *-- Part
+ItemList *-- ItemListPopulator
+Order *-- Part
+
 
 
 @enduml
