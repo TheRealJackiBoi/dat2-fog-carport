@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class Authentication {
-    // This method checks whether the role taken as parameter is allowed to view the page
+    // This method checks whether the role taken as argument is allowed to view the page
     public static boolean isRoleAllowed(String role, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
