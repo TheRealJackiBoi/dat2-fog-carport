@@ -32,8 +32,8 @@
                 <div class="navbar-nav justify-content-start">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/index.jsp">Hjem</a>
                     <c:if test="${sessionScope.user != null }">
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/bestil">Bestil Carport</a>
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Dine ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/bestil">Bestil Carport</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Dine ordre</a>
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/edituser">Dine oplysninger</a>
                     </c:if>
                     <!-- Links for admin orders-->
@@ -83,11 +83,11 @@
             </div>
             <div class="col">
                 <p>
-                <b>Johannes Fog A/S</b><br/>
-                Firskovvej 20<br/>
-                2800 Lyngby<br/>
-                <br/>
-                CVR-nr. 16314439<br/>
+                    <b>Johannes Fog A/S</b><br/>
+                    Firskovvej 20<br/>
+                    2800 Lyngby<br/>
+                    <br/>
+                    CVR-nr. 16314439<br/>
                 </p>
             </div>
             <div class="col">
