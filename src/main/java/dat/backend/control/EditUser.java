@@ -68,14 +68,18 @@ public class EditUser extends HttpServlet {
             if (!emailList.contains(email) || email.equals(currentEmail)) {
                 error = false;
                 request.setAttribute("error", false);
+
                 // Update the current user
-                UserFacade.updateUser(id, name, zip, city, address, role, connectionPool);
+                UserFacade.updateUser(id, name, zip, city, address, connectionPool);
                 // Save updated user to sessionscope
                 user = UserFacade.getUserById(((User)session.getAttribute("user")).getId(), connectionPool);
                 request.getSession().setAttribute("user", user);
+                String updated = "Dine oplysninger er blevet opdateret!";
+                request.setAttribute("updated", updated);
 
-                // Remove the "error" attribute if user successfully changes information, so it won't show again
+                // Remove the "error" and "updated" attributes if user successfully changes information, so it won't show again
                 session.removeAttribute("error");
+                session.removeAttribute("updated");
 
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {

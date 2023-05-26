@@ -21,6 +21,9 @@
             <c:if test="${sessionScope.error}">
                 <c:out value="Denne email er allerede registreret. Log ind eller vælg en anden email"></c:out>
             </c:if>
+            <c:if test="${sessionScope.updated}">
+                <c:out value="Din information er blevet opdateret!"></c:out>
+            </c:if>
         </h4>
         <div class="container w-50 p-2 mt-4">
             <form action="edituser" name="edituser" method="POST">

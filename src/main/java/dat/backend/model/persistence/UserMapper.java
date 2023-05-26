@@ -146,7 +146,7 @@ class UserMapper {
     }
 
 
-    static User updateUser(int id, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    static User updateUser(int id, String name, int zip, String city, String address, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "UPDATE user SET name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
 
