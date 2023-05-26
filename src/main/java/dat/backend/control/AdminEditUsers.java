@@ -22,10 +22,15 @@ public class AdminEditUsers extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Authenticate user role
+        // Authenticate user role. If the method returns FALSE (user is != admin or salesman) we redirect to index
         if (!Authentication.isRoleAllowed("admin", request) && (!Authentication.isRoleAllowed("salesman", request))) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
+        // Check if user is logged in, otherwise redirect them to index page
+        if (Authentication.isUserLoggedIn(request, connectionPool) == 0) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 

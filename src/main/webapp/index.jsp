@@ -11,6 +11,7 @@
 
     <jsp:body>
         <h4 class="text-center">${requestScope.message}</h4>
+        <h4 class="text-center">${requestScope.updated}</h4>
 
        <img src="${pageContext.request.contextPath}/images/carport.jpg" class="img-fluid">
         <a href="svg">svg</a>
