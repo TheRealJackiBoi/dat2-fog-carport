@@ -2,9 +2,11 @@ package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.Part;
+import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.PartsFacade;
+import dat.backend.model.services.Authentication;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -25,8 +27,12 @@ public class AdminSeePartList extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        // Authenticate user role
+        if (!Authentication.isRoleAllowed("admin", request) && (!Authentication.isRoleAllowed("salesman", request))) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
 
         int order_id = 0;
         if (request.getParameter("order_id") != null) {

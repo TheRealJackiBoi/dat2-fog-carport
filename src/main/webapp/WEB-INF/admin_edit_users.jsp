@@ -12,56 +12,66 @@
     <jsp:body>
         <h4 class="text-center">Her kan du ændre roller på brugere</h4>
         <form action="/kunder">
-        <table class="table table-striped mt-4">
-            <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Navn</th>
-                <th>Adresse</th>
-                <th>By</th>
-                <th>Post nr.</th>
-                <th>Rolle</th>
-                <th>Ændre rolle</th>
-            </tr>
-            <!-- Prints user values from userList into tables -->
-            <c:forEach var="user" items="${requestScope.userList}">
+            <table class="table table-striped mt-4">
                 <tr>
-                    <td>
-                            ${user.id}
-                    </td>
-                    <td>
-                            ${user.email}
-                    </td>
-                    <td>
-                            ${user.name}
-                    </td>
-                    <td>
-                            ${user.address}
-                    </td>
-                    <td>
-                            ${user.city}
-                    </td>
-                    <td>
-                            ${user.zip}
-                    </td>
-                    <td>
-                            ${user.role}
-                    </td>
-                    <td>
-                        <form>
-                            <select name="roleSelect">
-                                <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
-                                    <option value="${role.role}">
-                                            ${role.role}
-                                    </option>
-                                </c:forEach>
-                            </select>
-                        <button class="btn btn-primary" type="submit" formaction="kunder" formmethod="post" name="user_id" value="${user.id}">OK</button>
-                        </form>
-                    </td>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Navn</th>
+                    <th>Adresse</th>
+                    <th>By</th>
+                    <th>Post nr.</th>
+                    <th>Rolle</th>
+                    <th>Ændre rolle</th>
                 </tr>
-            </c:forEach>
-        </table>
+                <!-- Prints user values from userList into tables -->
+                <c:forEach var="user" items="${requestScope.userList}">
+                    <tr>
+                        <td>
+                                ${user.id}
+                        </td>
+                        <td>
+                                ${user.email}
+                        </td>
+                        <td>
+                                ${user.name}
+                        </td>
+                        <td>
+                                ${user.address}
+                        </td>
+                        <td>
+                                ${user.city}
+                        </td>
+                        <td>
+                                ${user.zip}
+                        </td>
+                        <td>
+                                ${user.role}
+                        </td>
+                        <td>
+                            <form>
+                                <!-- If the user is a salesman, he cannot changes roles -->
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.role.equals('admin')}">
+                                        <select name="roleSelect">
+                                            <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
+                                                <option value="${role.role}">
+                                                        ${role.role}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                        <button class="btn btn-primary" type="submit" formaction="kunder"
+                                                formmethod="post" name="user_id" value="${user.id}">OK
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        Kontakt administrator
+                                    </c:otherwise>
+                                </c:choose>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
         </form>
     </jsp:body>
 </t:pagetemplate>

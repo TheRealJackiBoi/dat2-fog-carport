@@ -8,6 +8,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.OrdersFacade;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.UserFacade;
+import dat.backend.model.services.Authentication;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,23 +21,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "adminViewOrders", urlPatterns = {"/admin-view-orders"} )
-public class AdminViewOrders extends HttpServlet
-{
+public class AdminViewOrders extends HttpServlet {
     private ConnectionPool connectionPool;
 
     @Override
-    public void init() throws ServletException
-    {
+    public void init() throws ServletException {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
-    {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // Authenticate user role
+        if (!Authentication.isRoleAllowed("admin", request) && (!Authentication.isRoleAllowed("salesman", request))) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+
         List<Order> orders;
 
-        if(user == null){
+        if(user == null) {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
         else {
@@ -55,10 +58,6 @@ public class AdminViewOrders extends HttpServlet
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
             }
-
         }
-
-
     }
-
 }

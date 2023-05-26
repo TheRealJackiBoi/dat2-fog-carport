@@ -11,8 +11,8 @@ public class PartsCalculator {
         int numberOfPosts = 4;
         double maxSpaceBetweenPosts = 310; //each posts can carry 3.1 meter of roof
 
-        //calculate for 1 side of the carport
-        for (double i = maxSpaceBetweenPosts; length > i; i = i + maxSpaceBetweenPosts){
+        //adds additional posts, since corners are already added
+        for (double i = maxSpaceBetweenPosts; length >= i; i = i + maxSpaceBetweenPosts){
             numberOfPosts = numberOfPosts+2;
         }
 
@@ -32,7 +32,7 @@ public class PartsCalculator {
         double raftWidth = 4.5;
         double spaceBetweenRafts = 55;
 
-        int numberOfRafts = 0;
+        int numberOfRafts = 1;
 
         for(double i = 0; i < length; i = i + raftWidth + spaceBetweenRafts){
             numberOfRafts++;

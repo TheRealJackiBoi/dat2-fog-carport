@@ -7,6 +7,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.RoleFacade;
 import dat.backend.model.persistence.UserFacade;
+import dat.backend.model.services.Authentication;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -21,11 +22,12 @@ public class AdminEditUsers extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
+        // Authenticate user role
+        if (!Authentication.isRoleAllowed("admin", request) && (!Authentication.isRoleAllowed("salesman", request))) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
 
         List<User> userList = null;
         try {
@@ -43,6 +45,7 @@ public class AdminEditUsers extends HttpServlet {
 
         request.setAttribute("roleList", roleList);
         request.setAttribute("userList", userList);
+        session.setAttribute("user", user);
 
         request.getRequestDispatcher("WEB-INF/admin_edit_users.jsp").forward(request, response);
     }
