@@ -17,7 +17,7 @@ public class Authentication {
         // index, before returning TRUE or FALSE whether the parameter role matches the logged-in user role
         // to determine if it's allowed to view the page or not
         if (user != null) {
-            String message = "Du har ikke adgang til denne URL";
+            String message = "Du har ikke adgang til denne side";
             request.setAttribute("message", message);
             return user.getRole().equals(role);
         }
