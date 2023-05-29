@@ -19,9 +19,8 @@ class UserMapperTest {
     // TODO: Change mysql login credentials if needed below
 
     private static String USER = "root";
-    private static String PASSWORD = "root";
-    private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db";
-
+    private static String PASSWORD = "gh9sp6vp4";
+    private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db_test";
 
     private static ConnectionPool connectionPool;
 
