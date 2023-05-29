@@ -24,8 +24,7 @@ class OrdersMapperTest {
     private static ConnectionPool connectionPool;
 
     @BeforeAll
-    public static void setUpClass()
-    {
+    public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
         String deployed = System.getenv("DEPLOYED");
         if (deployed != null) {
@@ -41,16 +40,14 @@ class OrdersMapperTest {
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
     }
 
     @BeforeEach
-    void setUp()
-    {
+    void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
 
@@ -82,8 +79,7 @@ class OrdersMapperTest {
 
 
     @Test
-    void testConnection() throws SQLException
-    {
+    void testConnection() throws SQLException {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
         if (connection != null) {
