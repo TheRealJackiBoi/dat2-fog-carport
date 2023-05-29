@@ -67,7 +67,7 @@ public class MaterialVariantsMapper {
         return variant;
     }
 
-    static int addVariant(int materialId, double length, int quantity, ConnectionPool connectionPool) throws DatabaseException{
+    static int addVariant(int materialId, double length, int quantity, ConnectionPool connectionPool) throws DatabaseException {
         //autogenerere variantId and returns it
         String sql = "INSERT INTO material_variants (length, quantity, material_id) VALUES (?,?,?)";
 
