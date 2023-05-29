@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 import javax.xml.crypto.Data;
 import javax.xml.transform.Result;
 import java.sql.Connection;
@@ -22,9 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserMapperTest {
     // TODO: Change mysql login credentials if needed below
 
-    private final static String USER = "root";
-    private final static String PASSWORD = "gh9sp6vp4";
-    private final static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db_test";
+    private static String USER = "root";
+    private static String PASSWORD = "gh9sp6vp4";
+    private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db_test";
+
 
     private static ConnectionPool connectionPool;
 
@@ -32,12 +34,23 @@ class UserMapperTest {
     public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
 
+        String deployed = System.getenv("DEPLOYED");
+        if (deployed != null) {
+            // Prod: hent variabler fra setenv.sh i Tomcats bin folder
+            USER = System.getenv("JDBC_USER");
+            PASSWORD = System.getenv("JDBC_PASSWORD");
+            URL = System.getenv("JDBC_CONNECTION_STRING");
+        }
+
+
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
             }
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
+
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -47,6 +60,7 @@ class UserMapperTest {
     void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
+
                 // Delete test users
                 stmt.execute("delete from user");
 
@@ -75,16 +89,20 @@ class UserMapperTest {
     void login() throws DatabaseException {
         User expectedUser = new User("adam@adam", "1234", "customer");
         User actualUser = UserFacade.login("adam@adam", "1234", connectionPool);
+      
         assertEquals(expectedUser, actualUser);
     }
 
     @Test
     void invalidPasswordLogin() throws DatabaseException {
+
         assertThrows(DatabaseException.class, () -> UserFacade.login("adam@adam", "123", connectionPool));
+
     }
 
     @Test
     void invalidUserNameLogin() throws DatabaseException {
+
         assertThrows(DatabaseException.class, () -> UserFacade.login("adam@ada", "1234", connectionPool));
     }
 
