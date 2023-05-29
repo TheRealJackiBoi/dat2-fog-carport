@@ -18,15 +18,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserMapperTest {
     // TODO: Change mysql login credentials if needed below
 
-    private final static String USER = "root";
-    private final static String PASSWORD = "gh9sp6vp4";
-    private final static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db_test";
+    private static String USER = "root";
+    private static String PASSWORD = "root";
+    private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db";
+
 
     private static ConnectionPool connectionPool;
 
     @BeforeAll
     public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
+        String deployed = System.getenv("DEPLOYED");
+        if (deployed != null) {
+            // Prod: hent variabler fra setenv.sh i Tomcats bin folder
+            USER = System.getenv("JDBC_USER");
+            PASSWORD = System.getenv("JDBC_PASSWORD");
+            URL = System.getenv("JDBC_CONNECTION_STRING");
+        }
+
 
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {

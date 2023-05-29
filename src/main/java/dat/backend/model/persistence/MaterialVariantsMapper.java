@@ -67,16 +67,15 @@ public class MaterialVariantsMapper {
         return variant;
     }
 
-    static int addVariant(int materialId, double length, int quantity, int itemListId, ConnectionPool connectionPool) throws DatabaseException{
+    static int addVariant(int materialId, double length, int quantity, ConnectionPool connectionPool) throws DatabaseException{
         //autogenerere variantId and returns it
-        String sql = "INSERT INTO material_variants (length, quantity, material_id, item_list_id) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO material_variants (length, quantity, material_id) VALUES (?,?,?)";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
                 ps.setDouble(1,length);
                 ps.setInt(2, quantity);
                 ps.setInt(3, materialId);
-                ps.setInt(4,itemListId);
 
                 ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();

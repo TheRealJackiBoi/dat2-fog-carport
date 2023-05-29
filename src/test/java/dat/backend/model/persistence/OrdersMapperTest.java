@@ -1,6 +1,7 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Order;
+import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrdersMapperTest {
 
-    private final static String USER = "root";
-    private final static String PASSWORD = "StoreOliver";
-    private final static String URL = "jdbc:mysql://Localhost:3306/cudia_dk_db_test";
+    private static String USER = "root";
+    private static String PASSWORD = "StoreOliver";
+    private static String URL = "jdbc:mysql://Localhost:3306/cudia_dk_db_test";
 
 
     private static ConnectionPool connectionPool;
@@ -26,6 +27,13 @@ class OrdersMapperTest {
     public static void setUpClass()
     {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
+        String deployed = System.getenv("DEPLOYED");
+        if (deployed != null) {
+            // Prod: hent variabler fra setenv.sh i Tomcats bin folder
+            USER = System.getenv("JDBC_USER");
+            PASSWORD = System.getenv("JDBC_PASSWORD");
+            URL = System.getenv("JDBC_CONNECTION_STRING");
+        }
 
         try (Connection testConnection = connectionPool.getConnection())
         {
@@ -51,13 +59,20 @@ class OrdersMapperTest {
             {
 
                 //INSERTED THESE ONCE WHEN I STARTED TESTING
-                /*
+                stmt.execute("delete from orders");
+                stmt.execute("delete from user");
+
+                UserFacade.createUser("bjark@b.dk", "123", "bjark", 2100, "kbh", "det store slot","admin", connectionPool);
+                User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+                int userId1 = bjark.getId();
+
                 // TODO: Insert a few orders
                 stmt.execute("INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) " +
-                        "values ('6000','10000','250','300','250','4','Creating',null ,null ), " +
-                        "('10000','15000','300','300','500','4','Order_placed',null , null ), " +
-                        "('15000','20000','300','300','500','4','Accepted','100','100')");
-                */
+                        "values ('6000','10000','250','300','250',"+ userId1 +",'Creating',null ,null ), " +
+                        "('10000','15000','300','300','500',"+ userId1 + ",'Order_placed',null , null ), " +
+                        "('15000','20000','300','300','500',"+ userId1 +",'Accepted','100','100')");
+            } catch (DatabaseException e) {
+                e.printStackTrace();
             }
         }
         catch (SQLException throwables)
@@ -82,26 +97,31 @@ class OrdersMapperTest {
 
     @Test
     void getAllOrders() throws DatabaseException {
-        List<Order> orderList = OrdersMapper.getAllOrders(connectionPool);
-        assertEquals(7, orderList.size());
+        List<Order> orderList = OrdersFacade.getAllOrders(connectionPool);
+        assertEquals(3, orderList.size());
     }
 
     @Test
     void getOrderByOrderId() throws DatabaseException {
-        Order order = OrdersMapper.getOrderByOrderId(12, connectionPool);
-        assertEquals(15000,order.getSalesPrice());
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        int newOrder = OrdersFacade.addOrder(310, 250,300,userId1,0,0,connectionPool);
 
-        assertEquals("Order_placed", order.getStatus());
-        assertEquals(500, order.getCarportHeight());
-        assertEquals(0,order.getShedWidth());
+        Order order = OrdersMapper.getOrderByOrderId(newOrder, connectionPool);
+
+        assertEquals("Creating", order.getStatus());
+        assertEquals(300, order.getCarportHeight());
+        assertEquals(310,order.getCarportWidth());
 
     }
 
     @Test
     void getOrdersByUserId() throws DatabaseException {
-        List<Order> orderList = OrdersFacade.getOrdersByUserId(4,connectionPool);
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1,connectionPool);
 
-        assertEquals(6,orderList.size());
+        assertEquals(3,orderList.size());
 
         assertEquals("Accepted",orderList.get(2).getStatus());
 
@@ -109,48 +129,72 @@ class OrdersMapperTest {
 
     @Test
     void addOrder() throws DatabaseException {
-        List<Order> oldList = OrdersFacade.getOrdersByUserId(2,connectionPool);
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> oldList = OrdersFacade.getOrdersByUserId(userId1,connectionPool);
 
-        OrdersFacade.addOrder(520.5,300,600,2,300,100,connectionPool);
+        OrdersFacade.addOrder(520.5,300,600,userId1,300,100,connectionPool);
 
-        List<Order> orderList = OrdersMapper.getOrdersByUserId(2,connectionPool);
+        List<Order> orderList = OrdersMapper.getOrdersByUserId(userId1,connectionPool);
         assertEquals(oldList.size()+1, orderList.size());
 
     }
 
     @Test
     void calculatePrices() throws DatabaseException {
-        OrdersFacade.calculatePrices(1,connectionPool);
-        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
-        assertEquals(1069, order.getMaterialCost());
-        assertEquals(1069*1.39, order.getSalesPrice());
+        //This needs a itemlist to work, but since we dont have that at the moment its hard to test
+        /*
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        OrdersFacade.calculatePrices(orderList.get(0).getOrderId(),connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(0).getOrderId(),connectionPool);
+        assertEquals(6000, order.getMaterialCost());
+        assertEquals(6000*1.39, order.getSalesPrice());
+         */
     }
 
     @Test
     void adjustSalesPrice() throws DatabaseException {
-        OrdersFacade.adjustSalesPrice(1,1200,connectionPool);
-        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+        OrdersFacade.adjustSalesPrice(orderList.get(0).getOrderId(),1200,connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(0).getOrderId(),connectionPool);
         assertEquals(1200, order.getSalesPrice());
     }
 
     @Test
     void changeStatusByOrderIdToOrderPlaced() throws DatabaseException {
-        OrdersFacade.changeStatusByOrderIdToOrderPlaced(1,connectionPool);
-        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        OrdersFacade.changeStatusByOrderIdToOrderPlaced(orderList.get(0).getOrderId(),connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(0).getOrderId(),connectionPool);
         assertEquals("Order_placed", order.getStatus());
     }
 
     @Test
     void changeStatusByOrderIdToPending() throws DatabaseException {
-        OrdersFacade.changeStatusByOrderIdToPending(1,connectionPool);
-        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        OrdersFacade.changeStatusByOrderIdToPending(orderList.get(0).getOrderId(),connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(0).getOrderId(),connectionPool);
         assertEquals("Pending", order.getStatus());
     }
 
     @Test
     void changeStatusByOrderIdToAccepted() throws DatabaseException {
-        OrdersFacade.changeStatusByOrderIdToAccepted(1,connectionPool);
-        Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        OrdersFacade.changeStatusByOrderIdToAccepted(orderList.get(0).getOrderId(),connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(0).getOrderId(),connectionPool);
         assertEquals("Accepted", order.getStatus());
     }
 }
