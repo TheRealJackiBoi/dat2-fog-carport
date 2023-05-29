@@ -19,7 +19,7 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
+
 class UserMapperTest {
     // TODO: Change mysql login credentials if needed below
 
@@ -62,6 +62,8 @@ class UserMapperTest {
             try (Statement stmt = testConnection.createStatement()) {
 
                 // Delete test users
+                stmt.execute("delete from item_list");
+                stmt.execute("delete from orders");
                 stmt.execute("delete from user");
 
                 // Insert some users for testing
