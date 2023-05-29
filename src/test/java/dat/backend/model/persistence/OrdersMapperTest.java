@@ -35,10 +35,8 @@ class OrdersMapperTest {
             URL = System.getenv("JDBC_CONNECTION_STRING");
         }
 
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
             }
@@ -53,10 +51,8 @@ class OrdersMapperTest {
     @BeforeEach
     void setUp()
     {
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
 
                 //Clears all the tabels
                 stmt.execute("delete from item_list");
@@ -77,8 +73,7 @@ class OrdersMapperTest {
                 e.printStackTrace();
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -91,8 +86,7 @@ class OrdersMapperTest {
     {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
-        if (connection != null)
-        {
+        if (connection != null) {
             connection.close();
         }
     }

@@ -35,17 +35,14 @@ class MaterialsMapperTest {
         }
 
 
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
 
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -55,10 +52,8 @@ class MaterialsMapperTest {
     @BeforeEach
     void setUp()
     {
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // we choose not to delete all the data in materials because we need these data for other tests, and adding them back is a pain
                 //cannot delete tables where there are keys being used elsewhere
                 //stmt.execute("delete from materials");
@@ -70,8 +65,7 @@ class MaterialsMapperTest {
                 */
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -82,8 +76,7 @@ class MaterialsMapperTest {
     {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
-        if (connection != null)
-        {
+        if (connection != null) {
             connection.close();
         }
     }

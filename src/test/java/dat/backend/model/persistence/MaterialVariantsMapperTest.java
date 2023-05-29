@@ -35,10 +35,8 @@ class MaterialVariantsMapperTest {
             URL = System.getenv("JDBC_CONNECTION_STRING");
         }
 
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
 
@@ -55,10 +53,8 @@ class MaterialVariantsMapperTest {
     @BeforeEach
     void setUp()
     {
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
 
                 // Remove all rows from all tables
                 stmt.execute("delete from material_variants");
@@ -81,8 +77,7 @@ class MaterialVariantsMapperTest {
     {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
-        if (connection != null)
-        {
+        if (connection != null) {
             connection.close();
         }
     }
