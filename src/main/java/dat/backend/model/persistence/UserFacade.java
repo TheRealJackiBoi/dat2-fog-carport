@@ -10,8 +10,8 @@ public class UserFacade {
         return UserMapper.login(email, password, connectionPool);
     }
 
-    public static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
-        UserMapper.createUser(email, password, name, zip, city, address, role, connectionPool);
+    public static int createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+        return UserMapper.createUser(email, password, name, zip, city, address, role, connectionPool);
     }
 
     public static List<User> getAllUsers(ConnectionPool connectionPool) throws DatabaseException {

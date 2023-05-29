@@ -107,20 +107,7 @@ class UserMapperTest {
     void updateUser() throws DatabaseException, SQLException {
         UserFacade.createUser("jack@hotmail.co.uk", "1234", "Jack", 2840, "København", "Østerbrogade", "admin", connectionPool);
         User oldUser = UserFacade.getUserByEmail("jack@hotmail.co.uk", connectionPool);
-
-        int id = 0;
-        // Code to retrieve user ID without use of sessionScope
-        try (Connection testConnection = connectionPool.getConnection()) {
-            try (Statement stmt = testConnection.createStatement()) {
-                ResultSet rs = stmt.executeQuery("SELECT id FROM user WHERE email = 'jack@hotmail.co.uk'");
-                while (rs.next()) {
-                    id = rs.getInt("id");
-                }
-            } catch (SQLException throwables) {
-                System.out.println(throwables.getMessage());
-                fail("Database connection failed");
-            }
-        }
+        int id = oldUser.getId();
 
         User newUser = UserFacade.updateUser(id, "Jack", 2840, "Copenhagen", "Østerbrogade", connectionPool);
 
@@ -131,20 +118,7 @@ class UserMapperTest {
     void updateRole() throws DatabaseException, SQLException {
         UserFacade.createUser("test@test.com", "1234", "Test", 1234, "Test", "Test", "customer", connectionPool);
         User oldUser = UserFacade.getUserByEmail("test@test.com", connectionPool);
-
-        int id = 0;
-        // Code to retrieve user ID without use of sessionScope
-        try (Connection testConnection = connectionPool.getConnection()) {
-            try (Statement stmt = testConnection.createStatement()) {
-                ResultSet rs = stmt.executeQuery("SELECT id FROM user WHERE email = 'test@test.com'");
-                while (rs.next()) {
-                    id = rs.getInt("id");
-                }
-            } catch (SQLException throwables) {
-                System.out.println(throwables.getMessage());
-                fail("Database connection failed");
-            }
-        }
+        int id = oldUser.getId();
 
         User newUser = UserFacade.updateRole("salesman", id, connectionPool);
         assertNotEquals(oldUser, newUser);
