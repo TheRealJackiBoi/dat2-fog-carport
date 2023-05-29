@@ -23,8 +23,7 @@ class MaterialsMapperTest {
     private static ConnectionPool connectionPool;
 
     @BeforeAll
-    public static void setUpClass()
-    {
+    public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
         String deployed = System.getenv("DEPLOYED");
         if (deployed != null) {
@@ -50,8 +49,7 @@ class MaterialsMapperTest {
     }
 
     @BeforeEach
-    void setUp()
-    {
+    void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // we choose not to delete all the data in materials because we need these data for other tests, and adding them back is a pain
