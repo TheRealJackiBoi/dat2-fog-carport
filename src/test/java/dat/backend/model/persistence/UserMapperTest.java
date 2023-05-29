@@ -9,11 +9,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
+import javax.xml.crypto.Data;
+import javax.xml.transform.Result;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @Disabled
 class UserMapperTest {
     // TODO: Change mysql login credentials if needed below
@@ -22,11 +27,13 @@ class UserMapperTest {
     private static String PASSWORD = "gh9sp6vp4";
     private static String URL = "jdbc:mysql://localhost:3306/cudia_dk_db_test";
 
+
     private static ConnectionPool connectionPool;
 
     @BeforeAll
     public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
+
         String deployed = System.getenv("DEPLOYED");
         if (deployed != null) {
             // Prod: hent variabler fra setenv.sh i Tomcats bin folder
@@ -43,6 +50,7 @@ class UserMapperTest {
             }
         }
         catch (SQLException throwables) {
+
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -52,15 +60,17 @@ class UserMapperTest {
     void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
-                // TODO: Remove all rows from all tables - add your own tables here
+
+                // Delete test users
                 stmt.execute("delete from user");
 
-                // TODO: Insert a few users - insert rows into your own tables here
+                // Insert some users for testing
                 stmt.execute("insert into user (email, password, name, zip, city, address) " +
-                        "values ('user','1234','user','2840','kbh','kbhgade'),('user2','1234','user2','2850','kbh','kbhgade1'), ('user3','1234','user3','2860','kbh','kbhgade3')");
+                        "values ('adam@adam','1234','Adam','2840','kbh','kbhgade')," +
+                        "('billy@billy','1234','Billy','2850','kbh','kbhgade1')," +
+                        "('carol@carol','1234','Carol','2860','kbh','kbhgade3')");
             }
-        }
-        catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -70,34 +80,65 @@ class UserMapperTest {
     void testConnection() throws SQLException {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
-        if (connection != null)
-        {
+        if (connection != null) {
             connection.close();
         }
     }
 
     @Test
     void login() throws DatabaseException {
-        User expectedUser = new User("user", "1234", "customer");
-        User actualUser = UserFacade.login("user", "1234", connectionPool);
+        User expectedUser = new User("adam@adam", "1234", "customer");
+        User actualUser = UserFacade.login("adam@adam", "1234", connectionPool);
+      
         assertEquals(expectedUser, actualUser);
     }
 
     @Test
     void invalidPasswordLogin() throws DatabaseException {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("user@gmail.com", "123", connectionPool));
+
+        assertThrows(DatabaseException.class, () -> UserFacade.login("adam@adam", "123", connectionPool));
+
     }
 
     @Test
     void invalidUserNameLogin() throws DatabaseException {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("bob@gmail.com", "1234", connectionPool));
+
+        assertThrows(DatabaseException.class, () -> UserFacade.login("adam@ada", "1234", connectionPool));
     }
 
     @Test
-    void createUser() throws DatabaseException
-    {
-        UserFacade.createUser("jill@hotmail.co.uk", "1234", "Jill", 2840, "Copenhagen", "Østerbrogade", "", connectionPool);
+    void createUser() throws DatabaseException {
+        UserFacade.createUser("jill@hotmail.co.uk", "1234", "Jill", 2840, "Copenhagen", "Østerbrogade", "salesman", connectionPool);
         User logInUser = UserFacade.login("jill@hotmail.co.uk", "1234", connectionPool);
-        User expectedUser = new User("jill@hotmail.co.uk", "1234", "customer");
+        User expectedUser = new User("jill@hotmail.co.uk", "1234", "salesman");
+        assertEquals(logInUser, expectedUser);
+    }
+
+    @Test
+    void getUserByEmail() throws DatabaseException {
+        UserFacade.createUser("getmyemail@hotmail.co.uk", "1234", "TestMe", 2840, "Holte", "Holtevej", "customer", connectionPool);
+        UserFacade.getUserByEmail("getmyemail@hotmail.co.uk", connectionPool);
+        assertEquals("getmyemail@hotmail.co.uk", "getmyemail@hotmail.co.uk");
+    }
+
+    @Test
+    void updateUser() throws DatabaseException, SQLException {
+        UserFacade.createUser("jack@hotmail.co.uk", "1234", "Jack", 2840, "København", "Østerbrogade", "admin", connectionPool);
+        User oldUser = UserFacade.getUserByEmail("jack@hotmail.co.uk", connectionPool);
+        int id = oldUser.getId();
+
+        User newUser = UserFacade.updateUser(id, "Jack", 2840, "Copenhagen", "Østerbrogade", connectionPool);
+
+        assertNotEquals(oldUser, newUser);
+    }
+
+    @Test
+    void updateRole() throws DatabaseException, SQLException {
+        UserFacade.createUser("test@test.com", "1234", "Test", 1234, "Test", "Test", "customer", connectionPool);
+        User oldUser = UserFacade.getUserByEmail("test@test.com", connectionPool);
+        int id = oldUser.getId();
+
+        User newUser = UserFacade.updateRole("salesman", id, connectionPool);
+        assertNotEquals(oldUser, newUser);
     }
 }

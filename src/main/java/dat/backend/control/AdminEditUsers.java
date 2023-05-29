@@ -18,7 +18,12 @@ import java.util.List;
 
 @WebServlet(name = "AdminEditUsers", value = "/kunder")
 public class AdminEditUsers extends HttpServlet {
-    private static ConnectionPool connectionPool = ApplicationStart.getConnectionPool();
+    private ConnectionPool connectionPool;
+
+    @Override
+    public void init() throws ServletException {
+        this.connectionPool = ApplicationStart.getConnectionPool();
+    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,6 +62,15 @@ public class AdminEditUsers extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
+
+        // Authenticate user role. If the method returns FALSE (user is != admin or salesman) we redirect to index
+        if (!Authentication.isRoleAllowed("admin", request) && (!Authentication.isRoleAllowed("salesman", request))) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+        // Check if user is logged in, otherwise redirect them to index page
+        if (Authentication.isUserLoggedIn(request, connectionPool) == 0) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
 
         // Fetch parameters from JSP
         int user_id = Integer.parseInt(request.getParameter("user_id"));

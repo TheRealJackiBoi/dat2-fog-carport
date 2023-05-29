@@ -2,11 +2,13 @@ package dat.backend.control;
 
 
 import dat.backend.model.entities.Order;
+import dat.backend.model.entities.Status;
 import dat.backend.model.entities.User;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.OrdersFacade;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.StatusFacade;
 import dat.backend.model.persistence.UserFacade;
 import dat.backend.model.services.Authentication;
 
@@ -42,6 +44,7 @@ public class AdminViewOrders extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         List<Order> orders;
+        List<Status> statuslist;
 
         if(user == null) {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -55,7 +58,9 @@ public class AdminViewOrders extends HttpServlet {
                 }
 
                 orders = OrdersFacade.getAllOrdersPlusEmail(connectionPool);
+                statuslist = StatusFacade.getAllStatus(connectionPool);
                 request.setAttribute("list", orders);
+                request.setAttribute("statuslist", statuslist);
                 request.getRequestDispatcher("WEB-INF/admin-view-orders.jsp").forward(request, response);
 
         } catch (DatabaseException e) {
