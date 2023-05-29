@@ -273,6 +273,21 @@ public class OrdersMapper {
         }
     }
 
+    //Change Order Status to Creating
+    public static void changeStatusByOrderIdToOrderCreating(int order_id, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setString(1,"Creating");
+                ps.setInt(2, order_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e){
+            throw new DatabaseException(e, "Something went wrong when trying to change status on this Order");
+        }
+    }
+
     static void updateSpecificOrderById(int orderId, double width, double length, double height, ConnectionPool connectionPool) throws DatabaseException {
 
         String sql = "UPDATE orders SET c_width = ?, c_length = ?, c_height = ? WHERE order_id = ?";

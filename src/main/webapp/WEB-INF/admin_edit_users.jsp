@@ -54,7 +54,12 @@
                                     <c:when test="${sessionScope.user.role.equals('admin')}">
                                         <select name="roleSelect">
                                             <c:forEach var="role" items="${requestScope.roleList}" varStatus="loop">
-                                                <option value="${role.role}">
+                                                <c:if test="${status.status.equals(order.status)}">
+                                                    <option value="${role.role}" selected>
+                                                </c:if>
+                                                <c:if test="${!status.status.equals(order.status)}">
+                                                    <option value="${role.role}">
+                                                </c:if>
                                                         ${role.role}
                                                 </option>
                                             </c:forEach>
