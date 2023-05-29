@@ -23,7 +23,7 @@
         <thead>
         <tr>
             <th scope="col">Email</th>
-            <th scope="col">Ordrernummber</th>
+            <th scope="col">Ordrernummer</th>
             <th scope="col">Kostpris</th>
             <th scope="col">Tilbud</th>
             <th scope="col">Status</th>
@@ -43,7 +43,25 @@
                 <td>${order.orderId}</td>
                 <td><fmt:formatNumber type="number" maxFractionDigits="2" value="${order.materialCost}"/> kr.</td>
                 <td><fmt:formatNumber type="number" maxFractionDigits="2" value="${order.salesPrice}"/> kr.</td>
-                <td>${order.status}</td>
+                <td>
+                    <form>
+                        <select name="statusselect">
+                        <c:forEach var="status" items="${requestScope.statuslist}" varStatus="loop">
+                            <c:if test="${status.status.equals(order.status)}">
+                                <option value="${status.status}" selected>
+                            </c:if>
+                            <c:if test="${!status.status.equals(order.status)}">
+                                <option value="${status.status}">
+                            </c:if>
+                                    ${status.status}
+                            </option>
+                        </c:forEach>
+                        </select>
+                        <button class="btn btn-primary" type="submit" formaction="admin-change-status"
+                            formmethod="post" name="order_id" value="${order.orderId}">OK
+                        </button>
+                    </form>
+                </td>
                 <td>
                     <div class="d-flex gap-2 w-100" role="group">
                         <form action="se-din-ordre" method="get">

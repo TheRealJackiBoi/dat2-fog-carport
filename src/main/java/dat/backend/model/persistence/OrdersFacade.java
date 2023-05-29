@@ -53,4 +53,8 @@ public class OrdersFacade {
         OrdersMapper.changeStatusByOrderIdToCancelled(order_id, connectionPool);
     }
 
+    public static void changeStatusByOrderIdToOrderCreating(int order_id, ConnectionPool connectionPool) throws DatabaseException {
+        OrdersMapper.changeStatusByOrderIdToOrderCreating(order_id, connectionPool);
+    }
+
     }

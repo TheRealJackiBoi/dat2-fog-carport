@@ -1,7 +1,17 @@
 package dat.backend.model.services;
 
+/**
+ * The type Parts calculator.
+ */
 public class PartsCalculator {
 
+    /**
+     * Calculate number of posts int.
+     *
+     * @param length the length
+     * @param width  the width
+     * @return the int
+     */
     public static int calculateNumberOfPosts(double length, double width){
         //Posts = stolper
 
@@ -16,6 +26,13 @@ public class PartsCalculator {
         return numberOfPosts;
     }
 
+    /**
+     * Calculate number of rafts int.
+     *
+     * @param length the length
+     * @param width  the width
+     * @return the int
+     */
     public static int calculateNumberOfRafts(double length, double width){
         //Rafts = spær
         //We assume that our rafts are 4.5 cm in width and that there needs to be 55 cm between each
@@ -33,6 +50,13 @@ public class PartsCalculator {
         return numberOfRafts;
     }
 
+    /**
+     * Calculate number of roof plates int.
+     *
+     * @param length the length
+     * @param width  the width
+     * @return the int
+     */
     public static int calculateNumberOfRoofPlates(double length, double width){
         //Roofplates = tagplast
         //we assume that a "standard" plate is 109 cm x 360 cm
