@@ -59,11 +59,10 @@ class MaterialsMapperTest {
         {
             try (Statement stmt = testConnection.createStatement())
             {
-                // TODO: Remove all rows from all tables - add your own tables here
+                // we choose not to delete all the data in materials because we need these data for other tests, and adding them back is a pain
                 //cannot delete tables where there are keys being used elsewhere
                 //stmt.execute("delete from materials");
 
-                // TODO: Insert a few users - insert rows into your own tables here
 
                 /*
                 stmt.execute("insert into materials (description, unit, unit_price, type) " +

@@ -60,11 +60,10 @@ class MaterialVariantsMapperTest {
             try (Statement stmt = testConnection.createStatement())
             {
 
-                // TODO: Remove all rows from all tables - add your own tables here
+                // Remove all rows from all tables
                 stmt.execute("delete from material_variants");
 
-                // TODO: Insert a few users - insert rows into your own tables here
-
+                // Inserts a few users
                 stmt.execute("insert into material_variants (length, quantity, material_id) " +
                         "values ('320','12','1'),('170','6','3'), ('560','2','3')");
 
@@ -93,7 +92,7 @@ class MaterialVariantsMapperTest {
     void getVariantsByMaterialId() throws DatabaseException {
         List<MaterialVariants> list = MaterialVariantsFacade.getVariantsByMaterialId(3, connectionPool);
 
-        assertEquals(1, list.get(1).getQuantity());
+        assertEquals(2, list.get(1).getQuantity());
 
     }
 

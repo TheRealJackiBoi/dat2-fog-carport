@@ -61,20 +61,20 @@ class ItemListMapperTest {
         {
             try (Statement stmt = testConnection.createStatement())
             {
-                // TODO: Remove all rows from all tables - add your own tables here
+                // Remove all rows from all tables - add your own tables here
                 stmt.execute("delete from item_list"); // wipes database clean
                 stmt.execute("delete from orders");
                 stmt.execute("delete from user");
 
+                // adds a user we need to create a order which we need to create  a itemlist
                 UserFacade.createUser("bjark@b.dk", "123", "bjark", 2100, "kbh", "det store slot","admin", connectionPool);
                 User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
                 int userId1 = bjark.getId();
 
-                // TODO: Insert a few orders
                 stmt.execute("INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) " +
                         "values ('6000','10000','250','300','250',"+ userId1 +",'Creating',null ,null )");
 
-                // TODO: Insert a few users - insert rows into your own tables here
+
                 List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
                 stmt.execute("insert into item_list (use_description, quantity, price, order_id) " +
                         "values ('Dette er en spær','15','250',"+ orderList.get(0).getOrderId()+"),('Stolpe','6','699',"+ orderList.get(0).getOrderId()+"), ('facade','1','120',"+ orderList.get(0).getOrderId()+")");

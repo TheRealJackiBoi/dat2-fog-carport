@@ -58,15 +58,17 @@ class OrdersMapperTest {
             try (Statement stmt = testConnection.createStatement())
             {
 
-                //INSERTED THESE ONCE WHEN I STARTED TESTING
+                //Clears all the tabels
+                stmt.execute("delete from item_list");
                 stmt.execute("delete from orders");
                 stmt.execute("delete from user");
 
+                //creates a user which we need to create a order, since orders are linked to a user
                 UserFacade.createUser("bjark@b.dk", "123", "bjark", 2100, "kbh", "det store slot","admin", connectionPool);
                 User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
                 int userId1 = bjark.getId();
 
-                // TODO: Insert a few orders
+                // Insert a few orders
                 stmt.execute("INSERT INTO orders (material_cost, sales_price, c_width, c_length, c_height, user_id, status, s_width, s_length) " +
                         "values ('6000','10000','250','300','250',"+ userId1 +",'Creating',null ,null ), " +
                         "('10000','15000','300','300','500',"+ userId1 + ",'Order_placed',null , null ), " +
