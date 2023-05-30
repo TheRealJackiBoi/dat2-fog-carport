@@ -46,16 +46,16 @@
                     <div class="form inline">
                         <div class="mx-auto col-10 col-md-8 col-lg-3">
                             <label for="enterWidth">Bredde i meter</label>
-                            <input type="number" step="0.01" min="2" max="6.00" class="form-control" id="enterWidth" name="width" placeholder="Enter Width">
+                            <input type="number" step="0.01" min="2" max="6.00" class="form-control" id="enterWidth" name="width" placeholder="Indtast bredde">
                         </div><br>
                     </div>
                     <div class="mx-auto col-10 col-md-8 col-lg-3">
                         <label for="enterLength">Længde i meter</label>
-                        <input type="number" step="0.01" min="3.50" max="7.80" class="form-control" id="enterLength" name="length" placeholder="Enter Length">
+                        <input type="number" step="0.01" min="3.50" max="7.80" class="form-control" id="enterLength" name="length" placeholder="Indtast længde">
                     </div><br>
                     <div class="mx-auto col-10 col-md-8 col-lg-3">
                         <label for="enterHeight">Højde i meter</label>
-                        <input type="number" step="0.01" min="2.30" max="3" class="form-control" id="enterHeight" name="height" placeholder="Enter Height">
+                        <input type="number" step="0.01" min="2.30" max="3" class="form-control" id="enterHeight" name="height" placeholder="Indtast højde">
                     </div><br>
                     <div class="mx-auto col-10 col-md-8 col-lg-3">
                         <textarea for="textArea" rows="3"  placeholder="Skrive her" class="w-100"></textarea>
