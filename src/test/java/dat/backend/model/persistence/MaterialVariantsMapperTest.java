@@ -16,29 +16,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MaterialVariantsMapperTest {
 
-    private final static String USER = "root";
-    private final static String PASSWORD = "StoreOliver";
-    private final static String URL = "jdbc:mysql://Localhost:3306/cudia_dk_db_test";
+    private static String USER = "root";
+    private static String PASSWORD = "StoreOliver";
+    private static String URL = "jdbc:mysql://Localhost:3306/cudia_dk_db_test";
 
 
     private static ConnectionPool connectionPool;
 
     @BeforeAll
-    public static void setUpClass()
-    {
+    public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
+        String deployed = System.getenv("DEPLOYED");
+        if (deployed != null) {
+            // Prod: hent variabler fra setenv.sh i Tomcats bin folder
+            USER = System.getenv("JDBC_USER");
+            PASSWORD = System.getenv("JDBC_PASSWORD");
+            URL = System.getenv("JDBC_CONNECTION_STRING");
+        }
 
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
 
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -46,38 +49,30 @@ class MaterialVariantsMapperTest {
     }
 
     @BeforeEach
-    void setUp()
-    {
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
-                /*
-                // TODO: Remove all rows from all tables - add your own tables here
+    void setUp() {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
+
+                // Remove all rows from all tables
                 stmt.execute("delete from material_variants");
 
-                // TODO: Insert a few users - insert rows into your own tables here
-
+                // Inserts a few users
                 stmt.execute("insert into material_variants (length, quantity, material_id) " +
                         "values ('320','12','1'),('170','6','3'), ('560','2','3')");
 
-                 */
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
     }
 
     @Test
-    void testConnection() throws SQLException
-    {
+    void testConnection() throws SQLException {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
-        if (connection != null)
-        {
+        if (connection != null) {
             connection.close();
         }
     }
@@ -85,28 +80,34 @@ class MaterialVariantsMapperTest {
 
     @Test
     void getVariantsByMaterialId() throws DatabaseException {
-        List<MaterialVariants> list = MaterialVariantsMapper.getVariantsByMaterialId(3, connectionPool);
+        List<MaterialVariants> list = MaterialVariantsFacade.getVariantsByMaterialId(3, connectionPool);
 
         assertEquals(2, list.get(1).getQuantity());
+
     }
 
     @Test
     void getVariantByVariantId() throws DatabaseException {
 
-        MaterialVariants variants = MaterialVariantsMapper.getVariantByVariantId(16, connectionPool);
+        int variantID = MaterialVariantsFacade.addVariant(2, 200,2, connectionPool);
 
-        assertEquals(170, variants.getLength());
+        MaterialVariants variants = MaterialVariantsFacade.getVariantByVariantId(variantID, connectionPool);
+
+        assertEquals(200, variants.getLength());
 
         assertNotEquals(1, variants.getVariantId());
+        assertEquals(variantID, variants.getVariantId());
+
+        assertEquals(2, variants.getMaterialsId());
 
     }
 
     @Test
     void addVariant() throws DatabaseException {
-        List<MaterialVariants> list = MaterialVariantsMapper.getVariantsByMaterialId(3, connectionPool);
-        MaterialVariantsMapper.addVariant(2,250,8,7,connectionPool);
+        List<MaterialVariants> list = MaterialVariantsFacade.getVariantsByMaterialId(1, connectionPool);
+        MaterialVariantsFacade.addVariant(1,250,8,connectionPool);
 
-        List<MaterialVariants> newList = MaterialVariantsMapper.getVariantsByMaterialId(3,connectionPool);
+        List<MaterialVariants> newList = MaterialVariantsFacade.getVariantsByMaterialId(1,connectionPool);
 
         assertEquals(list.size()+1, newList.size());
     }
