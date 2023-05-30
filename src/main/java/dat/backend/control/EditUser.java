@@ -30,6 +30,8 @@ public class EditUser extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
 
+        // Remove error attribute if user attempted to signup with an already taken email
+        session.removeAttribute("error");
         request.getRequestDispatcher("WEB-INF/edituserinfo.jsp").forward(request, response);
         }
 

@@ -50,7 +50,7 @@ public class Authentication {
             // Checks if the user has an ID (is logged in)
             id = user.getId();
             user = UserFacade.getUserById(id, connectionPool);
-            request.setAttribute("user", user);
+            request.setAttribute("edituser", user);
             // If user is not logged in, the user ID will return null, so we catch the exception
         } catch (DatabaseException | NullPointerException e) {
             String message = "Venligst log ind før du prøver at tilgå andre sider";

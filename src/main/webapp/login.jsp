@@ -20,12 +20,12 @@
                 <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com" required>
             </div>
             <div class="mx-auto col-10 col-md-8 col-lg-4">
-                <label for="password">Password</label>
+                <label for="password">Kodeord</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required><br>
             </div>
             <div class="col mx-auto col-md-2">
-                <a class="" href="signup.jsp">Create user</a>
-                <button class="btn btn-primary" type="submit" >Login</button>
+                <a class="" href="signup.jsp">Opret bruger</a>
+                <button class="btn btn-primary" type="submit" >Log ind</button>
             </div>
         </form>
 

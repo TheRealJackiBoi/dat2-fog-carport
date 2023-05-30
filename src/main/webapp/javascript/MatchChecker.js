@@ -34,35 +34,35 @@ function signupFinalCheck() {
     let zip = document.forms["signup"]["zip"].value;
 
     if (email == "") {
-        alert("Please enter an email");
+        alert("Indtast venligst en email");
         return false;
     }
     if (repeatemail == "") {
-        alert("Please enter a matching email");
+        alert("Venligst tjek at email felter stemmer overens");
         return false;
     }
     if (password == "") {
-        alert("Please enter a password");
+        alert("Indtast venligst et kodeord");
         return false;
     }
     if (repeatpassword == "") {
-        alert("Please enter a matching password");
+        alert("Venligst tjek at kodeord felter stemmer overens");
         return false;
     }
     if (name == "") {
-        alert("Please enter a name");
+        alert("Indtast venligst et navn");
         return false;
     }
     if (address == "") {
-        alert("Please enter an address");
+        alert("Indtast venligst en adresse");
         return false;
     }
     if (city == "") {
-        alert("Please enter a city");
+        alert("Indtast venligst en by");
         return false;
     }
     if (zip == "") {
-        alert("Please enter a zip");
+        alert("Indtast venligst et postnummer");
         return false;
     }
     // Finally we check whether the email and password match their repeat values
@@ -72,7 +72,7 @@ function signupFinalCheck() {
             document.getElementById('repeatpassword').value)) {
         return true;
     } else {
-        alert("Please make sure email and password are matching")
+        alert("Venligst tjek at email og kodeord felter stemmer overens")
         return false;
     }
 }
