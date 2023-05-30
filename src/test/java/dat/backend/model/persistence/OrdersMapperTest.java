@@ -153,4 +153,50 @@ class OrdersMapperTest {
         Order order = OrdersFacade.getOrderByOrderId(1,connectionPool);
         assertEquals("Accepted", order.getStatus());
     }
+
+    @Test
+    void getAllOrdersPlusEmail() throws DatabaseException {
+        List<Order> orderList = OrdersFacade.getAllOrdersPlusEmail(connectionPool);
+
+        assertEquals("bjark@b.dk", orderList.get(0).getUserEmail());
+        assertNotEquals("jack@asd.dk", orderList.get(0).getUserEmail());
+    }
+
+    @Test
+    void changeStatusByOrderIdToCancelled() throws DatabaseException {
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        OrdersFacade.changeStatusByOrderIdToCancelled(orderList.get(0).getOrderId(), connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(0).getOrderId(), connectionPool);
+        assertEquals("Cancelled", order.getStatus());
+    }
+
+    @Test
+    void changeStatusByOrderIdToOrderCreating() throws DatabaseException {
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        OrdersFacade.changeStatusByOrderIdToOrderCreating(orderList.get(1).getOrderId(), connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(1).getOrderId(), connectionPool);
+        assertEquals("Creating", order.getStatus());
+    }
+
+    @Test
+    void updateSpecificOrderById() throws DatabaseException {
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        OrdersFacade.updateSpecificOrderById(orderList.get(0).getOrderId(), 6060, 4206, 2999, connectionPool);
+        Order order = OrdersFacade.getOrderByOrderId(orderList.get(0).getOrderId(), connectionPool);
+
+        assertEquals(6060, order.getCarportWidth());
+        assertEquals(4206, order.getCarportLength());
+
+        assertNotEquals(250, order.getCarportWidth());
+
+    }
 }
