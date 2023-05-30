@@ -39,7 +39,7 @@ class UserMapper {
         return user;
     }
 
-    static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    static int createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         User user;
         String sql = "INSERT INTO user (email, password, name, zip, city, address, role) values (?,?,?,?,?,?,?)";
@@ -54,7 +54,9 @@ class UserMapper {
                 ps.setString(7, role);
 
                 ps.executeUpdate();
-
+                ResultSet rs = ps.getGeneratedKeys();
+                rs.next();
+                return rs.getInt(1);
             }
         } catch (SQLException ex) {
             throw new DatabaseException(ex, "Could not insert username into database");
@@ -146,7 +148,7 @@ class UserMapper {
     }
 
 
-    static User updateUser(int id, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+    static User updateUser(int id, String name, int zip, String city, String address, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
         String sql = "UPDATE user SET name = ?, zip = ?, city = ?, address = ? WHERE id = ?";
 

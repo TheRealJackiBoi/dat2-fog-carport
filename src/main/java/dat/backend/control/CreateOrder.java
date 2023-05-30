@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * The type Create order.
+ */
 @WebServlet(name = "ordering", urlPatterns = {"/bestil"} )
 public class CreateOrder extends HttpServlet
 {

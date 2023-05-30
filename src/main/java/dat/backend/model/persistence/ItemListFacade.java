@@ -18,7 +18,7 @@ public class ItemListFacade {
     public static double sumPrice(int orderId, ConnectionPool connectionPool) throws DatabaseException {
         return ItemListMapper.sumPrice(orderId, connectionPool);
     }
-    
+
     public static void addPosts(int orderId, String descripton, int quantity, int materialVariantId, ConnectionPool connectionPool) throws DatabaseException{
         ItemListMapper.addPosts(orderId, descripton, quantity, materialVariantId, connectionPool);
     }

@@ -15,29 +15,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MaterialsMapperTest {
 
-    private final static String USER = "root";
-    private final static String PASSWORD = "StoreOliver";
-    private final static String URL = "jdbc:mysql://Localhost:3306/cudia_dk_db_test";
+    private static String USER = "root";
+    private static String PASSWORD = "StoreOliver";
+    private static String URL = "jdbc:mysql://Localhost:3306/cudia_dk_db_test";
 
 
     private static ConnectionPool connectionPool;
 
     @BeforeAll
-    public static void setUpClass()
-    {
+    public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
+        String deployed = System.getenv("DEPLOYED");
+        if (deployed != null) {
+            // Prod: hent variabler fra setenv.sh i Tomcats bin folder
+            USER = System.getenv("JDBC_USER");
+            PASSWORD = System.getenv("JDBC_PASSWORD");
+            URL = System.getenv("JDBC_CONNECTION_STRING") + "_test";
+        }
 
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
+
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE  IF NOT EXISTS cudia_dk_db_test;");
 
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -45,17 +49,16 @@ class MaterialsMapperTest {
     }
 
     @BeforeEach
-    void setUp()
-    {
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
-                // TODO: Remove all rows from all tables - add your own tables here
+    void setUp() {
+        try (Connection testConnection = connectionPool.getConnection()) {
+            try (Statement stmt = testConnection.createStatement()) {
+                // we choose not to delete all the data in materials because we need these data for other tests, and adding them back is a pain
                 //cannot delete tables where there are keys being used elsewhere
                 //stmt.execute("delete from materials");
 
-                // TODO: Insert a few users - insert rows into your own tables here
+                //removes the material i add in one of our tests
+                stmt.execute("DELETE FROM materials WHERE description = ('Stor ting')");
+
 
                 /*
                 stmt.execute("insert into materials (description, unit, unit_price, type) " +
@@ -63,8 +66,7 @@ class MaterialsMapperTest {
                 */
             }
         }
-        catch (SQLException throwables)
-        {
+        catch (SQLException throwables) {
             System.out.println(throwables.getMessage());
             fail("Database connection failed");
         }
@@ -75,41 +77,68 @@ class MaterialsMapperTest {
     {
         Connection connection = connectionPool.getConnection();
         assertNotNull(connection);
-        if (connection != null)
-        {
+        if (connection != null) {
             connection.close();
         }
     }
 
     @Test
     void getMaterialsByMaterialId() throws DatabaseException {
-        Materials materials = MaterialsMapper.getMaterialsByMaterialId(4,connectionPool);
+        Materials materials = MaterialsMapper.getMaterialsByMaterialId(3,connectionPool);
 
-        assertEquals("20x15", materials.getDescription());
-        assertEquals(97,materials.getUnitPrice());
+        assertEquals("97X97 MM FULDKANTET FYR IMPR", materials.getDescription());
+        assertEquals(44.95,materials.getUnitPrice());
     }
 
     @Test
     void getMaterialByType() throws DatabaseException {
+        Materials materials = MaterialsFacade.getMaterialByType("Raisingplate", connectionPool);
 
+        assertEquals(20.94, materials.getUnitPrice());
+        assertEquals("45X95 MM FYR TRYKIMP", materials.getDescription());
 
     }
 
     @Test
     void getMaterialByDescription() throws DatabaseException {
-        List<Materials> materials = MaterialsMapper.getMaterialByDescription("25x25", connectionPool);
+        List<Materials> materials = MaterialsMapper.getMaterialByDescription("45X100 MM SPÆRTRÆ HØVLET", connectionPool);
 
         assertEquals(1, materials.size());
-        assertEquals(120, materials.get(0).getUnitPrice());
+        assertEquals(24.94, materials.get(0).getUnitPrice());
 
     }
 
     @Test
     void addMaterial() throws DatabaseException {
-        MaterialsMapper.addMaterial("Stor ting", "stk", 4000, "misc", connectionPool);
+        int materialID =  MaterialsMapper.addMaterial("Stor ting", "meter", 4000, "Raisingplate", connectionPool);
 
-        List<Materials> list= MaterialsMapper.getMaterialByDescription("Stor ting", connectionPool);
-        assertEquals("Stor ting",list.get(0).getDescription());
-        assertEquals(4000, list.get(0).getUnitPrice());
+        Materials material = MaterialsMapper.getMaterialsByMaterialId( materialID, connectionPool);
+        assertEquals("Stor ting",material.getDescription());
+        assertEquals(4000, material.getUnitPrice());
+
+    }
+
+    @Test
+    void getAllMaterials() throws DatabaseException {
+        //we know there is 4 materials in the database
+
+        List<Materials> list = MaterialsFacade.getAllMaterials(connectionPool);
+
+        assertEquals(4, list.size());
+
+    }
+
+    @Test
+    void adjustCostPrice() throws DatabaseException {
+
+        Materials materials = MaterialsFacade.getMaterialsByMaterialId(1, connectionPool);
+        double price = materials.getUnitPrice();
+
+        MaterialsFacade.adjustCostPrice(1, 3232, connectionPool);
+        Materials materialsWithNewPrice = MaterialsFacade.getMaterialsByMaterialId(1, connectionPool);
+        assertEquals(3232, materialsWithNewPrice.getUnitPrice());
+
+        //sets the price back to what is was
+        MaterialsFacade.adjustCostPrice(1, price, connectionPool);
     }
 }

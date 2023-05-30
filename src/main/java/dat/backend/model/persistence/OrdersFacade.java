@@ -41,6 +41,7 @@ public class OrdersFacade {
     public static void changeStatusByOrderIdToAccepted(int orderId, ConnectionPool connectionPool) throws DatabaseException{
         OrdersMapper.changeStatusByOrderIdToAccepted(orderId, connectionPool);
     }
+
     public static List<Order> getAllOrdersPlusEmail(ConnectionPool connectionPool) throws DatabaseException{
         return OrdersMapper.getAllOrdersPlusEmail(connectionPool);
     }
@@ -51,6 +52,10 @@ public class OrdersFacade {
 
     public static void changeStatusByOrderIdToCancelled(int order_id, ConnectionPool connectionPool) throws DatabaseException {
         OrdersMapper.changeStatusByOrderIdToCancelled(order_id, connectionPool);
+    }
+
+    public static void changeStatusByOrderIdToOrderCreating(int order_id, ConnectionPool connectionPool) throws DatabaseException {
+        OrdersMapper.changeStatusByOrderIdToOrderCreating(order_id, connectionPool);
     }
 
     }

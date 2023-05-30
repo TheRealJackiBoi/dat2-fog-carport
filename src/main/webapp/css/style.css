@@ -31,9 +31,14 @@ body {
 }
 
 #body {
+    display: block;
     width: 100vw !important;
     margin-top: 1rem;
     margin-bottom: 2rem;
+}
+
+.no-underline {
+    text-decoration: none !important;
 }
 
 .row {
@@ -60,6 +65,13 @@ body {
     padding: 1rem;
 }
 
+#display-svg {
+
+}
+
+#display-svg svg {
+    width: 100% !important;
+}
 
 /* background colors */
 .bg-primary {

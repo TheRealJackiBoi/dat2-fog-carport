@@ -17,7 +17,7 @@ public class OrdersMapper {
 
     //returns all the orders in the system
     static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException{
-        Logger.getLogger("web").log(Level.INFO,"");
+        Logger.getLogger("web").log(Level.INFO,": getting all orders");
 
         List<Order> orderList = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class OrdersMapper {
 
     //returns 1 specific Order
     static Order getOrderByOrderId(int orderId, ConnectionPool connectionPool) throws DatabaseException {
-        Logger.getLogger("web").log(Level.INFO,"");
+        Logger.getLogger("web").log(Level.INFO,": getting orders by order id");
 
         Order order = null;
 
@@ -82,7 +82,7 @@ public class OrdersMapper {
 
     //Return all of a Users orders
     static List<Order> getOrdersByUserId(int userId, ConnectionPool connectionPool) throws DatabaseException{
-        Logger.getLogger("web").log(Level.INFO, "");
+        Logger.getLogger("web").log(Level.INFO, ": getting orders by user id");
 
         List<Order> orderList = new ArrayList<>();
         String sql = "SELECT * FROM orders WHERE user_id = ?";
@@ -147,7 +147,7 @@ public class OrdersMapper {
 
         double cost = ItemListFacade.sumPrice(orderId, connectionPool);
         //According to the Fog presentation video they had a 39% degree of coverage, so that is what we are gonna use
-        double salesPrice = cost * 1.39;
+        double salesPrice = cost * 1.667;
 
         String sql = "UPDATE orders SET material_cost = ?, sales_price = ? WHERE order_id = ?";
 
@@ -226,13 +226,12 @@ public class OrdersMapper {
         }
     }
 
-  //return a list of all orders in the database including the email
+    //return a list of all orders in the database including the email
     static List<Order> getAllOrdersPlusEmail(ConnectionPool connectionPool) throws DatabaseException {
 
-        Logger.getLogger("web").log(Level.INFO,"");
+        Logger.getLogger("web").log(Level.INFO,": getting all orders and emails");
         List<Order> orderList = new ArrayList<>();
-        String sql = "SELECT user.email, orders.* FROM user " +
-                "INNER Join orders WHERE user.id=orders.user_id;";
+        String sql = "SELECT user.email, orders.* FROM user INNER Join orders WHERE user.id=orders.user_id ORDER BY user.email ASC, orders.order_id;";
 
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
@@ -265,6 +264,21 @@ public class OrdersMapper {
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
                 ps.setString(1,"Cancelled");
+                ps.setInt(2, order_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e){
+            throw new DatabaseException(e, "Something went wrong when trying to change status on this Order");
+        }
+    }
+
+    //Change Order Status to Creating
+    public static void changeStatusByOrderIdToOrderCreating(int order_id, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE orders SET status = (?) WHERE order_id = ?";
+
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setString(1,"Creating");
                 ps.setInt(2, order_id);
                 ps.executeUpdate();
             }

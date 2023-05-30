@@ -10,16 +10,16 @@ public class UserFacade {
         return UserMapper.login(email, password, connectionPool);
     }
 
-    public static void createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
-        UserMapper.createUser(email, password, name, zip, city, address, role, connectionPool);
+    public static int createUser(String email, String password, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
+        return UserMapper.createUser(email, password, name, zip, city, address, role, connectionPool);
     }
 
     public static List<User> getAllUsers(ConnectionPool connectionPool) throws DatabaseException {
         return UserMapper.getAllUsers(connectionPool);
     }
 
-    public static User updateUser(int id, String name, int zip, String city, String address, String role, ConnectionPool connectionPool) throws DatabaseException {
-        return UserMapper.updateUser(id, name, zip, city, address, role, connectionPool);
+    public static User updateUser(int id, String name, int zip, String city, String address, ConnectionPool connectionPool) throws DatabaseException {
+        return UserMapper.updateUser(id, name, zip, city, address, connectionPool);
     }
 
     public static User updateRole(String role, int id, ConnectionPool connectionPool) throws DatabaseException {

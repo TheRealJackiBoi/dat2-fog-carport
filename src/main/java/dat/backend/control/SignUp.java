@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * The type Sign up.
+ */
 @WebServlet(name = "signup", urlPatterns = {"/signup"})
 public class SignUp extends HttpServlet {
     private ConnectionPool connectionPool;
@@ -26,7 +29,8 @@ public class SignUp extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
-        session.setAttribute("user", null); // invalidating user object in session scope
+        // Invalidates user object in session scope
+        session.setAttribute("user", null);
         // Variable to keep visual track of errors
         boolean error;
 
@@ -42,13 +46,16 @@ public class SignUp extends HttpServlet {
             // Fetches email list from checkEmail method and sends it to the signup JSP
             List<String> emailList = UserFacade.checkEmail(connectionPool);
             request.setAttribute("emailList", emailList);
+            // Check if the inputted email already exists in the database (emailList)
             if (!emailList.contains(email)) {
+                // If it doesn't exist, create a new user
                 error = false;
                 UserFacade.createUser(email, password, name, zip, city, address, "customer", connectionPool);
                 String message = "Din bruger er nu oprettet - velkommen til Fog!";
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
+                // If it already exists, return an error
                 error = true;
                 session.setAttribute("error", true);
                 response.sendRedirect("signup.jsp");

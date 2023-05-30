@@ -13,6 +13,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Customer see order.
+ */
 @WebServlet(name = "CustomerSeeOrder", urlPatterns = {"/CustomerSeeOrder"})
 public class CustomerSeeOrder extends HttpServlet {
 

@@ -17,11 +17,11 @@
         <form action="login" name="login" method="GET"><br>
             <div class="mx-auto col-10 col-md-8 col-lg-4">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com">
+                <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com" required>
             </div>
             <div class="mx-auto col-10 col-md-8 col-lg-4">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!"><br>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required><br>
             </div>
             <div class="col mx-auto col-md-2">
                 <a class="" href="signup.jsp">Create user</a>

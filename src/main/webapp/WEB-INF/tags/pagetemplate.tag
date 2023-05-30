@@ -32,12 +32,11 @@
                 <div class="navbar-nav justify-content-start">
                     <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/index.jsp">Hjem</a>
                     <c:if test="${sessionScope.user != null }">
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/bestil">Bestil Carport</a>
-                    <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Dine ordre</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/bestil">Bestil Carport</a>
+                        <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/CustomerSeeOrder">Dine ordre</a>
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/edituser">Dine oplysninger</a>
                     </c:if>
                     <!-- Links for admin orders-->
-                    <!-- TODO: insert links -->
                     <c:if test="${sessionScope.user.role.equals('salesman') || sessionScope.user.role.equals('admin')}">
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/admin-view-orders">Admin ordre</a>
                         <a class="nav-item nav-link text-dark" href="${pageContext.request.contextPath}/kunder">Se kunder</a>
@@ -66,7 +65,7 @@
     </nav>
 </header>
 
-<div id="body" class="container mt-4 bg-secondary" style="min-height: 400px;">
+<div id="body" class="container mt-4 bg-secondary" style="min-height: 70vh;">
     <jsp:doBody/>
 </div>
 
@@ -76,18 +75,19 @@
         <div class="row mt-4">
             <div class="col">
                 <b>Links</b><br/>
-                <a>Hjem</a><br/>
-                <a>Bestil</a><br/>
-                <a>Ordre</a><br/>
-                <a>Kontakt</a><br/>
+                <a class="text-dark no-underline" href="${pageContext.request.contextPath}/index.jsp">Hjem</a><br/>
+                <c:if test="${sessionScope.user != null}">
+                <a class="text-dark no-underline" href="${pageContext.request.contextPath}/bestil">Bestil</a><br/>
+                <a class="text-dark no-underline" href="${pageContext.request.contextPath}/CustomerSeeOrder">Dine Ordre</a><br/>
+                </c:if>
             </div>
             <div class="col">
                 <p>
-                <b>Johannes Fog A/S</b><br/>
-                Firskovvej 20<br/>
-                2800 Lyngby<br/>
-                <br/>
-                CVR-nr. 16314439<br/>
+                    <b>Johannes Fog A/S</b><br/>
+                    Firskovvej 20<br/>
+                    2800 Lyngby<br/>
+                    <br/>
+                    CVR-nr. 16314439<br/>
                 </p>
             </div>
             <div class="col">

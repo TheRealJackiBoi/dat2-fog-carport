@@ -7,9 +7,22 @@ import dat.backend.model.persistence.*;
 
 import java.util.List;
 
+/**
+ * The type Item list populator.
+ */
 public class ItemListPopulator {
 
-    //this method populate the itemlist and the LINkED between itemlist and material_variants
+    /**
+     * Populate.
+     *
+     * @param orderId        the order id
+     * @param lengthInMeter  the length in meter
+     * @param widthInMeter   the width in meter
+     * @param heightInMeter  the height in meter
+     * @param connectionPool the connection pool
+     * @throws DatabaseException the database exception
+     */
+//this method populate the itemlist and the LINkED between itemlist and material_variants
     public static void populate(int orderId, double lengthInMeter, double widthInMeter, double heightInMeter, ConnectionPool connectionPool) throws DatabaseException {
 
         // these assure that it only happens once
@@ -37,11 +50,11 @@ public class ItemListPopulator {
         }
 
         //adds raisingplates
-        addRaisinPlates(orderId, length, width, height, connectionPool);
+        addRaisinPlates(orderId, length, connectionPool);
 
 
         //adds rafts
-        addRafts(orderId, length, width, height, connectionPool);
+        addRafts(orderId, length, width, connectionPool);
 
 
         //adds roof
@@ -61,7 +74,16 @@ public class ItemListPopulator {
 
     }
 
-    static void addRaisinPlates(int orderId, double length, double width, double height, ConnectionPool connectionPool) throws DatabaseException {
+
+    /**
+     * Add raisin plates.
+     *
+     * @param orderId        the order id
+     * @param length         the length
+     * @param connectionPool the connection pool
+     * @throws DatabaseException the database exception
+     */
+    static void addRaisinPlates(int orderId, double length, ConnectionPool connectionPool) throws DatabaseException {
         boolean raisingplatesAdded = false;
 
         //adds raisingplates
@@ -97,7 +119,16 @@ public class ItemListPopulator {
         }
     }
 
-    static void addRafts(int orderId, double length, double width, double height, ConnectionPool connectionPool) throws DatabaseException{
+    /**
+     * Add rafts.
+     *
+     * @param orderId        the order id
+     * @param length         the length
+     * @param width          the width
+     * @param connectionPool the connection pool
+     * @throws DatabaseException the database exception
+     */
+    static void addRafts(int orderId, double length, double width, ConnectionPool connectionPool) throws DatabaseException{
 
         boolean raftsAdded = false;
 
