@@ -16,6 +16,9 @@ import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Admin edit users.
+ */
 @WebServlet(name = "AdminEditUsers", value = "/kunder")
 public class AdminEditUsers extends HttpServlet {
     private ConnectionPool connectionPool;

@@ -12,6 +12,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * The type Admin change status.
+ */
 @WebServlet(name = "AdminChangeStatus", value = "/admin-change-status")
 public class AdminChangeStatus extends HttpServlet {
 

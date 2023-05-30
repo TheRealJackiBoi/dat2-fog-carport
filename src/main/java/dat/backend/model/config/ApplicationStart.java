@@ -12,17 +12,21 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-    This class handles the birth and deatch of the connection pool.
-    contextInitialized() initializes the connection pool at application start
-    Then the connection pool can be optained by ApplicationStart.getConnectionPool()
- */
 
+/**
+ * The type Application start.
+ * This class handles the birth and deatch of the connection pool.
+ * contextInitialized() initializes the connection pool at application start
+ * Then the connection pool can be optained by ApplicationStart.getConnectionPool()
+ */
 @WebListener
 public class ApplicationStart implements ServletContextListener
 {
     private static ConnectionPool connectionPool;
 
+    /**
+     * Instantiates a new Application start.
+     */
     public ApplicationStart()
     {
 
@@ -43,6 +47,10 @@ public class ApplicationStart implements ServletContextListener
         }
     }
 
+    /**
+     * Gets connection pool.
+     * @return the connection pool
+     */
     public static ConnectionPool getConnectionPool()
     {
             return connectionPool;

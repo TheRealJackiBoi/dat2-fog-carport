@@ -7,10 +7,12 @@ public class PartsCalculator {
 
     /**
      * Calculate number of posts int.
+     * Calculates how many posts a carport should've.
+     * Each post can at the maximum be 3.1 meters away from each other
      *
-     * @param length the length
-     * @param width  the width
-     * @return the int
+     * @param length the length of the carport
+     * @param width  the width of the carport
+     * @return the int -> Amount of posts
      */
     public static int calculateNumberOfPosts(double length, double width){
         //Posts = stolper
@@ -28,10 +30,12 @@ public class PartsCalculator {
 
     /**
      * Calculate number of rafts int.
+     * Calculates the amount of rafts needed for each carport.
+     * They are 4.5 cm in width and there needs to be 55cm between each raft
      *
-     * @param length the length
-     * @param width  the width
-     * @return the int
+     * @param length the length of the carport
+     * @param width  the width of the carport
+     * @return the int -> Amount of rafts needed for the carport
      */
     public static int calculateNumberOfRafts(double length, double width){
         //Rafts = spær
@@ -52,10 +56,12 @@ public class PartsCalculator {
 
     /**
      * Calculate number of roof plates int.
+     * Calculates the amount of roof plates needed to cover the roof of the carport
+     * Each plate is of the dimensions 109 cm x 360 cm
      *
      * @param length the length
      * @param width  the width
-     * @return the int
+     * @return the int -> Amount of roof plates needed to cover the roof of the carport
      */
     public static int calculateNumberOfRoofPlates(double length, double width){
         //Roofplates = tagplast

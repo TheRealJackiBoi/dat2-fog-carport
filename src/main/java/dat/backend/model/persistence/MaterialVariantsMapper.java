@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MaterialVariantsMapper {
-    
+
 
     static List<MaterialVariants> getVariantsByMaterialId(int materialId, ConnectionPool connectionPool) throws DatabaseException {
         Logger.getLogger("web").log(Level.INFO, "");
