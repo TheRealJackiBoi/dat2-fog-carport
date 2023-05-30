@@ -10,6 +10,7 @@ public class RoleFacade {
     public static Role addnewRole(String role, ConnectionPool connectionPool) throws DatabaseException {
         return RoleMapper.addNewRole(role, connectionPool);
     }
+
     public static List<Role> getAllRoles(ConnectionPool connectionPool) throws DatabaseException {
         return RoleMapper.getAllRoles(connectionPool);
     }

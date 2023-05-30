@@ -10,6 +10,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * The type Svg servlet.
+ */
 @WebServlet(name = "SvgServlet", value = "/svg")
 public class SvgServlet extends HttpServlet
 {

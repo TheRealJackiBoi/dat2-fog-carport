@@ -16,6 +16,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * The type See order.
+ */
 @WebServlet(name = "SeeOrder", value = "/se-din-ordre")
 public class SeeOrder extends HttpServlet {
     private ConnectionPool connectionPool;

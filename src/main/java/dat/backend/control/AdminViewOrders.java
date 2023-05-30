@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Admin view orders.
+ */
 @WebServlet(name = "adminViewOrders", urlPatterns = {"/admin-view-orders"} )
 public class AdminViewOrders extends HttpServlet {
     private ConnectionPool connectionPool;

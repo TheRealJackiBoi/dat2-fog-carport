@@ -14,6 +14,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Admin see part list.
+ */
 @WebServlet(name = "AdminSeePartList", value = "/admin_stykliste")
 public class AdminSeePartList extends HttpServlet {
 

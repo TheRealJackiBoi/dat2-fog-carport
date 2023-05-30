@@ -11,6 +11,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * The type Cancel order.
+ */
 @WebServlet(name = "cancelorder", value = "/annuller_order")
 public class CancelOrder extends HttpServlet {
 

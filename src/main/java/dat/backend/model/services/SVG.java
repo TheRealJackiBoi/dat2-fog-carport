@@ -2,6 +2,9 @@ package dat.backend.model.services;
 
 import java.util.Locale;
 
+/**
+ * The type Svg.
+ */
 public class SVG {
 
     private int x;
@@ -37,6 +40,15 @@ public class SVG {
     private final static String ARROWTEMPLATE = "<line x1=\"%d\" y1=\"%d\" x2=\"%d\" y2=\"%d\" style=\"stroke:#000000;\n" +
             "marker-start: url(#beginArrow);\n" + "marker-end: url(#endArrow);\"/>\n";
 
+    /**
+     * Instantiates a new Svg.
+     *
+     * @param x       the x
+     * @param y       the y
+     * @param height  the height
+     * @param width   the width
+     * @param viewBox the view box
+     */
     public SVG(int x, int y, int height, int width, String viewBox) {
         svgString.append(String.format(HEADERTEMPLATE, x, y, height, width, viewBox));
         this.x = x;
@@ -46,22 +58,63 @@ public class SVG {
         this.viewBox = viewBox;
     }
 
+    /**
+     * Add rect.
+     *
+     * @param x      the x
+     * @param y      the y
+     * @param height the height
+     * @param width  the width
+     */
     public void addRect(int x, int y, double height, double width){
         svgString.append(String.format(RECTTEMPLATE, x, y, height, width));
 
     }
+
+    /**
+     * Add line.
+     *
+     * @param x1 the x 1
+     * @param y1 the y 1
+     * @param x2 the x 2
+     * @param y2 the y 2
+     */
     public void addLine(int x1, int y1, int x2, int y2){
         svgString.append(String.format(lineTemplate, x1, y1, x2, y2));
 
     }
+
+    /**
+     * Add arrow.
+     *
+     * @param x1 the x 1
+     * @param y1 the y 1
+     * @param x2 the x 2
+     * @param y2 the y 2
+     */
     public void addArrow(int x1, int y1, int x2, int y2){
         svgString.append(String.format(ARROWTEMPLATE, x1, y1, x2, y2));
 
 
     }
+
+    /**
+     * Add text.
+     *
+     * @param translateX the translate x
+     * @param translateY the translate y
+     * @param rotate     the rotate
+     * @param text       the text
+     */
     public void addText(float translateX, float translateY, float rotate, double text) {
         svgString.append(String.format(Locale.ENGLISH, TEXT_TEMPLATE, translateX, translateY, rotate, text));
     }
+
+    /**
+     * Add inner svg.
+     *
+     * @param innerSVGDrawing the inner svg drawing
+     */
     public void addInnerSvg(SVG innerSVGDrawing){
         svgString.append(innerSVGDrawing);
     }

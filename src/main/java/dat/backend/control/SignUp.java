@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * The type Sign up.
+ */
 @WebServlet(name = "signup", urlPatterns = {"/signup"})
 public class SignUp extends HttpServlet {
     private ConnectionPool connectionPool;

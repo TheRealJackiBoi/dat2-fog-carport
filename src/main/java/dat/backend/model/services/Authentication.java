@@ -8,8 +8,18 @@ import dat.backend.model.persistence.UserFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The type Authentication.
+ */
 public class Authentication {
-    // This method checks whether the role taken as argument is allowed to view the page
+    /**
+     * Is role allowed boolean.
+     *
+     * @param role    the role
+     * @param request the request
+     * @return the boolean
+     */
+// This method checks whether the role taken as argument is allowed to view the page
     public static boolean isRoleAllowed(String role, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -24,7 +34,14 @@ public class Authentication {
         return false;
     }
 
-    // This method will check if the user is assigned an id (if user != null)
+    /**
+     * Is user logged in int.
+     *
+     * @param request        the request
+     * @param connectionPool the connection pool
+     * @return the int
+     */
+// This method will check if the user is assigned an id (if user != null)
     public static int isUserLoggedIn(HttpServletRequest request, ConnectionPool connectionPool) {
        int id = 0;
         HttpSession session = request.getSession();

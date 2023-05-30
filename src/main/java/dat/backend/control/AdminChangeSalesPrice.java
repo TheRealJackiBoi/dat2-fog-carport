@@ -14,6 +14,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Admin change sales price.
+ */
 @WebServlet(name = "AdminChangeSalesPrice", value = "/admin_change_sales_price")
 public class AdminChangeSalesPrice extends HttpServlet {
 

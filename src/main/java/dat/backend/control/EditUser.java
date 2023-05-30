@@ -13,6 +13,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Edit user.
+ */
 @WebServlet(name = "EditUser", value = "/edituser")
 public class EditUser extends HttpServlet {
     private static ConnectionPool connectionPool = ApplicationStart.getConnectionPool();
