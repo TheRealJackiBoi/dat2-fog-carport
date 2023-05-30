@@ -55,6 +55,7 @@ class ItemListMapperTest {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Remove all rows from all tables - add your own tables here
+                stmt.execute("delete from link_item_list_material_variants");
                 stmt.execute("delete from item_list"); // wipes database clean
                 stmt.execute("delete from orders");
                 stmt.execute("delete from user");
@@ -129,6 +130,55 @@ class ItemListMapperTest {
         double currentSum = 250+699+120;
 
         assertEquals(currentSum, ItemListFacade.sumPrice(orderList.get(0).getOrderId(),connectionPool));
+
+    }
+
+    @Test
+    void addPosts() throws DatabaseException {
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        ItemListFacade.addPosts(orderList.get(0).getOrderId(), "meget stor stolpe", 1, 5, connectionPool);
+
+        assertEquals("meget stor stolpe", ItemListFacade.getItemListByOrderId(orderList.get(0).getOrderId(), connectionPool).get(3).getUseDescription());
+
+    }
+
+    @Test
+    void addRafts() throws DatabaseException {
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        ItemListFacade.addPosts(orderList.get(0).getOrderId(), "storspærspær", 1, 3, connectionPool);
+
+        assertEquals("storspærspær", ItemListFacade.getItemListByOrderId(orderList.get(0).getOrderId(), connectionPool).get(3).getUseDescription());
+
+    }
+
+    @Test
+    void addRaisingPlate() throws DatabaseException {
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        ItemListFacade.addPosts(orderList.get(0).getOrderId(), "rem til spærene", 1, 2, connectionPool);
+
+        assertEquals("rem til spærene", ItemListFacade.getItemListByOrderId(orderList.get(0).getOrderId(), connectionPool).get(3).getUseDescription());
+
+
+    }
+
+    @Test
+    void addRoof() throws DatabaseException {
+        User bjark = UserFacade.getUserByEmail("bjark@b.dk", connectionPool);
+        int userId1 = bjark.getId();
+        List<Order> orderList = OrdersFacade.getOrdersByUserId(userId1, connectionPool);
+
+        ItemListFacade.addPosts(orderList.get(0).getOrderId(), "meget flott tag", 1, 8, connectionPool);
+
+        assertEquals("meget flott tag", ItemListFacade.getItemListByOrderId(orderList.get(0).getOrderId(), connectionPool).get(3).getUseDescription());
 
     }
 }
