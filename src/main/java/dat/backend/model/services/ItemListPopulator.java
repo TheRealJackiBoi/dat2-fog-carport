@@ -37,11 +37,11 @@ public class ItemListPopulator {
         }
 
         //adds raisingplates
-        addRaisinPlates(orderId, length, width, height, connectionPool);
+        addRaisinPlates(orderId, length, connectionPool);
 
 
         //adds rafts
-        addRafts(orderId, length, width, height, connectionPool);
+        addRafts(orderId, length, width, connectionPool);
 
 
         //adds roof
@@ -61,7 +61,7 @@ public class ItemListPopulator {
 
     }
 
-    static void addRaisinPlates(int orderId, double length, double width, double height, ConnectionPool connectionPool) throws DatabaseException {
+    static void addRaisinPlates(int orderId, double length, ConnectionPool connectionPool) throws DatabaseException {
         boolean raisingplatesAdded = false;
 
         //adds raisingplates
@@ -97,7 +97,7 @@ public class ItemListPopulator {
         }
     }
 
-    static void addRafts(int orderId, double length, double width, double height, ConnectionPool connectionPool) throws DatabaseException{
+    static void addRafts(int orderId, double length, double width, ConnectionPool connectionPool) throws DatabaseException{
 
         boolean raftsAdded = false;
 
