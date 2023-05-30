@@ -53,13 +53,15 @@ class MaterialVariantsMapperTest {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
 
+                //dont clear this need them for our test
+              /*
                 // Remove all rows from all tables
                 stmt.execute("delete from material_variants");
 
                 // Inserts a few users
                 stmt.execute("insert into material_variants (length, quantity, material_id) " +
-                        "values ('320','12','1'),('170','6','3'), ('560','2','3')");
-
+                        "values ('320','1','1'),('170','6','3'), ('560','2','3')");
+               */
             }
         }
         catch (SQLException throwables) {
@@ -82,7 +84,8 @@ class MaterialVariantsMapperTest {
     void getVariantsByMaterialId() throws DatabaseException {
         List<MaterialVariants> list = MaterialVariantsFacade.getVariantsByMaterialId(3, connectionPool);
 
-        assertEquals(2, list.get(1).getQuantity());
+        assertEquals(7, list.get(2).getVariantId());
+        assertEquals(420, list.get(1).getLength());
 
     }
 

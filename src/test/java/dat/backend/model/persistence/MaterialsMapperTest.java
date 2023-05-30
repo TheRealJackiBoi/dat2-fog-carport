@@ -56,6 +56,9 @@ class MaterialsMapperTest {
                 //cannot delete tables where there are keys being used elsewhere
                 //stmt.execute("delete from materials");
 
+                //removes the material i add in one of our tests
+                stmt.execute("DELETE FROM materials WHERE description = ('Stor ting')");
+
 
                 /*
                 stmt.execute("insert into materials (description, unit, unit_price, type) " +
@@ -112,5 +115,30 @@ class MaterialsMapperTest {
         Materials material = MaterialsMapper.getMaterialsByMaterialId( materialID, connectionPool);
         assertEquals("Stor ting",material.getDescription());
         assertEquals(4000, material.getUnitPrice());
+
+    }
+
+    @Test
+    void getAllMaterials() throws DatabaseException {
+        //we know there is 4 materials in the database
+
+        List<Materials> list = MaterialsFacade.getAllMaterials(connectionPool);
+
+        assertEquals(4, list.size());
+
+    }
+
+    @Test
+    void adjustCostPrice() throws DatabaseException {
+
+        Materials materials = MaterialsFacade.getMaterialsByMaterialId(1, connectionPool);
+        double price = materials.getUnitPrice();
+
+        MaterialsFacade.adjustCostPrice(1, 3232, connectionPool);
+        Materials materialsWithNewPrice = MaterialsFacade.getMaterialsByMaterialId(1, connectionPool);
+        assertEquals(3232, materialsWithNewPrice.getUnitPrice());
+
+        //sets the price back to what is was
+        MaterialsFacade.adjustCostPrice(1, price, connectionPool);
     }
 }
