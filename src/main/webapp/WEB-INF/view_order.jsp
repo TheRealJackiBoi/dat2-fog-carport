@@ -87,7 +87,15 @@
             <p><b>Total:</b> <fmt:formatNumber type="number" maxFractionDigits="2" value="${requestScope.order.salesPrice}"/> kr.</p>
 
         </div>
+        <c:if test="${requestScope.order.status.equals('Accepted')}">
+            <div class=" mt-3 d-flex justify-content-center">
+                <form>
+                    <button type="submit" class="btn btn-primary" formaction="admin_stykliste" formmethod="get" name="order_id" value="${requestScope.order.orderId }">Se Stykliste</button>
+                </form>
+            </div>
+        </c:if>
 
+        <h2 class="mt-4 text-center">Plantegning</h2>
         <div style="margin: 0 auto" class="moveSvg">
                 ${requestScope.svg}
         </div>
