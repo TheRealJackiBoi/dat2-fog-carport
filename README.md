@@ -10,7 +10,7 @@ Java fungerer også.
 Brug version 9.x
 
 ## Deployment på Droplet
-T.B.D.
+http://cudia.dk:8080/fog
 
 ## Bemærkninger
 
