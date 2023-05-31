@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="startcode@localhost" uuid="b8180c54-f952-4d3a-b0ac-548dae2cd079">
+    <data-source source="LOCAL" name="cudia_dk_db@localhost" uuid="b05ae0b4-3f71-4861-ba68-5dacbd7ae4bd">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/startcode</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/cudia_dk_db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="cudia_dk_db@mysql24.unoeuro.com" uuid="8b1b1a44-4703-4532-8cea-7a27aff2d2b8">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://mysql24.unoeuro.com:3306/cudia_dk_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

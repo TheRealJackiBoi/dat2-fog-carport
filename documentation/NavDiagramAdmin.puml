@@ -1,0 +1,39 @@
+@startuml
+
+[*] --> NotLoggedIn
+NotLoggedIn --> LoggedIn
+
+state NotLoggedIn {
+    state index.jsp
+    state login.jsp
+    state signup.jsp
+
+    [*] --> index.jsp
+    index.jsp --> login.jsp : Login
+    index.jsp --> signup.jsp : SignUp
+    signup.jsp --> login.jsp : Login
+
+}
+state LoggedIn{
+    state index2.jsp
+    state ordering.jsp
+    state customer_see_orders.jsp
+    state edituserinfo.jsp
+    state adminViewOrders.jsp
+    state admin_edit_users.jsp
+    state admin_change_costprices.jsp
+    state view_order.jsp
+
+    index2.jsp --> ordering.jsp  : Ordering
+    index2.jsp --> customer_see_orders.jsp : CustomerSeeOrders
+    index2.jsp --> edituserinfo.jsp : EditUser
+    index2.jsp --> adminViewOrders.jsp : AdminViewOrders
+    index2.jsp --> admin_edit_users.jsp : AdminEditUsers
+    index2.jsp --> admin_change_costprices.jsp : AdminChangeCostPrices
+    ordering.jsp --> view_order.jsp : SeeOrder
+    customer_see_orders.jsp --> view_order.jsp : SeeOrder
+    adminViewOrders.jsp --> view_order.jsp : SeeOrder
+
+}
+
+@enduml

@@ -5,11 +5,8 @@
 
 <t:pagetemplate>
     <jsp:attribute name="header">
-         Welcome to the logged in area
-    </jsp:attribute>
 
-    <jsp:attribute name="footer">
-        Logged in area
+
     </jsp:attribute>
 
     <jsp:body>

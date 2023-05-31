@@ -9,21 +9,26 @@
              Login
     </jsp:attribute>
 
-    <jsp:attribute name="footer">
-            Login
-    </jsp:attribute>
-
     <jsp:body>
 
-        <h3>You can log in here</h3>
+        <h3 class="text-center">Log ind</h3>
 
-        <form action="login" method="post">
-            <label for="username">Username: </label>
-            <input type="text" id="username" name="username"/>
-            <label for="password">Password: </label>
-            <input type="password" id="password" name="password"/>
-            <input type="submit"  value="Log in"/>
+        <div class="container">
+        <form action="login" name="login" method="GET"><br>
+            <div class="mx-auto col-10 col-md-8 col-lg-4">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com" required>
+            </div>
+            <div class="mx-auto col-10 col-md-8 col-lg-4">
+                <label for="password">Kodeord</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Pa$$w0RD!" required><br>
+            </div>
+            <div class="col mx-auto col-md-2">
+                <a class="" href="signup.jsp">Opret bruger</a>
+                <button class="btn btn-primary" type="submit" >Log ind</button>
+            </div>
         </form>
 
+        </div>
     </jsp:body>
 </t:pagetemplate>

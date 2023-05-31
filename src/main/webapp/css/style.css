@@ -1,15 +1,142 @@
-/* CSS stylesheet  for application */
-
-table {
-    border-collapse: collapse;
-    border: 1px solid silver;
-    padding:15px;
+* {
+    --primary: #003D76;
+    --background-grey:  #F5F5F3;
+    --info:  #007BFF;
+    --danger: #EC3F3F;
+    --warning: #FED218;
+    --succes: #3CF64F;
+    --black: #000000;
+    --white: #FFFFFF;
+    --transparent: rgba(255, 252, 247, 0.5);
+    --transparent-black: rgba(0, 16, 33, 0.5);
 }
 
-th, td {
-    border: 1px solid silver;
-    padding:15px;
+.circle {
+    border-radius: 50% !important;
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.circle p {
+    transform: translate(0%, 25%);
+}
+
+body {
+    width: 100vw !important;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+}
+
+#body {
+    display: block;
+    width: 100vw !important;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.no-underline {
+    text-decoration: none !important;
+}
+
+.row {
+    width: 100% !important;
+}
+
+#fog-logo {
+    height: 4rem;
+}
+
+#fog-logo img{
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+}
+#footer-logo-container {
+     height: 100%;
+     width: 100%;
+ }
+
+#footer {
+    width: 100vw !important;
+    min-height: 10vh;
+    padding: 1rem;
+}
+
+#display-svg {
+
+}
+
+#display-svg svg {
+    width: 100% !important;
+}
+
+/* background colors */
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+.bg-secondary {
+    background-color: var(--background-grey) !important;
+}
+.bg-info {
+    background-color: var(--info) !important;
+}
+.bg-danger {
+    background-color: var(--danger) !important;
+}
+.bg-warning {
+    background-color: var(--warning) !important;
+}
+.bg-succes {
+    background-color: var(--succes) !important;
+}
+.bg-dark {
+    background-color: var(--black) !important;
+}
+.bg-white {
+    background-color: var(--white) !important;
+}
+.bg-transparent {
+    background-color: var(--transparent) !important;
 }
 
 
-
+/* text colors */
+.text-primary {
+    color: var(--primary) !important;
+}
+.text-secondary {
+    color: var(--background-grey) !important;
+}
+.text-info {
+    color: var(--info) !important;
+}
+.text-danger {
+    color: var(--danger) !important;
+}
+.text-warning {
+    color: var(--warning) !important;
+}
+.text-succes {
+    color: var(--succes) !important;
+}
+.text-light {
+    color: var(--white) !important;
+}
+.text-dark {
+    color: var(--black) !important;
+}
+.text-body {
+    color: var(--black) !important;
+}
+.text-white {
+    color: var(--white) !important;
+}
+.text-white-50 {
+    color: var(--transparent) !important;
+}
+.text-black-50 {
+    color: var(--transparent-black) !important;
+}
