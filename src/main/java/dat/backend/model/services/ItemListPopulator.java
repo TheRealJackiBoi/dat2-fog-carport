@@ -32,7 +32,7 @@ public class ItemListPopulator {
         double width = widthInMeter * 100;
         double height = heightInMeter * 100;
 
-        //adds posts
+        //adds posts  Cleaned up after Due Date
         addPosts(orderId, length, width, height, connectionPool);
 
         //adds raisingplates
@@ -41,7 +41,7 @@ public class ItemListPopulator {
         //adds rafts
         addRafts(orderId, length, width, connectionPool);
 
-        //adds roof
+        //adds roof  Cleaned up after Due Date
         addRoofPlates(orderId, length, width, connectionPool);
 
         //now sums the price
