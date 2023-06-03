@@ -25,49 +25,24 @@ public class ItemListPopulator {
 //this method populate the itemlist and the LINkED between itemlist and material_variants
     public static void populate(int orderId, double lengthInMeter, double widthInMeter, double heightInMeter, ConnectionPool connectionPool) throws DatabaseException {
 
-        // these assure that it only happens once
-        boolean postAdded = false;
-        boolean roofAdded = false;
+        //THIS IS CHANGED FROM MAIN, ITS SPREAD MORE INTO SMALLER FUNCTIONS, WHICH IS CLEANER AND MORE IN JAVA SPIRIT OOP
 
         //RECALCULATE TO CM TO MATCH DATABASE
         double length = lengthInMeter * 100;
         double width = widthInMeter * 100;
         double height = heightInMeter * 100;
 
-
         //adds posts
-        int numberOfPosts = PartsCalculator.calculateNumberOfPosts(length, width);
-        //description found in fogs samlevejledning
-        String postDescription = "Stolper nedgraves 90 cm. i jord";
-
-        Materials posts = MaterialsFacade.getMaterialByType("Posts", connectionPool);
-        List<MaterialVariants> postsVariantsList = MaterialVariantsFacade.getVariantsByMaterialId(posts.getMaterialId(), connectionPool);
-        for (MaterialVariants m : postsVariantsList) {
-            if (m.getLength() >= height + 90 && !postAdded) {
-                ItemListFacade.addPosts(orderId, postDescription, numberOfPosts, m.getVariantId(), connectionPool);
-                postAdded = true;
-            }
-        }
+        addPosts(orderId, length, width, height, connectionPool);
 
         //adds raisingplates
         addRaisinPlates(orderId, length, connectionPool);
 
-
         //adds rafts
         addRafts(orderId, length, width, connectionPool);
 
-
         //adds roof
-        int numberOfRoofPlates = PartsCalculator.calculateNumberOfRoofPlates(length, width);
-        //description found in fogs samlevejledning
-        String roofDescription = "tagplader monteres på spær";
-
-        //ALWAYS TAKES THESAME SINCE WE ONLY HAVE 1 ROFF PLATE IN STOCK
-        Materials roofs = MaterialsFacade.getMaterialByType("Roofplates", connectionPool);
-        List<MaterialVariants> roofPlatesVariants = MaterialVariantsFacade.getVariantsByMaterialId(roofs.getMaterialId(), connectionPool);
-
-        ItemListFacade.addRoof(orderId, roofDescription, numberOfRoofPlates, roofPlatesVariants.get(0).getVariantId(), connectionPool);
-
+        addRoofPlates(orderId, length, width, connectionPool);
 
         //now sums the price
         OrdersFacade.calculatePrices(orderId, connectionPool);
@@ -84,6 +59,7 @@ public class ItemListPopulator {
      * @throws DatabaseException the database exception
      */
     static void addRaisinPlates(int orderId, double length, ConnectionPool connectionPool) throws DatabaseException {
+        // these assure that it only happens once
         boolean raisingplatesAdded = false;
 
         //adds raisingplates
@@ -130,6 +106,7 @@ public class ItemListPopulator {
      */
     static void addRafts(int orderId, double length, double width, ConnectionPool connectionPool) throws DatabaseException{
 
+        // these assure that it only happens once
         boolean raftsAdded = false;
 
         int numberOfRafts = PartsCalculator.calculateNumberOfRafts(length, width);
@@ -165,4 +142,57 @@ public class ItemListPopulator {
 
     }
 
+    /**
+     * Add posts
+     *
+     * @param orderId       the order id
+     * @param length        the length
+     * @param width         the width
+     * @param height        the height
+     * @param connectionPool    the connection pool
+     * @throws DatabaseException    the database exception
+     */
+    static void addPosts(int orderId, double length, double width, double height, ConnectionPool connectionPool) throws  DatabaseException{
+        // these assure that it only happens once
+        boolean postAdded = false;
+
+        int numberOfPosts = PartsCalculator.calculateNumberOfPosts(length, width);
+        //description found in fogs samlevejledning
+        String postDescription = "Stolper nedgraves 90 cm. i jord";
+
+        Materials posts = MaterialsFacade.getMaterialByType("Posts", connectionPool);
+        List<MaterialVariants> postsVariantsList = MaterialVariantsFacade.getVariantsByMaterialId(posts.getMaterialId(), connectionPool);
+        for (MaterialVariants m : postsVariantsList) {
+            if (m.getLength() >= height + 90 && !postAdded) {
+                ItemListFacade.addPosts(orderId, postDescription, numberOfPosts, m.getVariantId(), connectionPool);
+                postAdded = true;
+            }
+        }
+
+    }
+
+    /**
+     * add roof plates
+     *
+     * @param orderId       the order id
+     * @param length        the length
+     * @param width         the width
+     * @param connectionPool    the connection pool
+     * @throws DatabaseException    the database exception
+     */
+    static void addRoofPlates(int orderId, double length, double width, ConnectionPool connectionPool) throws DatabaseException{
+
+        //this could have been optimized, so there is less waste. But would have to consult the clint about if tagplast is dividable
+        int numberOfRoofPlates = PartsCalculator.calculateNumberOfRoofPlates(length, width);
+
+        //description found in fogs samlevejledning
+        String roofDescription = "tagplader monteres på spær";
+
+        //ALWAYS TAKES THESAME SINCE WE ONLY HAVE 1 ROFF PLATE IN STOCK
+        Materials roofs = MaterialsFacade.getMaterialByType("Roofplates", connectionPool);
+        List<MaterialVariants> roofPlatesVariants = MaterialVariantsFacade.getVariantsByMaterialId(roofs.getMaterialId(), connectionPool);
+
+        ItemListFacade.addRoof(orderId, roofDescription, numberOfRoofPlates, roofPlatesVariants.get(0).getVariantId(), connectionPool);
+
+    }
 }
